@@ -1,0 +1,2215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Larissa SNBT 2027 — Antropologi Budaya UGM Study Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Fraunces"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            pearl: '#FAF8F5',
+            plum: '#1E1B4B',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --bg-pearl: #FAF8F5;
+      --text-plum: #1E1B4B;
+      --text-slate: #64748B;
+      --accent-violet: #6D28D9;
+      --accent-rose: #DB2777;
+      --accent-emerald: #059669;
+      --accent-amber: #D97706;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-pearl);
+      color: var(--text-plum);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Minimalist Soft Pastel Aura */
+    .aura-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 14% 12%, rgba(237, 233, 254, 0.72) 0%, rgba(237, 233, 254, 0) 48%),
+        radial-gradient(circle at 88% 16%, rgba(252, 231, 243, 0.68) 0%, rgba(252, 231, 243, 0) 46%),
+        #FAF8F5;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: 0 8px 24px -10px rgba(30, 27, 75, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .glass-card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -12px rgba(109, 40, 217, 0.1);
+      border-color: rgba(196, 181, 253, 0.85);
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 28px -8px rgba(30, 27, 75, 0.08);
+    }
+
+    .royal-gradient {
+      background: linear-gradient(135deg, #6D28D9 0%, #DB2777 100%);
+    }
+
+    .royal-text-gradient {
+      background: linear-gradient(135deg, #6D28D9 0%, #DB2777 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stage-pill {
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    .stage-pill:active {
+      transform: scale(0.95);
+    }
+
+    .readiness-ring-circle {
+      transition: stroke-dashoffset 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @keyframes mascotBob {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+    .mascot-float {
+      animation: mascotBob 3.2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-fuchsia-200 selection:text-plum pb-28 lg:pb-12">
+  <div class="aura-canvas" aria-hidden="true"></div>
+
+  <!-- Top Minimalist Glass Header -->
+  <header class="sticky top-0 z-40 px-4 sm:px-6 lg:px-10 pt-3 pb-2">
+    <div class="max-w-7xl mx-auto glass-nav rounded-3xl px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+      <!-- Brand Identity with Custom Mascot -->
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-2xl bg-purple-50 border border-purple-200/80 flex items-center justify-center shrink-0 overflow-hidden" aria-hidden="true">
+          <!-- Custom Cute Mascot: Kancil / Field Cat "Mochi" -->
+          <svg class="w-8 h-8" viewBox="0 0 64 64" fill="none">
+            <path d="M16 24L12 10L24 18Z" fill="#DDD6FE" stroke="#4C1D95" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M48 24L52 10L40 18Z" fill="#FCE7F3" stroke="#9D174D" stroke-width="2.5" stroke-linejoin="round"/>
+            <ellipse cx="32" cy="36" rx="18" ry="15" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2.5"/>
+            <circle cx="25" cy="34" r="2.4" fill="#1E1B4B"/>
+            <circle cx="39" cy="34" r="2.4" fill="#1E1B4B"/>
+            <circle cx="24.2" cy="33.2" r="0.8" fill="#FFFFFF"/>
+            <circle cx="38.2" cy="33.2" r="0.8" fill="#FFFFFF"/>
+            <ellipse cx="20.5" cy="38" rx="3" ry="1.8" fill="#F9A8D4" opacity="0.7"/>
+            <ellipse cx="43.5" cy="38" rx="3" ry="1.8" fill="#F9A8D4" opacity="0.7"/>
+            <path d="M29 39C30.2 41 33.8 41 35 39" stroke="#1E1B4B" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M22 21C26 18 38 18 42 21" stroke="#6D28D9" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-serif italic font-bold text-base sm:text-lg text-plum truncate">Larissa’s Study Studio</span>
+            <span class="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-purple-100 text-purple-800">SNBT 2027 • UGM</span>
+          </div>
+          <div class="flex items-center gap-2 text-[11px] text-slate-500">
+            <span id="save-status-badge" class="inline-flex items-center gap-1.5 font-semibold text-emerald-700">
+              <svg class="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              <span id="save-status-text">Tersimpan Otomatis</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Navigation Tabs -->
+      <nav class="hidden lg:flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-white/80" aria-label="Navigasi Utama">
+        <button onclick="switchTab('DASBOR')" data-nav="DASBOR" class="nav-tab-btn px-4 py-2 rounded-xl text-xs font-extrabold transition inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          <span>Dasbor</span>
+        </button>
+        <button onclick="switchTab('JADWAL')" data-nav="JADWAL" class="nav-tab-btn px-4 py-2 rounded-xl text-xs font-extrabold transition inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Jadwal 12 Pekan</span>
+        </button>
+        <button onclick="switchTab('HUB')" data-nav="HUB" class="nav-tab-btn px-4 py-2 rounded-xl text-xs font-extrabold transition inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span>Study Hub (116)</span>
+        </button>
+        <button onclick="switchTab('TRYOUT')" data-nav="TRYOUT" class="nav-tab-btn px-4 py-2 rounded-xl text-xs font-extrabold transition inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+          <span>Tryout IRT</span>
+        </button>
+      </nav>
+
+      <!-- Right Quick Status & Backup -->
+      <div class="flex items-center gap-2 shrink-0">
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-purple-50/90 border border-purple-100">
+          <span class="text-[11px] font-bold text-purple-900">Kesiapan</span>
+          <span id="header-readiness-pill" class="font-mono text-xs font-extrabold royal-text-gradient">0.0%</span>
+        </div>
+        <button onclick="exportJsonBackup()" title="Unduh Cadangan JSON" class="p-2.5 rounded-2xl bg-white/90 hover:bg-purple-50 border border-slate-200/80 text-plum text-xs font-bold transition flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-purple-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span class="hidden md:inline">Backup</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Floating Bottom Glass Navigation (iPad / Mobile) -->
+  <nav class="lg:hidden fixed bottom-3 inset-x-3 z-40 glass-nav rounded-3xl p-1.5 flex items-center justify-around" aria-label="Navigasi Mobile">
+    <button onclick="switchTab('DASBOR')" data-nav-mob="DASBOR" class="mob-tab-btn flex-1 py-2 px-2 rounded-2xl flex flex-col items-center gap-0.5 text-[11px] font-extrabold transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+      <span>Dasbor</span>
+    </button>
+    <button onclick="switchTab('JADWAL')" data-nav-mob="JADWAL" class="mob-tab-btn flex-1 py-2 px-2 rounded-2xl flex flex-col items-center gap-0.5 text-[11px] font-extrabold transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      <span>12 Pekan</span>
+    </button>
+    <button onclick="switchTab('HUB')" data-nav-mob="HUB" class="mob-tab-btn flex-1 py-2 px-2 rounded-2xl flex flex-col items-center gap-0.5 text-[11px] font-extrabold transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      <span>116 Materi</span>
+    </button>
+    <button onclick="switchTab('TRYOUT')" data-nav-mob="TRYOUT" class="mob-tab-btn flex-1 py-2 px-2 rounded-2xl flex flex-col items-center gap-0.5 text-[11px] font-extrabold transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      <span>Tryout</span>
+    </button>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-4 space-y-6">
+
+    <!-- ===================================================================== -->
+    <!-- TAB 1: DASBOR                                                         -->
+    <!-- ===================================================================== -->
+    <section id="view-DASBOR" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- Left 8 Cols: Minimalist Hero & Anthropologi UGM Profile -->
+        <div class="lg:col-span-8 glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div class="space-y-2 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-purple-100/90 text-purple-900">
+                  <svg class="w-3.5 h-3.5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                  <span>Target UTBK-SNBT 2027 • FIB UGM</span>
+                </span>
+                <span id="countdown-pill" class="font-mono inline-flex items-center px-3.5 py-1 rounded-full text-xs font-extrabold royal-gradient text-white">
+                  H-132 Menuju Target
+                </span>
+              </div>
+              <h1 class="font-serif italic text-3xl sm:text-4xl lg:text-[40px] font-bold text-plum leading-tight pt-1">
+                <span id="hero-greeting-name">Larissa</span>’s Antropologi UGM Studio
+              </h1>
+              <p class="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
+                Fokuskan energi terbesar pada subtes literasi, bahasa, dan penalaran logika, sementara hitungan PK &amp; PM cukup amankan tipe dasar-menengah secara terarah.
+              </p>
+            </div>
+
+            <!-- Interactive Cute Mascot Card ("Mochi si Peneliti Lapangan") -->
+            <div onclick="cycleMascotMood()" title="Klik maskot Mochi untuk pesan semangat" class="mascot-float cursor-pointer select-none bg-purple-50/80 hover:bg-purple-100/80 border border-purple-200/70 rounded-2xl p-3 flex sm:flex-col items-center gap-2 shrink-0 transition">
+              <svg class="w-12 h-12" viewBox="0 0 64 64" fill="none">
+                <path d="M16 24L11 9L24 18Z" fill="#DDD6FE" stroke="#4C1D95" stroke-width="2.4" stroke-linejoin="round"/>
+                <path d="M48 24L53 9L40 18Z" fill="#FCE7F3" stroke="#9D174D" stroke-width="2.4" stroke-linejoin="round"/>
+                <ellipse cx="32" cy="36" rx="18" ry="15" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2.4"/>
+                <circle cx="25" cy="34" r="2.3" fill="#1E1B4B"/>
+                <circle cx="39" cy="34" r="2.3" fill="#1E1B4B"/>
+                <circle cx="24.2" cy="33.2" r="0.8" fill="#FFFFFF"/>
+                <circle cx="38.2" cy="33.2" r="0.8" fill="#FFFFFF"/>
+                <ellipse cx="20.5" cy="38" rx="3" ry="1.8" fill="#F9A8D4" opacity="0.75"/>
+                <ellipse cx="43.5" cy="38" rx="3" ry="1.8" fill="#F9A8D4" opacity="0.75"/>
+                <path id="mascot-mouth" d="M29 39C30.2 41 33.8 41 35 39" stroke="#1E1B4B" stroke-width="2.2" stroke-linecap="round"/>
+                <rect x="24" y="16" width="16" height="5" rx="2.5" fill="#6D28D9"/>
+              </svg>
+              <div class="text-center">
+                <div class="text-[10px] font-extrabold text-purple-900">Mochi</div>
+                <div id="mascot-status-label" class="text-[10px] font-semibold text-slate-500">Siap menemani</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editable Target & Active Week Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-1">
+            <div class="bg-white/90 rounded-2xl p-3 border border-slate-200/80">
+              <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">Nama Pejuang</label>
+              <input id="prof-name" type="text" oninput="updateProfileField('name', this.value)" class="w-full bg-transparent text-xs sm:text-sm font-extrabold text-plum focus:outline-none" />
+            </div>
+            <div class="bg-white/90 rounded-2xl p-3 border border-slate-200/80">
+              <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">PTN Impian</label>
+              <input id="prof-ptn" type="text" oninput="updateProfileField('ptn', this.value)" class="w-full bg-transparent text-xs sm:text-sm font-extrabold text-plum focus:outline-none" />
+            </div>
+            <div class="bg-white/90 rounded-2xl p-3 border border-slate-200/80">
+              <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">Program Studi</label>
+              <input id="prof-major" type="text" oninput="updateProfileField('major', this.value)" class="w-full bg-transparent text-xs sm:text-sm font-extrabold text-plum focus:outline-none" />
+            </div>
+            <div class="bg-white/90 rounded-2xl p-3 border border-slate-200/80">
+              <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">Target Selesai</label>
+              <input id="prof-deadline" type="date" oninput="updateProfileField('deadline', this.value)" class="w-full bg-transparent font-mono text-xs font-extrabold text-plum focus:outline-none" />
+            </div>
+            <div class="bg-purple-50/90 rounded-2xl p-3 border border-purple-200/80">
+              <label class="block text-[10px] font-extrabold uppercase tracking-wider text-purple-800 mb-1">Pekan Aktif</label>
+              <select id="prof-active-week" onchange="updateActiveWeek(Number(this.value))" class="w-full bg-transparent text-xs sm:text-sm font-extrabold text-purple-950 focus:outline-none cursor-pointer">
+                <option value="1">Pekan 1 (Fondasi)</option>
+                <option value="2">Pekan 2 (Bulan I)</option>
+                <option value="3">Pekan 3 (Bulan I)</option>
+                <option value="4">Pekan 4 (Bulan I)</option>
+                <option value="5">Pekan 5 (Bulan II)</option>
+                <option value="6">Pekan 6 (Bulan II)</option>
+                <option value="7">Pekan 7 (Bulan II)</option>
+                <option value="8">Pekan 8 (Bulan II)</option>
+                <option value="9">Pekan 9 (Bulan III)</option>
+                <option value="10">Pekan 10 (Bulan III)</option>
+                <option value="11">Pekan 11 (Bulan III)</option>
+                <option value="12">Pekan 12 (Bulan III)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 4 Cols: Animated SVG Circular Readiness Ring -->
+        <div class="lg:col-span-4 glass-card rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-4">
+          <div class="relative w-44 h-44 flex items-center justify-center">
+            <svg class="w-full h-full" viewBox="0 0 160 160">
+              <defs>
+                <linearGradient id="studioRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#6D28D9" />
+                  <stop offset="100%" stop-color="#DB2777" />
+                </linearGradient>
+              </defs>
+              <circle cx="80" cy="80" r="66" fill="none" stroke="#EDE9FE" stroke-width="12" />
+              <circle id="readiness-ring-path" class="readiness-ring-circle" cx="80" cy="80" r="66" fill="none" stroke="url(#studioRingGrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="414.69" stroke-dashoffset="414.69" />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Kesiapan</span>
+              <span id="ring-percent-text" class="font-mono text-3xl font-extrabold royal-text-gradient">0.0%</span>
+              <span id="ring-fraction-text" class="font-mono text-[11px] font-semibold text-slate-500 mt-0.5">0 / 355</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 w-full pt-1">
+            <div class="bg-purple-50/80 rounded-2xl p-2.5">
+              <div class="text-[10px] font-bold text-purple-800">Belajar</div>
+              <div id="kpi-belajar-count" class="font-mono text-sm font-extrabold text-plum mt-0.5">0/116</div>
+            </div>
+            <div class="bg-amber-50/80 rounded-2xl p-2.5">
+              <div class="text-[10px] font-bold text-amber-800">Latsol</div>
+              <div id="kpi-latsol-count" class="font-mono text-sm font-extrabold text-plum mt-0.5">0/116</div>
+            </div>
+            <div class="bg-emerald-50/80 rounded-2xl p-2.5">
+              <div class="text-[10px] font-bold text-emerald-800">Review</div>
+              <div id="kpi-review-count" class="font-mono text-sm font-extrabold text-plum mt-0.5">0/116</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fokus Belajar Hari Ini Spotlight Card -->
+      <div class="glass-card rounded-3xl p-5 sm:p-6 border-l-4 border-l-purple-600 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="space-y-1.5 flex-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold royal-gradient text-white">
+              Fokus Belajar Hari Ini
+            </span>
+            <span id="today-day-badge" class="font-mono text-xs font-extrabold text-purple-900 bg-purple-100 px-2.5 py-0.5 rounded-full">
+              Kamis • Rotasi LBE
+            </span>
+            <span id="today-week-badge" class="font-mono text-xs font-bold text-slate-500">
+              Pekan 1
+            </span>
+          </div>
+          <h2 id="today-spotlight-title" class="font-serif italic text-xl sm:text-2xl font-bold text-plum">
+            Memuat agenda harian...
+          </h2>
+          <p id="today-spotlight-desc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Ikuti rotasi harian terstruktur agar subtes prioritas Antropologi Budaya UGM terlatih konsisten.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button id="today-start-btn" onclick="startTodaySession()" class="px-5 py-3 rounded-2xl royal-gradient text-white text-xs sm:text-sm font-extrabold hover:opacity-95 transition inline-flex items-center gap-2">
+            <span>Mulai Sesi Hari Ini</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 7-Subtest Mastery Grid (Prioritized for Antropologi Budaya UGM) -->
+      <div class="space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <div>
+            <h2 class="font-serif italic text-xl sm:text-2xl font-bold text-plum">Penguasaan 7 Subtes (Fokus Antropologi UGM)</h2>
+            <p class="text-xs text-slate-500">Bobot utama ada pada Literasi, PBM, PPU, dan PU; PK &amp; PM cukup amankan konsep inti &amp; soal menengah.</p>
+          </div>
+          <span class="font-mono text-xs font-bold text-slate-500">116 Submateri • 348 Tahap</span>
+        </div>
+
+        <div id="subtest-mastery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 2: JADWAL 12 PEKAN                                                -->
+    <!-- ===================================================================== -->
+    <section id="view-JADWAL" class="hidden space-y-6">
+      <div class="glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div>
+            <span class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-purple-100 text-purple-900">Kurikulum 12 Pekan • Sinkron SNBT 2026–2027</span>
+            <h1 class="font-serif italic text-2xl sm:text-3xl font-bold text-plum mt-2">Jadwal Belajar 12 Pekan SNBT</h1>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">Rotasi harian 7 subtes terstruktur dengan rujukan materi &amp; bank latihan terbaru 2026–2027.</p>
+          </div>
+
+          <!-- Updated 2026-2027 Resource Pill Bar -->
+          <div class="flex flex-wrap items-center gap-2">
+            <a href="https://snpmb.bppp.kemdikbud.go.id/" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-2xl bg-purple-50 hover:bg-purple-100 border border-purple-200/80 text-purple-900 text-xs font-extrabold transition inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              <span>Portal Resmi SNPMB</span>
+            </a>
+            <a href="https://drive.google.com/file/d/1UQojGd1Sivmcv_ICjkVlq6GrJ4a6cgfM/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-2xl bg-rose-50 hover:bg-rose-100 border border-rose-200/80 text-rose-800 text-xs font-extrabold transition inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-rose-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Panduan Teks &amp; Literasi</span>
+            </a>
+            <a href="https://www.youtube.com/results?search_query=soal+asli+UTBK+SNBT+2026+2027+pembahasan" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-2xl bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 text-xs font-extrabold transition inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-amber-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Bank Soal 2026–2027</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 7-Day Rotation Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 pt-1">
+          <div class="rounded-2xl bg-white/90 border border-slate-200/80 p-2.5 text-center">
+            <div class="text-[10px] font-bold text-slate-400 uppercase">Senin</div>
+            <div class="text-xs font-extrabold text-purple-700 mt-0.5">PK (Dasar-Menengah)</div>
+          </div>
+          <div class="rounded-2xl bg-white/90 border border-slate-200/80 p-2.5 text-center">
+            <div class="text-[10px] font-bold text-slate-400 uppercase">Selasa</div>
+            <div class="text-xs font-extrabold text-pink-700 mt-0.5">PM (Selektif)</div>
+          </div>
+          <div class="rounded-2xl bg-white/90 border border-slate-200/80 p-2.5 text-center">
+            <div class="text-[10px] font-bold text-slate-400 uppercase">Rabu</div>
+            <div class="text-xs font-extrabold text-rose-700 mt-0.5">LBI (Prioritas)</div>
+          </div>
+          <div class="rounded-2xl bg-white/90 border border-slate-200/80 p-2.5 text-center">
+            <div class="text-[10px] font-bold text-slate-400 uppercase">Kamis</div>
+            <div class="text-xs font-extrabold text-sky-700 mt-0.5">LBE (Prioritas)</div>
+          </div>
+          <div class="rounded-2xl bg-white/90 border border-slate-200/80 p-2.5 text-center">
+            <div class="text-[10px] font-bold text-slate-400 uppercase">Jumat</div>
+            <div class="text-xs font-extrabold text-indigo-700 mt-0.5">PU (Prioritas)</div>
+          </div>
+          <div class="rounded-2xl bg-white/90 border border-slate-200/80 p-2.5 text-center">
+            <div class="text-[10px] font-bold text-slate-400 uppercase">Sabtu</div>
+            <div class="text-xs font-extrabold text-emerald-700 mt-0.5">PBM (Prioritas)</div>
+          </div>
+          <div class="rounded-2xl bg-white/90 border border-slate-200/80 p-2.5 text-center col-span-2 sm:col-span-1">
+            <div class="text-[10px] font-bold text-slate-400 uppercase">Minggu</div>
+            <div class="text-xs font-extrabold text-amber-700 mt-0.5">PPU (Prioritas)</div>
+          </div>
+        </div>
+
+        <!-- Bulan Filter Pills -->
+        <div class="flex flex-wrap items-center gap-2 pt-1">
+          <button onclick="setBulanFilter('ALL')" data-bulan="ALL" class="bulan-pill px-4 py-2 rounded-2xl text-xs font-extrabold transition">Semua Bulan (Pekan 1–12)</button>
+          <button onclick="setBulanFilter('B1')" data-bulan="B1" class="bulan-pill px-4 py-2 rounded-2xl text-xs font-extrabold transition">Bulan I (Pekan 1–4)</button>
+          <button onclick="setBulanFilter('B2')" data-bulan="B2" class="bulan-pill px-4 py-2 rounded-2xl text-xs font-extrabold transition">Bulan II (Pekan 5–8)</button>
+          <button onclick="setBulanFilter('B3')" data-bulan="B3" class="bulan-pill px-4 py-2 rounded-2xl text-xs font-extrabold transition">Bulan III (Pekan 9–12)</button>
+        </div>
+      </div>
+
+      <!-- Kurikulum Pekan 1 Card -->
+      <div id="pekan-1-card" class="glass-card rounded-3xl p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1 rounded-full text-xs font-extrabold royal-gradient text-white">Pekan 1 • Bulan I</span>
+              <span id="pekan1-progress-badge" class="font-mono text-xs font-extrabold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">0 / 7 Selesai</span>
+            </div>
+            <h2 class="font-serif italic text-xl sm:text-2xl font-bold text-plum mt-1.5">Kurikulum Pekan 1: Pendahuluan &amp; Strategi Belajar</h2>
+          </div>
+          <button onclick="updateActiveWeek(1); showToast('Pekan 1 ditetapkan sebagai Pekan Aktif.', 'info')" class="self-start sm:self-auto px-3.5 py-2 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-900 text-xs font-extrabold transition">
+            Jadikan Pekan Aktif
+          </button>
+        </div>
+
+        <div id="pekan-1-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Pekan 2 to Pekan 12 Timeline Cards -->
+      <div id="pekan-2-12-container" class="space-y-4">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 3: STUDY HUB 116 MATERI                                           -->
+    <!-- ===================================================================== -->
+    <section id="view-HUB" class="hidden space-y-5">
+      <div class="glass-card rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h1 class="font-serif italic text-2xl sm:text-3xl font-bold text-plum">Study Hub 116 Submateri</h1>
+            <p class="text-xs sm:text-sm text-slate-500">Materi tulisan ringkas, kaidah/rumus inti, referensi video 2026–2027, latihan soal terbaru, &amp; catatan pribadi.</p>
+          </div>
+          <span id="hub-result-count" class="font-mono text-xs font-extrabold text-purple-900 bg-purple-100 px-3 py-1.5 rounded-full self-start sm:self-auto">
+            Menampilkan 116 dari 116 submateri
+          </span>
+        </div>
+
+        <!-- Horizontal Subtest Pill Strip -->
+        <div id="hub-subtes-pills" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Smart Filter Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5">
+          <div class="lg:col-span-5 relative">
+            <input id="hub-search-input" type="text" oninput="onHubFilterChange()" placeholder="Cari topik, kaidah, EYD V, silogisme, rasio, grafik..." class="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white/95 border border-slate-200/80 text-xs sm:text-sm font-medium text-plum focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 10.5a7.5 7.5 0 0013.15 6.15z"/></svg>
+          </div>
+          <div class="lg:col-span-2">
+            <select id="hub-week-filter" onchange="onHubFilterChange()" class="w-full px-3 py-2.5 rounded-2xl bg-white/95 border border-slate-200/80 text-xs font-bold text-plum focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option value="ALL">Semua Pekan</option>
+              <option value="2">Pekan 2</option>
+              <option value="3">Pekan 3</option>
+              <option value="4">Pekan 4</option>
+              <option value="5">Pekan 5</option>
+              <option value="6">Pekan 6</option>
+              <option value="7">Pekan 7</option>
+              <option value="8">Pekan 8</option>
+              <option value="9">Pekan 9</option>
+              <option value="10">Pekan 10</option>
+              <option value="11">Pekan 11</option>
+              <option value="12">Pekan 12</option>
+            </select>
+          </div>
+          <div class="lg:col-span-3">
+            <select id="hub-status-filter" onchange="onHubFilterChange()" class="w-full px-3 py-2.5 rounded-2xl bg-white/95 border border-slate-200/80 text-xs font-bold text-plum focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option value="ALL">Semua Status</option>
+              <option value="UNSTARTED">Belum Mulai (0/3)</option>
+              <option value="IN_PROGRESS">Sedang Dipelajari (1-2/3)</option>
+              <option value="COMPLETED">Selesai 3 Tahap (3/3)</option>
+            </select>
+          </div>
+          <div class="lg:col-span-2">
+            <select id="hub-priority-filter" onchange="onHubFilterChange()" class="w-full px-3 py-2.5 rounded-2xl bg-white/95 border border-slate-200/80 text-xs font-bold text-plum focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option value="ALL">Semua Prioritas</option>
+              <option value="HIGH">Prioritas Tinggi</option>
+              <option value="LOW">Peluang Kecil *</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curated 2026-2027 Study & Practice Banner -->
+      <div id="curated-yt-banner" class="glass-card rounded-3xl p-5 space-y-3">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- 116 Submateri Cards Container -->
+      <div id="hub-cards-container" class="space-y-3.5">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 4: TRYOUT IRT & ANALITIK                                          -->
+    <!-- ===================================================================== -->
+    <section id="view-TRYOUT" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <div class="lg:col-span-4 space-y-4">
+          <div class="glass-card rounded-3xl p-6 space-y-4">
+            <div>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-purple-100 text-purple-900">Analitik Skor IRT</span>
+              <h1 class="font-serif italic text-2xl font-bold text-plum mt-1">Performa Tryout SNBT</h1>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-purple-50/80 rounded-2xl p-3.5">
+                <div class="text-[11px] font-bold text-purple-800">Rata-Rata IRT</div>
+                <div id="to-stat-avg" class="font-mono text-2xl font-extrabold text-plum mt-0.5">-</div>
+              </div>
+              <div class="bg-pink-50/80 rounded-2xl p-3.5">
+                <div class="text-[11px] font-bold text-pink-800">Skor Tertinggi</div>
+                <div id="to-stat-max" class="font-mono text-2xl font-extrabold royal-text-gradient mt-0.5">-</div>
+              </div>
+              <div class="bg-emerald-50/80 rounded-2xl p-3.5">
+                <div class="text-[11px] font-bold text-emerald-800">Subtes Terkuat</div>
+                <div id="to-stat-best-sub" class="font-mono text-sm font-extrabold text-emerald-950 mt-1">-</div>
+              </div>
+              <div class="bg-amber-50/80 rounded-2xl p-3.5">
+                <div class="text-[11px] font-bold text-amber-800">Total Tryout</div>
+                <div id="to-stat-count" class="font-mono text-2xl font-extrabold text-amber-950 mt-0.5">0</div>
+              </div>
+            </div>
+
+            <div class="bg-white/90 rounded-2xl p-3 border border-slate-200/80 flex items-center justify-between">
+              <label for="to-target-score" class="text-xs font-extrabold text-plum">Target Skor IRT:</label>
+              <input id="to-target-score" type="number" min="300" max="1000" step="10" value="680" onchange="updateTargetIrt(this.value)" class="w-24 text-right font-mono text-sm font-extrabold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-xl focus:outline-none" />
+            </div>
+
+            <div class="pt-2 border-t border-slate-200/70 flex flex-wrap gap-2">
+              <button onclick="exportJsonBackup()" class="flex-1 py-2.5 px-3 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-extrabold transition">
+                Export JSON
+              </button>
+              <label class="flex-1 py-2.5 px-3 rounded-2xl bg-white hover:bg-purple-50 border border-purple-200 text-purple-900 text-xs font-extrabold text-center cursor-pointer transition">
+                Import JSON
+                <input type="file" accept=".json" onchange="importJsonBackup(event)" class="hidden" />
+              </label>
+              <button onclick="confirmResetAllData()" class="py-2.5 px-3 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-8 glass-card rounded-3xl p-6 flex flex-col justify-between gap-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="font-serif italic text-xl font-bold text-plum">Grafik Tren Skor Tryout IRT</h2>
+              <p class="text-xs text-slate-500">Visualisasi perkembangan nilai rata-rata maupun per subtes (skala 0–1000).</p>
+            </div>
+            <select id="chart-subtes-filter" onchange="renderTryoutSvgChart()" class="px-3.5 py-2 rounded-2xl bg-white border border-slate-200/80 text-xs font-extrabold text-plum focus:outline-none">
+              <option value="avg">Rata-Rata Keseluruhan</option>
+              <option value="PU">Penalaran Umum (PU)</option>
+              <option value="PBM">Pemahaman Bacaan &amp; Menulis (PBM)</option>
+              <option value="PPU">Pengetahuan &amp; Pemahaman Umum (PPU)</option>
+              <option value="PK">Pengetahuan Kuantitatif (PK)</option>
+              <option value="LBI">Literasi Bahasa Indonesia (LBI)</option>
+              <option value="LBE">Literasi Bahasa Inggris (LBE)</option>
+              <option value="PM">Penalaran Matematika (PM)</option>
+            </select>
+          </div>
+
+          <div id="svg-chart-container" class="w-full bg-white/80 rounded-2xl p-3 border border-slate-200/70">
+            <!-- Inline SVG chart rendered here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Log Tryout Form -->
+      <form id="tryout-form" onsubmit="saveTryoutEntry(event)" class="glass-card rounded-3xl p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 id="to-form-title" class="font-serif italic text-xl font-bold text-plum inline-flex items-center gap-2">
+            <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            <span>Catat Skor Tryout IRT Baru</span>
+          </h2>
+          <button type="button" id="to-cancel-edit-btn" onclick="resetTryoutForm()" class="hidden text-xs font-extrabold text-rose-600 hover:underline">Batal Edit</button>
+        </div>
+        <input type="hidden" id="to-edit-id" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-9 gap-3">
+          <div class="lg:col-span-2">
+            <label class="block text-[11px] font-bold text-slate-500 mb-1">Tanggal</label>
+            <input id="to-date" type="date" required class="w-full px-3 py-2 rounded-2xl bg-white border border-slate-200/80 font-mono text-xs font-bold text-plum" />
+          </div>
+          <div class="lg:col-span-2">
+            <label class="block text-[11px] font-bold text-slate-500 mb-1">Platform / Penyelenggara</label>
+            <input id="to-platform" type="text" required placeholder="SNBT 2027 / Pahamify" class="w-full px-3 py-2 rounded-2xl bg-white border border-slate-200/80 text-xs font-bold text-plum" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-indigo-700 mb-1">PU</label>
+            <input id="to-pu" type="number" min="0" max="1000" step="0.01" required placeholder="650" class="w-full px-2.5 py-2 rounded-2xl bg-white border border-slate-200/80 font-mono text-xs font-bold text-plum" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-emerald-700 mb-1">PBM</label>
+            <input id="to-pbm" type="number" min="0" max="1000" step="0.01" required placeholder="660" class="w-full px-2.5 py-2 rounded-2xl bg-white border border-slate-200/80 font-mono text-xs font-bold text-plum" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-amber-700 mb-1">PPU</label>
+            <input id="to-ppu" type="number" min="0" max="1000" step="0.01" required placeholder="640" class="w-full px-2.5 py-2 rounded-2xl bg-white border border-slate-200/80 font-mono text-xs font-bold text-plum" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-purple-700 mb-1">PK</label>
+            <input id="to-pk" type="number" min="0" max="1000" step="0.01" required placeholder="580" class="w-full px-2.5 py-2 rounded-2xl bg-white border border-slate-200/80 font-mono text-xs font-bold text-plum" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-rose-700 mb-1">LBI</label>
+            <input id="to-lbi" type="number" min="0" max="1000" step="0.01" required placeholder="700" class="w-full px-2.5 py-2 rounded-2xl bg-white border border-slate-200/80 font-mono text-xs font-bold text-plum" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-sky-700 mb-1">LBE</label>
+            <input id="to-lbe" type="number" min="0" max="1000" step="0.01" required placeholder="680" class="w-full px-2.5 py-2 rounded-2xl bg-white border border-slate-200/80 font-mono text-xs font-bold text-plum" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-pink-700 mb-1">PM</label>
+            <input id="to-pm" type="number" min="0" max="1000" step="0.01" required placeholder="570" class="w-full px-2.5 py-2 rounded-2xl bg-white border border-slate-200/80 font-mono text-xs font-bold text-plum" />
+          </div>
+        </div>
+
+        <div class="flex justify-end">
+          <button id="to-submit-btn" type="submit" class="px-6 py-3 rounded-2xl royal-gradient text-white text-xs sm:text-sm font-extrabold hover:opacity-95 transition">
+            Simpan Skor Tryout
+          </button>
+        </div>
+      </form>
+
+      <!-- Tryout History Table -->
+      <div class="glass-card rounded-3xl p-6 overflow-hidden">
+        <h3 class="font-serif italic text-xl font-bold text-plum mb-3">Riwayat Skor Tryout IRT</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-200/80 text-[11px] font-extrabold uppercase text-slate-400">
+                <th class="py-2.5 px-2.5">Tanggal</th>
+                <th class="py-2.5 px-2.5">Platform</th>
+                <th class="py-2.5 px-2 text-center">PU</th>
+                <th class="py-2.5 px-2 text-center">PBM</th>
+                <th class="py-2.5 px-2 text-center">PPU</th>
+                <th class="py-2.5 px-2 text-center">PK</th>
+                <th class="py-2.5 px-2 text-center">LBI</th>
+                <th class="py-2.5 px-2 text-center">LBE</th>
+                <th class="py-2.5 px-2 text-center">PM</th>
+                <th class="py-2.5 px-2.5 text-center text-purple-900">Rata-Rata</th>
+                <th class="py-2.5 px-2.5 text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tryout-tbody" class="divide-y divide-slate-100 text-xs sm:text-sm">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Minimalist SVG Icon Toast Notification -->
+  <div id="studio-toast" class="fixed top-20 right-4 sm:right-8 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-300">
+    <div class="glass-card rounded-2xl px-4 py-3 border border-purple-200 shadow-lg flex items-center gap-2.5 max-w-sm">
+      <span id="toast-icon-slot" class="shrink-0"></span>
+      <p id="toast-message" class="text-xs sm:text-sm font-extrabold text-plum"></p>
+    </div>
+  </div>
+
+  <!-- Custom Confirm Modal -->
+  <div id="confirm-modal" class="hidden fixed inset-0 z-50 bg-plum/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl p-6 max-w-sm w-full space-y-4">
+      <h3 id="confirm-modal-title" class="font-serif italic text-xl font-bold text-plum">Konfirmasi</h3>
+      <p id="confirm-modal-desc" class="text-xs sm:text-sm text-slate-600 leading-relaxed"></p>
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-extrabold">Batal</button>
+        <button id="confirm-modal-ok" class="px-4 py-2 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold">Ya, Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // SVG ICON HELPER (ZERO EMOJI POLICY)
+    // =========================================================================
+    const SVG_ICONS = {
+      check: '<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>',
+      box: '<svg class="w-3.5 h-3.5 inline-block opacity-65" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/></svg>',
+      checkedBox: '<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 12l2.5 2.5L16 9"/></svg>',
+      ext: '<svg class="w-3 h-3 inline-block" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>',
+      book: '<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>',
+      edit: '<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>',
+      chevronDown: '<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>',
+      chevronUp: '<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>',
+      spark: '<svg class="w-4 h-4 text-purple-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>',
+      award: '<svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>',
+      info: '<svg class="w-4 h-4 text-sky-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+    };
+
+    // =========================================================================
+    // 1. SUBTEST METADATA & UPDATED 2026-2027 STUDY/PRACTICE SOURCES
+    // =========================================================================
+    const SUBTES_INFO = {
+      PU: {
+        code: "PU",
+        name: "Penalaran Umum",
+        priorityTag: "Bobot Tinggi",
+        count: 21,
+        badge: "bg-indigo-100 text-indigo-900 border-indigo-200",
+        bar: "bg-indigo-600",
+        accent: "text-indigo-700",
+        playlists: [
+          { title: "Alternatifa.Project — Penalaran Umum SNBT", url: "http://www.youtube.com/playlist?list=PLPtbHTXes2LNXEln1sgp7UlJrlIeTDogq" },
+          { title: "Privat Al Faiz — Penalaran Umum 2026", url: "http://www.youtube.com/playlist?list=PL3_jBeULKPLDst1G75au6j5QXncmprXbW" },
+          { title: "Justin Leonardo — PU SNBT 2026–2027", url: "http://www.youtube.com/playlist?list=PLYnalzwncOCTJHIn-zbDK1KpJ5ReqyPzv" },
+          { title: "Latihan Soal Penalaran Umum 2026–2027", url: "https://www.youtube.com/results?search_query=latihan+soal+penalaran+umum+UTBK+SNBT+2026+2027" }
+        ]
+      },
+      PBM: {
+        code: "PBM",
+        name: "Pemahaman Bacaan & Menulis",
+        priorityTag: "Bobot Tinggi",
+        count: 15,
+        badge: "bg-emerald-100 text-emerald-900 border-emerald-200",
+        bar: "bg-emerald-600",
+        accent: "text-emerald-700",
+        playlists: [
+          { title: "Tubuh Kata — PBM SNBT 2026", url: "http://www.youtube.com/playlist?list=PL8z-Ae17U3Fb68cfSZ8C7fHIRVv30O1bw" },
+          { title: "Tubuh Kata — Kaidah EYD V Lengkap", url: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY7d_ot5Kp7WmBnIp7p9dYP" },
+          { title: "Laksana Audio — EYD, KBBI & PBM", url: "http://www.youtube.com/watch?v=ObLO7IR5EM4" },
+          { title: "Latihan Soal PBM UTBK 2026–2027", url: "https://www.youtube.com/results?search_query=latihan+soal+PBM+UTBK+SNBT+2026+2027" }
+        ]
+      },
+      PPU: {
+        code: "PPU",
+        name: "Pengetahuan & Pemahaman Umum",
+        priorityTag: "Bobot Tinggi",
+        count: 16,
+        badge: "bg-amber-100 text-amber-900 border-amber-200",
+        bar: "bg-amber-500",
+        accent: "text-amber-700",
+        playlists: [
+          { title: "Tubuh Kata — PPU SNBT 2026", url: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI" },
+          { title: "LetStudy PTN — PPU UTBK SNBT", url: "http://www.youtube.com/playlist?list=PLz2VS8nU0Z7FDRWs44HFKG-boqDMB072h" },
+          { title: "Latihan Soal PPU & Bahasa Panda 2026–2027", url: "https://www.youtube.com/results?search_query=latihan+soal+PPU+UTBK+SNBT+2026+2027" }
+        ]
+      },
+      PK: {
+        code: "PK",
+        name: "Pengetahuan Kuantitatif",
+        priorityTag: "Amankan Inti",
+        count: 21,
+        badge: "bg-purple-100 text-purple-900 border-purple-200",
+        bar: "bg-purple-600",
+        accent: "text-purple-700",
+        playlists: [
+          { title: "Alternatifa.Project — Pengetahuan Kuantitatif", url: "http://www.youtube.com/playlist?list=PLPtbHTXes2LODiuJ0tHgrIMLeozqQakGM" },
+          { title: "Justin Leonardo — PK SNBT 2026", url: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX" },
+          { title: "Privat Al Faiz — PK SNBT 2026", url: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA1mbequcqp0nR5bh9slT8c" },
+          { title: "Latihan Soal PK Dasar–Menengah 2026–2027", url: "https://www.youtube.com/results?search_query=latihan+soal+PK+UTBK+SNBT+2026+2027" }
+        ]
+      },
+      PM: {
+        code: "PM",
+        name: "Penalaran Matematika",
+        priorityTag: "Selektif",
+        count: 18,
+        badge: "bg-pink-100 text-pink-900 border-pink-200",
+        bar: "bg-pink-600",
+        accent: "text-pink-700",
+        playlists: [
+          { title: "Justin Leonardo — TO PM UTBK 2027", url: "https://www.youtube.com/playlist?list=PLS0In5_hJZuo" },
+          { title: "Justin Leonardo — PM SNBT 2026", url: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC" },
+          { title: "Privat Al Faiz — Penalaran Matematika", url: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA0uubil7Dhw_4jHwd-s-_Q" },
+          { title: "Latihan Soal PM Tipe Tabel & Cerita 2026–2027", url: "https://www.youtube.com/results?search_query=latihan+soal+PM+UTBK+SNBT+2026+2027" }
+        ]
+      },
+      LBE: {
+        code: "LBE",
+        name: "Literasi Bahasa Inggris",
+        priorityTag: "Bobot Tinggi",
+        count: 17,
+        badge: "bg-sky-100 text-sky-900 border-sky-200",
+        bar: "bg-sky-600",
+        accent: "text-sky-700",
+        playlists: [
+          { title: "belajar bareng English (BBE) — LBE SNBT 2027", url: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz" },
+          { title: "Laksana Audio — Materi LBE SNBT", url: "http://www.youtube.com/watch?v=UFCv9S8KtDQ" },
+          { title: "Davina's Journal — Bahas Soal LBE", url: "http://www.youtube.com/watch?v=-gavpynYc4A" },
+          { title: "Latihan Soal LBE UTBK 2026–2027", url: "https://www.youtube.com/results?search_query=latihan+soal+literasi+bahasa+inggris+UTBK+2026+2027" }
+        ]
+      },
+      LBI: {
+        code: "LBI",
+        name: "Literasi Bahasa Indonesia",
+        priorityTag: "Bobot Tinggi",
+        count: 8,
+        badge: "bg-rose-100 text-rose-900 border-rose-200",
+        bar: "bg-rose-600",
+        accent: "text-rose-700",
+        playlists: [
+          { title: "Tubuh Kata — LBI SNBT 2026", url: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY9PDd0eio3JggQ6-Eo2kJV" },
+          { title: "GEP Media — Pembahasan Soal LBI SNBT", url: "http://www.youtube.com/playlist?list=PLcvu229uvTFJ-GeTz9gMciXz_iqcCUX3K" },
+          { title: "Latihan Soal LBI Teks Sastra & Eksplanasi 2026–2027", url: "https://www.youtube.com/results?search_query=latihan+soal+literasi+bahasa+indonesia+UTBK+2026+2027" }
+        ]
+      }
+    };
+
+    // =========================================================================
+    // 2. KURIKULUM PEKAN 1 & JADWAL PEKAN 2–12 (UPDATED 2026–2027 SOURCES)
+    // =========================================================================
+    const PEKAN_1_ITEMS = [
+      { id: "p1_1", title: "Learning How to Learn — Teknik Belajar Efektif", url: "https://www.youtube.com/playlist?list=PLOALRnUt6kAHgRUZp1HjNBZ8O-b4bgD4U" },
+      { id: "p1_2", title: "Mengenal Jalur Masuk PTN & Sistem SNBT", url: "https://snpmb.bppp.kemdikbud.go.id/" },
+      { id: "p1_3", title: "Profil Program Studi Antropologi Budaya UGM", url: "https://fib.ugm.ac.id/program-studi/sarjana-antropologi-budaya/" },
+      { id: "p1_4", title: "Strategi Skor Soshum & Humaniora di UTBK-SNBT", url: "https://www.youtube.com/results?search_query=strategi+lolos+SNBT+soshum+humaniora+UGM+2026+2027" },
+      { id: "p1_5", title: "Informasi KIP Kuliah & Pembiayaan Pendidikan", url: "https://kip-kuliah.kemdikbud.go.id/" },
+      { id: "p1_6", title: "Menyusun Ritme Belajar Harian Tanpa Burnout", url: "https://www.youtube.com/results?search_query=tips+belajar+UTBK+SNBT+anti+burnout+2026+2027" },
+      { id: "p1_7", title: "Teknik Manajemen Waktu & Eliminasi Soal Sulit", url: "https://www.youtube.com/results?search_query=manajemen+waktu+UTBK+SNBT+PK+PM+2026+2027" }
+    ];
+
+    function makePracticeLink(queryText) {
+      return `https://www.youtube.com/results?search_query=${encodeURIComponent(queryText + " UTBK SNBT 2026 2027")}`;
+    }
+
+    const PEKAN_SCHEDULE = [
+      {
+        week: 2, bulan: "B1", label: "Pekan 2 • Bulan I",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Operasi MTK Dasar (PEMDAS), Pecahan/Desimal/Persen, Sistem Koordinat", srcUrl: makePracticeLink("operasi dasar pecahan persentase PK") },
+          { subtes: "PM", day: "Selasa", topics: "Teori dan Jenis Bilangan, Sifat-sifat Bilangan", srcUrl: makePracticeLink("sifat bilangan penalaran matematika") },
+          { subtes: "LBI", day: "Rabu", topics: "Menentukan Tema dan Unsur Teks", srcUrl: "https://drive.google.com/file/d/1UQojGd1Sivmcv_ICjkVlq6GrJ4a6cgfM/view?usp=sharing" },
+          { subtes: "LBE", day: "Kamis", topics: "Topic and Main Idea", srcUrl: makePracticeLink("main idea topic reading comprehension") },
+          { subtes: "PU", day: "Jumat", topics: "Logika Matematika (Dasar), Proposisi, Kuantor", srcUrl: makePracticeLink("logika kuantor negasi penalaran umum") },
+          { subtes: "PBM", day: "Sabtu", topics: "Huruf Kapital dan Ejaan (EYD V), Tanda Baca", srcUrl: makePracticeLink("EYD V huruf kapital tanda baca PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Penggunaan Istilah/Kata, Perubahan Makna Kata", srcUrl: makePracticeLink("perubahan makna kata PPU") }
+        ]
+      },
+      {
+        week: 3, bulan: "B1", label: "Pekan 3 • Bulan I",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Operasi Aljabar Sederhana, Faktorisasi & Distribusi Aljabar", srcUrl: makePracticeLink("aljabar faktorisasi PK") },
+          { subtes: "PM", day: "Selasa", topics: "KPK, FPB dan Aplikasinya", srcUrl: makePracticeLink("KPK FPB soal cerita PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Struktur Teks", srcUrl: makePracticeLink("struktur teks eksposisi eksplanasi LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Conclusion & Summary of Passage", srcUrl: makePracticeLink("conclusion summary passage LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Silogisme, Modus Ponens, Modus Tollens", srcUrl: makePracticeLink("silogisme modus ponens tollens PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Makna Imbuhan, Preposisi", srcUrl: makePracticeLink("imbuhan preposisi di ke dari PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Makna Bertingkat/Hierarkis, Kata Berpasangan", srcUrl: makePracticeLink("hipernim hiponim kata berpasangan PPU") }
+        ]
+      },
+      {
+        week: 4, bulan: "B1", label: "Pekan 4 • Bulan I",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Akar dan Eksponen, Logaritma*", srcUrl: makePracticeLink("eksponen akar logaritma PK") },
+          { subtes: "PM", day: "Selasa", topics: "Persamaan Aljabar, Pertidaksamaan Aljabar", srcUrl: makePracticeLink("persamaan pertidaksamaan PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Makna Implisit dan Eksplisit", srcUrl: makePracticeLink("makna implisit eksplisit LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Specific Information & Finding Detail Info", srcUrl: makePracticeLink("detail information scanning LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Memperkuat/Memperlemah Argumen, Evaluasi Bukti", srcUrl: makePracticeLink("memperkuat memperlemah argumen PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Kata Hubung/Konjungsi, Partikel & Bentuk Terikat", srcUrl: makePracticeLink("konjungsi partikel pun PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Semantik/Tata Makna, Kalimat Majemuk", srcUrl: makePracticeLink("makna leksikal gramatikal kalimat majemuk PPU") }
+        ]
+      },
+      {
+        week: 5, bulan: "B2", label: "Pekan 5 • Bulan II",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Himpunan, Persamaan Garis Lurus", srcUrl: makePracticeLink("himpunan persamaan garis lurus PK") },
+          { subtes: "PM", day: "Selasa", topics: "Konsep Perbandingan (Senilai & Berbalik Nilai)", srcUrl: makePracticeLink("perbandingan senilai berbalik nilai PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Mencari Info Relevan", srcUrl: makePracticeLink("mencari informasi relevan LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Purpose of the Text & Author's Tone/Attitude", srcUrl: makePracticeLink("author purpose tone attitude LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Simpulan & Generalisasi", srcUrl: makePracticeLink("simpulan generalisasi penalaran induktif PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Bentuk/Jenis Kata, Kata Baku dan Tidak Baku", srcUrl: makePracticeLink("kata baku KTSP PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Transformasi Kalimat & Inti Kalimat", srcUrl: makePracticeLink("inti kalimat transformasi PPU") }
+        ]
+      },
+      {
+        week: 6, bulan: "B2", label: "Pekan 6 • Bulan II",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Fungsi, Relasi, Komposisi, Invers", srcUrl: makePracticeLink("fungsi komposisi invers PK") },
+          { subtes: "PM", day: "Selasa", topics: "SPLDV/SPLTV & Persamaan Berbentuk Flowchart", srcUrl: makePracticeLink("SPLDV flowchart penalaran matematika") },
+          { subtes: "LBI", day: "Rabu", topics: "Menyimpulkan Isi Bacaan", srcUrl: makePracticeLink("menyimpulkan isi bacaan LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Writer's Motive & Synonym/Antonym", srcUrl: makePracticeLink("writer motive synonym context LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Analogi & Hubungan Kausalitas", srcUrl: makePracticeLink("kausalitas sebab akibat analogi PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Frasa/Kelompok Kata & Klausa", srcUrl: makePracticeLink("frasa klausa objek pelengkap PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Kelogisan Kalimat & Hubungan Antar Kalimat", srcUrl: makePracticeLink("kelogisan kalimat hubungan antarkalimat PPU") }
+        ]
+      },
+      {
+        week: 7, bulan: "B2", label: "Pekan 7 • Bulan II",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Persamaan dan Fungsi Kuadrat", srcUrl: makePracticeLink("persamaan fungsi kuadrat PK") },
+          { subtes: "PM", day: "Selasa", topics: "Kesebangunan dan Bangun Datar Kompleks", srcUrl: makePracticeLink("kesebangunan bangun datar PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Unsur Teks Eksplanatif", srcUrl: makePracticeLink("teks eksplanasi LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Word's Meaning & Contextual Meaning", srcUrl: makePracticeLink("contextual meaning vocabulary LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Teori/Jenis Bilangan & Sifat-sifat Bilangan (PU)", srcUrl: makePracticeLink("penalaran kuantitatif bilangan PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Struktur Kalimat/Tata Kalimat & Jenis Kalimat", srcUrl: makePracticeLink("jenis kalimat tunggal majemuk PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Kepaduan Paragraf & Kalimat Utama dalam Teks", srcUrl: makePracticeLink("kalimat utama kepaduan paragraf PPU") }
+        ]
+      },
+      {
+        week: 8, bulan: "B2", label: "Pekan 8 • Bulan II",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Sudut & Operasi Sudut, Sifat Bangun Datar & Ruang", srcUrl: makePracticeLink("sudut bangun datar geometri PK") },
+          { subtes: "PM", day: "Selasa", topics: "Jarak Titik, Garis dan Bidang", srcUrl: makePracticeLink("jarak titik garis bidang PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Tema dan Nilai Teks Sastra", srcUrl: makePracticeLink("teks sastra nilai budaya sosial LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Reference and Inference", srcUrl: makePracticeLink("reference inference reading LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Statistik Dasar & Grafik/Tabel (PU)", srcUrl: makePracticeLink("baca grafik tabel penalaran umum PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Hubungan Antar Kalimat & Kalimat Efektif", srcUrl: makePracticeLink("kalimat efektif pleonasme PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Tema dan Topik & Gagasan/Ide Pokok", srcUrl: makePracticeLink("gagasan pokok topik bacaan PPU") }
+        ]
+      },
+      {
+        week: 9, bulan: "B3", label: "Pekan 9 • Bulan III",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Trigonometri Dasar & Dimensi Tiga", srcUrl: makePracticeLink("dimensi tiga trigonometri PK") },
+          { subtes: "PM", day: "Selasa", topics: "Bangun Datar (Luas & Keliling), Bangun Ruang (Luas & Volume)", srcUrl: makePracticeLink("luas volume bangun ruang PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Menilai dan Menghubungkan Informasi", srcUrl: makePracticeLink("menghubungkan informasi teks grafik LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Restating Sentences/Phrases & True/False Statement", srcUrl: makePracticeLink("restating true false statement LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Soal Cerita & Peluang Dasar/Pencacahan (PU)", srcUrl: makePracticeLink("soal cerita peluang PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Kalimat Sumbang & Pemantapan EYD V", srcUrl: makePracticeLink("kalimat sumbang EYD V PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Ungkapan (Idiom) & Bahasa Panda (Hipotesis)", srcUrl: makePracticeLink("bahasa panda PPU") }
+        ]
+      },
+      {
+        week: 10, bulan: "B3", label: "Pekan 10 • Bulan III",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Statistik Dasar & Penyajian Data, Peluang Dasar & Pencacahan", srcUrl: makePracticeLink("statistika peluang PK") },
+          { subtes: "PM", day: "Selasa", topics: "Penyebaran Data/Tendensi Sentral, Kombinasi & Permutasi", srcUrl: makePracticeLink("rata-rata median kombinasi PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Latihan Intensif Teks Sastra & Eksplanatif", srcUrl: makePracticeLink("latihan soal LBI teks sastra eksplanasi") },
+          { subtes: "LBE", day: "Kamis", topics: "Detailing Facts, Comparing Two Texts & Text Structure", srcUrl: makePracticeLink("comparing two texts LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Barisan/Deret, Persentase, Diskon & Bunga Bank (PU)", srcUrl: makePracticeLink("pola bilangan barisan persentase PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Drill Kalimat Efektif & Kohesi Paragraf", srcUrl: makePracticeLink("drill soal PBM kalimat efektif") },
+          { subtes: "PPU", day: "Minggu", topics: "Drill Bahasa Panda & Analisis Semantik", srcUrl: makePracticeLink("drill soal bahasa panda PPU") }
+        ]
+      },
+      {
+        week: 11, bulan: "B3", label: "Pekan 11 • Bulan III",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Barisan-Deret Aritmatika, Geometri & Tak Hingga", srcUrl: makePracticeLink("barisan deret geometri tak hingga PK") },
+          { subtes: "PM", day: "Selasa", topics: "Aritmatika Sosial, Bunga Tunggal/Majemuk & Diskon", srcUrl: makePracticeLink("aritmatika sosial diskon bunga PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Simulasi Waktu Teks Panjang LBI", srcUrl: makePracticeLink("simulasi soal LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Simulasi Paired Passages & Inference LBE", srcUrl: makePracticeLink("simulasi soal LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Simulasi Campuran Deduktif-Induktif-Kuantitatif", srcUrl: makePracticeLink("simulasi soal PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Simulasi Menyunting Teks & EYD V", srcUrl: makePracticeLink("simulasi soal PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Simulasi Hubungan Antar Kalimat & Makna Kata", srcUrl: makePracticeLink("simulasi soal PPU") }
+        ]
+      },
+      {
+        week: 12, bulan: "B3", label: "Pekan 12 • Bulan III",
+        tasks: [
+          { subtes: "PK", day: "Senin", topics: "Matriks*, Transformasi Geometri*, Limit/Turunan Dasar*", srcUrl: makePracticeLink("matriks transformasi turunan dasar PK") },
+          { subtes: "PM", day: "Selasa", topics: "Review Pemodelan Soal Cerita & Geometri Ruang", srcUrl: makePracticeLink("review soal cerita PM") },
+          { subtes: "LBI", day: "Rabu", topics: "Final Review 8 Materi LBI", srcUrl: makePracticeLink("review materi LBI") },
+          { subtes: "LBE", day: "Kamis", topics: "Final Review 17 Materi LBE", srcUrl: makePracticeLink("review materi LBE") },
+          { subtes: "PU", day: "Jumat", topics: "Final Review 21 Materi PU", srcUrl: makePracticeLink("review materi PU") },
+          { subtes: "PBM", day: "Sabtu", topics: "Final Review 15 Materi PBM", srcUrl: makePracticeLink("review materi PBM") },
+          { subtes: "PPU", day: "Minggu", topics: "Final Review 16 Materi PPU & Persiapan Tryout Akbar", srcUrl: makePracticeLink("review materi PPU") }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 3. COMPLETE 116 SUBMATERI DATABASE (WITH UPDATED 2026–2027 SEARCH LINKS)
+    // =========================================================================
+    function build2027SearchUrl(subtes, submateri) {
+      return `https://www.youtube.com/results?search_query=${encodeURIComponent(`UTBK SNBT ${subtes} ${submateri} 2026 2027`)}`;
+    }
+
+    const RAW_SYLLABUS = [
+      // --- PU (21) ---
+      { id: 1, subtes: "PU", materi: "Logika Dasar", submateri: "Logika Matematika (Dasar)", week: 2, lowProb: false, keywords: "Konjungsi, Disjungsi, Implikasi, Ekuivalensi", youtubeUrl: "http://www.youtube.com/watch?v=0oc3gL0V-N4", summary: "Pernyataan bernilai benar/salah. Tabel kebenaran konjungsi (p ∧ q benar jika keduanya benar), disjungsi (p ∨ q salah jika keduanya salah), implikasi (p ⇒ q salah hanya jika B ⇒ S). Ekuivalensi emas: p ⇒ q ≡ ~q ⇒ ~p ≡ ~p ∨ q." },
+      { id: 2, subtes: "PU", materi: "Logika Dasar", submateri: "Proposisi, Kalimat Terbuka/Tertutup", week: 2, lowProb: false, keywords: "Proposisi, Variabel, Nilai Kebenaran", youtubeUrl: "http://www.youtube.com/playlist?list=PLPtbHTXes2LNXEln1sgp7UlJrlIeTDogq", summary: "Proposisi (kalimat tertutup) sudah pasti dapat ditentukan nilai benar atau salahnya (contoh: '2 adalah bilangan prima genap'). Kalimat terbuka masih memuat variabel (x) sehingga belum bernilai benar/salah sebelum variabel disubstitusi." },
+      { id: 3, subtes: "PU", materi: "Logika Dasar", submateri: "Logika Kuantor, Operasi Logika", week: 2, lowProb: false, keywords: "Kuantor Universal, Eksistensial, Negasi", youtubeUrl: "http://www.youtube.com/watch?v=0oc3gL0V-N4", summary: "Kuantor universal (∀: 'semua/setiap') memiliki negasi/ingkaran berupa kuantor eksistensial (∃: 'ada/beberapa ... tidak'). Sebaliknya, ingkaran dari 'Beberapa siswa tidak hadir' adalah 'Semua siswa hadir'." },
+      { id: 4, subtes: "PU", materi: "Penalaran Deduktif", submateri: "Silogisme", week: 3, lowProb: false, keywords: "Premis Rantai, Transitif, p ⇒ r", youtubeUrl: "http://www.youtube.com/watch?v=qS-Jweiz4fc", summary: "Premis 1: p ⇒ q, Premis 2: q ⇒ r, maka kesimpulan sah adalah p ⇒ r (atau kontraposisinya ~r ⇒ ~p). Jebakan umum SNBT: membalik arah panah menjadi r ⇒ p (tidak sah)." },
+      { id: 5, subtes: "PU", materi: "Penalaran Deduktif", submateri: "Modus Ponens", week: 3, lowProb: false, keywords: "Penegasan Anteseden, p ⇒ q", youtubeUrl: "http://www.youtube.com/watch?v=qS-Jweiz4fc", summary: "Premis 1: Jika p maka q (p ⇒ q). Premis 2: p terjadi. Kesimpulan sah: q pasti terjadi. Waspadai jebakan jika Premis 2 menyatakan q terjadi—maka tidak dapat ditarik kesimpulan bahwa p terjadi." },
+      { id: 6, subtes: "PU", materi: "Penalaran Deduktif", submateri: "Modus Tollens", week: 3, lowProb: false, keywords: "Pengingkaran Konsekuen, Kontraposisi", youtubeUrl: "http://www.youtube.com/watch?v=qS-Jweiz4fc", summary: "Premis 1: p ⇒ q. Premis 2: ~q terjadi (akibat tidak terjadi). Kesimpulan sah: ~p terjadi (sebab tidak terjadi). Sering dikombinasikan dengan hukum De Morgan: ~(p ∧ q) ≡ ~p ∨ ~q." },
+      { id: 7, subtes: "PU", materi: "Penalaran Deduktif", submateri: "Memperkuat/Memperlemah Argumen", week: 4, lowProb: false, keywords: "Critical Reasoning, Asumsi, Bukti Pendukung", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLDst1G75au6j5QXncmprXbW", summary: "Memperkuat argumen: pilih opsi yang memberikan fakta tambahan searah dengan klaim atau menutup celah bantahan. Memperlemah argumen: pilih opsi yang mematahkan hubungan sebab-akibat atau menunjukkan contoh penyangkal." },
+      { id: 8, subtes: "PU", materi: "Penalaran Deduktif", submateri: "Evaluasi Bukti", week: 4, lowProb: false, keywords: "Pasti Benar, Pasti Salah, Tidak Relevan", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTJHIn-zbDK1KpJ5ReqyPzv", summary: "Klasifikasi 5 status pernyataan: Pasti Benar (sesuai fakta teks/deduksi sah), Mungkin Benar (searah tapi belum terkonfirmasi), Tidak Relevan (di luar cakupan teks), Mungkin Salah, dan Pasti Salah (bertentangan langsung dengan teks)." },
+      { id: 9, subtes: "PU", materi: "Penalaran Deduktif", submateri: "Simpulan", week: 5, lowProb: false, keywords: "Cakupan Premis, Non-Spekulatif", youtubeUrl: "http://www.youtube.com/watch?v=-jYbkayP-Pc", summary: "Simpulan yang sah wajib merangkum seluruh premis yang diberikan, tidak boleh menyempitkan subjek, dan tidak boleh menambahkan opini atau data baru di luar bacaan." },
+      { id: 10, subtes: "PU", materi: "Penalaran Induktif", submateri: "Generalisasi", week: 5, lowProb: false, keywords: "Sampel ke Populasi, Induksi", youtubeUrl: "http://www.youtube.com/playlist?list=PLPtbHTXes2LNXEln1sgp7UlJrlIeTDogq", summary: "Penarikan kesimpulan umum berdasarkan sejumlah data/sampel khusus. Kualitas generalisasi ditentukan oleh jumlah sampel dan keterwakilan sifat populasi; hindari kata mutlak seperti 'selalu' jika sampel terbatas." },
+      { id: 11, subtes: "PU", materi: "Penalaran Induktif", submateri: "Analogi", week: 6, lowProb: false, keywords: "Kesamaan Struktur, Perbandingan", youtubeUrl: "http://www.youtube.com/playlist?list=PLPtbHTXes2LNXEln1sgp7UlJrlIeTDogq", summary: "Membandingkan dua fenomena berbeda yang memiliki kesamaan karakteristik esensial untuk memprediksi kesamaan akibat/sifat berikutnya. Analogi lemah jika kesamaannya hanya bersifat kebetulan." },
+      { id: 12, subtes: "PU", materi: "Penalaran Induktif", submateri: "Hubungan Kausalitas", week: 6, lowProb: false, keywords: "Sebab-Akibat, Korelasi vs Kausasi", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTJHIn-zbDK1KpJ5ReqyPzv", summary: "Identifikasi pola: (1) X menyebabkan Y, (2) Y menyebabkan X, (3) Z menyebabkan X dan Y secara bersamaan (common cause), atau (4) rantai kausal X → Y → Z. Korelasi dua kejadian bersamaan belum tentu hubungan sebab-akibat." },
+      { id: 13, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Teori dan Jenis Bilangan", week: 7, lowProb: false, keywords: "Bilangan Prima, Rasional, Keterbagian", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTJHIn-zbDK1KpJ5ReqyPzv", summary: "Klasifikasi bilangan asli (1,2,3..), cacah (0,1,2..), bulat, rasional (a/b), irasional (√2, π), dan prima (2,3,5,7,11..). Aturan habis dibagi: 3 (jumlah digit kelipatan 3), 4 (2 digit terakhir habis dibagi 4), 9 (jumlah digit kelipatan 9)." },
+      { id: 14, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Sifat-sifat Bilangan", week: 7, lowProb: false, keywords: "Ganjil-Genap, Paritas, Positif-Negatif", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTJHIn-zbDK1KpJ5ReqyPzv", summary: "Sifat paritas: Ganjil ± Ganjil = Genap; Ganjil ± Genap = Ganjil; Ganjil × Ganjil = Ganjil; Genap × Bilangan Bulat apa pun = Genap. Berguna untuk eliminasi cepat opsi bilangan bulat." },
+      { id: 15, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Statistik Dasar", week: 8, lowProb: false, keywords: "Mean, Median, Modus, Rata-Rata Gabungan", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLDst1G75au6j5QXncmprXbW", summary: "Mean x̄ = Σx / n; Median = nilai tengah setelah data diurutkan; Modus = frekuensi tertinggi. Rata-rata gabungan: x̄_gab = (n₁·x̄₁ + n₂·x̄₂) / (n₁ + n₂)." },
+      { id: 16, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Grafik/Tabel", week: 8, lowProb: false, keywords: "Interpretasi Data, Tren, Rasio", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTJHIn-zbDK1KpJ5ReqyPzv", summary: "Perhatikan satuan sumbu (ribuan, persen, atau indeks). Bedakan kenaikan terbesar secara absolut (selisih nilai) dengan kenaikan terbesar secara relatif (persentase terhadap tahun dasar)." },
+      { id: 17, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Soal Cerita", week: 9, lowProb: false, keywords: "Model Linear, Perbandingan, Kecepatan", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLDst1G75au6j5QXncmprXbW", summary: "Terjemahkan narasi ke persamaan aljabar. Rumus jarak-kecepatan-waktu: s = v × t. Waktu menyusul: t = Δs / (v₁ - v₂); waktu berpapasan: t = s_total / (v₁ + v₂)." },
+      { id: 18, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Peluang Dasar dan Pencacahan", week: 9, lowProb: false, keywords: "Filling Slots, Ruang Sampel, Peluang", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTJHIn-zbDK1KpJ5ReqyPzv", summary: "Aturan perkalian (kejadian berurutan/dan) vs aturan penjumlahan (pilihan saling lepas/atau). Peluang kejadian A: P(A) = n(A) / n(S), dengan 0 ≤ P(A) ≤ 1." },
+      { id: 19, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Barisan dan Deret", week: 10, lowProb: false, keywords: "Pola Larik, Bertingkat, Fibonacci", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLDst1G75au6j5QXncmprXbW", summary: "Cek selisih antarsuku berdekatan terlebih dahulu. Jika tidak beraturan, cek pola loncat 1 suku (larik ganjil-genap), loncat 2 suku, pola Fibonacci (U_n = U_{n-1} + U_{n-2}), atau pola pangkat/prima." },
+      { id: 20, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Persentase", week: 10, lowProb: false, keywords: "Pecahan Istimewa, Perubahan Persen", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTJHIn-zbDK1KpJ5ReqyPzv", summary: "% Perubahan = ((Akhir - Awal) / Awal) × 100%. Hafalkan konversi cepat: 1/8 = 12,5%; 1/6 = 16,67%; 3/8 = 37,5%; 5/8 = 62,5%; 5/6 = 83,33%." },
+      { id: 21, subtes: "PU", materi: "Penalaran Kuantitatif", submateri: "Diskon dan Bunga Bank", week: 10, lowProb: false, keywords: "Diskon Bertingkat, Bunga Tunggal", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLDst1G75au6j5QXncmprXbW", summary: "Diskon bertingkat d₁% lalu d₂% TIDAK sama dengan (d₁+d₂)%; harga akhir = (1 - d₁)(1 - d₂) × Harga Awal. Bunga tunggal: B = M × i × (t/12)." },
+
+      // --- PBM (15) ---
+      { id: 22, subtes: "PBM", materi: "Ejaan", submateri: "Huruf Kapital dan Ejaan (EYD V)", week: 2, lowProb: false, keywords: "EYD V, Nama Geografi, Jabatan, Judul", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY7d_ot5Kp7WmBnIp7p9dYP", summary: "Huruf kapital dipakai pada awal kalimat, nama orang, nama geografi yang diikuti nama diri (Danau Toba, tetapi mandi di danau), nama jabatan yang diikuti nama/instansi (Presiden RI), serta semua kata pada judul kecuali preposisi/konjungsi di tengah (di, ke, dari, dan, yang, untuk)." },
+      { id: 23, subtes: "PBM", materi: "Ejaan", submateri: "Tanda Baca", week: 2, lowProb: false, keywords: "Koma, Titik Koma, Tanda Hubung, Petik", youtubeUrl: "http://www.youtube.com/watch?v=mogAO0SVvNM", summary: "Koma (,) wajib dipakai: (1) sebelum konjungsi intrakalimat pertentangan (tetapi, melainkan, sedangkan), (2) setelah konjungsi antarkalimat (Oleh karena itu, Namun,), dan (3) memisahkan anak kalimat yang mendahului induk kalimat." },
+      { id: 24, subtes: "PBM", materi: "Ejaan", submateri: "Makna Imbuhan", week: 3, lowProb: false, keywords: "Prefiks, Sufiks -kan vs -i, Konfiks", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3Fb68cfSZ8C7fHIRVv30O1bw", summary: "Sufiks -kan bermakna kausatif/benefaktif (objek bergerak, misal: 'menyerahkan buku kepada adik'). Sufiks -i bermakna lokatif/repetitif (objek diam, misal: 'menyerahi adik buku')." },
+      { id: 25, subtes: "PBM", materi: "Konjungsi dan Partikel", submateri: "Preposisi", week: 3, lowProb: false, keywords: "di, ke, dari, pada, dalam", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY7d_ot5Kp7WmBnIp7p9dYP", summary: "Kata depan (di, ke, dari) ditulis terpisah jika menunjukkan tempat/waktu (di sekolah, ke luar negeri) dan ditulis serangkai jika merupakan awalan verba pasif (dibaca, keluar). Preposisi tidak boleh mengawali Subjek kalimat." },
+      { id: 26, subtes: "PBM", materi: "Konjungsi dan Partikel", submateri: "Kata hubung/Konjungsi", week: 4, lowProb: false, keywords: "Intrakalimat, Antarkalimat, Korelatif", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3Fb68cfSZ8C7fHIRVv30O1bw", summary: "Konjungsi korelatif berpasangan tetap: baik ... maupun ..., tidak hanya ... tetapi juga ..., bukan ... melainkan ..., demikian ... sehingga ..., sedemikian rupa ... sehingga ...." },
+      { id: 27, subtes: "PBM", materi: "Konjungsi dan Partikel", submateri: "Partikel dan Bentuk Terikat", week: 4, lowProb: false, keywords: "-lah, -kah, pun, pasca-, non-, antar-", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY7d_ot5Kp7WmBnIp7p9dYP", summary: "Partikel 'pun' ditulis terpisah (apa pun, satu kali pun) kecuali 12 konjungsi baku (adapun, andaipun, ataupun, bagaimanapun, biarpun, kalaupun, kendatipun, maupun, meskipun, sekalipun, sungguhpun, walaupun). Bentuk terikat (pascasarjana, nonaktif) ditulis serangkai, tetapi memakai tanda hubung jika bertemu huruf kapital (non-Indonesia)." },
+      { id: 28, subtes: "PBM", materi: "Pembentukan Kata", submateri: "Bentuk/Jenis Kata", week: 5, lowProb: false, keywords: "Peluluhan KTSP, Kelas Kata", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3Fb68cfSZ8C7fHIRVv30O1bw", summary: "Hukum peluluhan K-T-S-P: kata dasar berawalan k, t, s, p yang diikuti huruf vokal akan luluh jika diberi prefiks meN- atau peN- (meN- + pesona → memesona; meN- + taati → menaati), kecuali kata berkluster konsonan (mengkritik, memproduksi) dan kata 'mempunyai'." },
+      { id: 29, subtes: "PBM", materi: "Pembentukan Kata", submateri: "Kata Baku dan Tidak Baku", week: 5, lowProb: false, keywords: "KBBI, Ejaan Serapan", youtubeUrl: "http://www.youtube.com/watch?v=ObLO7IR5EM4", summary: "Daftar kata baku langganan UTBK: analisis, apotek, atlet, atmosfer, cedera, diagnosis, ekstrem, frekuensi, hakikat, hierarki, izin, jadwal, karier, kuitansi, nasihat, objek, praktik, risiko, sistem, teknik, zaman." },
+      { id: 30, subtes: "PBM", materi: "Frasa dan Klausa", submateri: "Frasa/Kelompok Kata", week: 6, lowProb: false, keywords: "Non-Predikatif, Frasa Nominal/Verbal", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3Fb68cfSZ8C7fHIRVv30O1bw", summary: "Gabungan dua kata atau lebih yang menduduki satu fungsi sintaksis (S/P/O/Pel/Ket) dan TIDAK memiliki hubungan predikatif (tidak ada S-P di dalamnya). Contoh: 'rumah sakit besar' (frasa nominal)." },
+      { id: 31, subtes: "PBM", materi: "Frasa dan Klausa", submateri: "Klausa", week: 6, lowProb: false, keywords: "Minimal S + P, Induk/Anak Klausa", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3Fb68cfSZ8C7fHIRVv30O1bw", summary: "Satuan gramatikal yang sekurang-kurangnya terdiri atas Subjek (S) dan Predikat (P) dan berpotensi menjadi kalimat apabila diberi intonasi final / tanda titik." },
+      { id: 32, subtes: "PBM", materi: "Struktur Kalimat", submateri: "Struktur Kalimat/Tata Kalimat", week: 7, lowProb: false, keywords: "S-P-O-Pel-Ket, Objek vs Pelengkap", youtubeUrl: "http://www.youtube.com/watch?v=MSCNEGjb5zE", summary: "Cara membedakan Objek dan Pelengkap: Objek berada langsung di belakang verba transitif aktif (meN-) dan DAPAT menjadi Subjek jika kalimat dipasifkan. Pelengkap berada di belakang verba berimbuhan ber-/ke-an atau di belakang Objek, dan TIDAK dapat dipasifkan." },
+      { id: 33, subtes: "PBM", materi: "Struktur Kalimat", submateri: "Jenis Kalimat", week: 7, lowProb: false, keywords: "Tunggal, Majemuk Setara/Bertingkat", youtubeUrl: "http://www.youtube.com/watch?v=MSCNEGjb5zE", summary: "Kalimat tunggal hanya memiliki 1 klausa (1 pola S-P). Kalimat majemuk setara dihubungkan konjungsi koordinatif (dan, atau, tetapi). Kalimat majemuk bertingkat dihubungkan konjungsi subordinatif (karena, meskipun, ketika, bahwa, yang)." },
+      { id: 34, subtes: "PBM", materi: "Struktur Kalimat", submateri: "Hubungan Antar Kalimat", week: 8, lowProb: false, keywords: "Kohesi, Pertentangan, Penambahan, Akibat", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3Fb68cfSZ8C7fHIRVv30O1bw", summary: "Menentukan fungsi logis kalimat ke-n terhadap kalimat sebelumnya: penjelas/perincian, pertentangan (Namun, Sebaliknya), akibat (Oleh karena itu, Akibatnya), atau penguatan (Bahkan)." },
+      { id: 35, subtes: "PBM", materi: "Aplikasi Kalimat", submateri: "Kalimat Efektif/Tidak Efektif", week: 8, lowProb: false, keywords: "Kesepadanan, Keparalelan, Kehematan", youtubeUrl: "http://www.youtube.com/watch?v=MSCNEGjb5zE", summary: "Ciri kalimat tidak efektif: (1) Subjek didahului preposisi ('Dalam penelitian ini membahas...' → hilangkan 'Dalam' atau ubah menjadi 'dibahas'), (2) Pleonasme ('agar supaya', 'para hadirin sekalian'), (3) Tidak paralel jenis katanya." },
+      { id: 36, subtes: "PBM", materi: "Aplikasi Kalimat", submateri: "Kalimat Sumbang", week: 9, lowProb: false, keywords: "Kepaduan Paragraf, Kalimat Padu", youtubeUrl: "http://www.youtube.com/watch?v=sWWbjXBa4BE", summary: "Kalimat yang menyimpang dari ide pokok paragraf, melompat topik, atau memutus rantai kohesi kata ganti/konjungsi antarkalimat." },
+
+      // --- PPU (16) ---
+      { id: 37, subtes: "PPU", materi: "Makna Kata", submateri: "Penggunaan Istilah/Kata", week: 2, lowProb: false, keywords: "Diksi, Konteks Kalimat, KBBI", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Memilih kata yang paling presisi secara semantis dan sesuai laras bahasa ilmiah/formal dalam konteks kalimat bacaan." },
+      { id: 38, subtes: "PPU", materi: "Makna Kata", submateri: "Perubahan Makna Kata", week: 2, lowProb: false, keywords: "Generalisasi, Spesialisasi, Ameliorasi, Peyorasi, Sinestesia", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Generalisasi (meluas: ibu, saudara), Spesialisasi (menyempit: sarjana, pendeta), Ameliorasi (makna membaik: tunanetra, pramuniaga), Peyorasi (makna memburuk: oknum, gerombolan), Sinestesia (pertukaran indra: komentar pedas), Asosiasi (persamaan sifat: amplop = suap)." },
+      { id: 39, subtes: "PPU", materi: "Makna Kata", submateri: "Makna Bertingkat/Hierarkis", week: 3, lowProb: false, keywords: "Hipernim, Hiponim, Klasifikasi", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Hipernim adalah kata umum yang mencakup kata lain (contoh: 'kendaraan'), sedangkan hiponim adalah kata khusus di bawah hipernim (contoh: 'mobil, sepeda motor, bus')." },
+      { id: 40, subtes: "PPU", materi: "Frasa dan Klausa", submateri: "Kata Berpasangan", week: 3, lowProb: false, keywords: "Kolokasi, Pasangan Idiomatis", youtubeUrl: "http://www.youtube.com/playlist?list=PLz2VS8nU0Z7FDRWs44HFKG-boqDMB072h", summary: "Pasangan kata tetap dalam bahasa Indonesia baku: 'terdiri atas' (bukan terdiri dari), 'berdasarkan pada' atau 'berdasar', 'sesuai dengan', 'disebabkan oleh', 'bergantung pada'." },
+      { id: 41, subtes: "PPU", materi: "Aplikasi Kalimat", submateri: "Semantik/Tata Makna", week: 4, lowProb: false, keywords: "Leksikal, Gramatikal, Denotatif, Konotatif", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Makna leksikal = makna dasar kamus sebelum berimbuhan. Makna gramatikal = makna yang muncul setelah proses afiksasi/reduplikasi/komposisi. Denotatif = makna lugas; Konotatif = makna kias/emosional." },
+      { id: 42, subtes: "PPU", materi: "Aplikasi Kalimat", submateri: "Kalimat Majemuk", week: 4, lowProb: false, keywords: "Klausa Induk, Klausa Anak, Perluasan", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Menganalisis struktur kalimat majemuk bertingkat dengan perluasan S, O, atau Ket (misal anak kalimat keterangan sebab, syarat, tujuan, atau konsesif)." },
+      { id: 43, subtes: "PPU", materi: "Aplikasi Kalimat", submateri: "Transformasi Kalimat", week: 5, lowProb: false, keywords: "Aktif ke Pasif, Kesetaraan Pola", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Mengubah kalimat aktif menjadi pasif (atau membandingkan dua kalimat berpola sintaksis identik, misal S-P-O-Ket yang sama jenis frasa dan imbuhannya)." },
+      { id: 44, subtes: "PPU", materi: "Aplikasi Kalimat", submateri: "Inti Kalimat", week: 5, lowProb: false, keywords: "Inti S + Inti P (+ Inti O)", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Langkah mencari inti kalimat panjang: (1) coret seluruh keterangan (di, pada, ketika, karena), (2) coret perluasan aposisi dan anak kalimat 'yang...', (3) sisakan kata inti Subjek + kata inti Predikat (+ inti Objek jika transitif)." },
+      { id: 45, subtes: "PPU", materi: "Aplikasi Kalimat", submateri: "Kelogisan Kalimat", week: 6, lowProb: false, keywords: "Nalar Semantis, Subjek Pelaku", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Memastikan hubungan Subjek dan Predikat masuk akal secara logika. Contoh salah: 'Mayat itu ditemukan tewas' (mayat sudah pasti mati); 'Acara berikutnya adalah sambutan' (sambutan bukan acara, melainkan bagian acara)." },
+      { id: 46, subtes: "PPU", materi: "Paragraf", submateri: "Hubungan Antar Kalimat", week: 6, lowProb: false, keywords: "Fungsi Kalimat, Kohesi Leksikal", youtubeUrl: "http://www.youtube.com/playlist?list=PLz2VS8nU0Z7FDRWs44HFKG-boqDMB072h", summary: "Mengidentifikasi keterkaitan fungsi antara dua kalimat berurutan (misal: kalimat 2 merupakan elaborasi/contoh dari klaim umum pada kalimat 1)." },
+      { id: 47, subtes: "PPU", materi: "Paragraf", submateri: "Kepaduan Paragraf", week: 7, lowProb: false, keywords: "Kohesi & Koherensi, Pronomina", youtubeUrl: "http://www.youtube.com/playlist?list=PLz2VS8nU0Z7FDRWs44HFKG-boqDMB072h", summary: "Kohesi adalah keserasian bentuk lahiriah (kata tunjuk 'ini, tersebut', kata ganti 'nya, mereka', repetisi kata kunci). Koherensi adalah kepaduan alur gagasan secara logis." },
+      { id: 48, subtes: "PPU", materi: "Paragraf", submateri: "Kalimat Utama dalam Teks", week: 7, lowProb: false, keywords: "Deduktif, Induktif, Campuran", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Kalimat utama memuat pernyataan paling umum yang dijelaskan oleh kalimat-kalimat penjelas. Jika kalimat terakhir diawali konjungsi simpulan (Jadi, Oleh karena itu, Dengan demikian), paragraf cenderung induktif." },
+      { id: 49, subtes: "PPU", materi: "Bacaan", submateri: "Tema dan Topik", week: 8, lowProb: false, keywords: "Pokok Bahasan, Judul Teks", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Topik adalah inti masalah yang dibicarakan di seluruh paragraf (berupa frasa nomina). Judul yang baik mencerminkan topik utama secara spesifik, menarik, dan tidak terlalu luas." },
+      { id: 50, subtes: "PPU", materi: "Bacaan", submateri: "Gagasan/Ide Pokok", week: 8, lowProb: false, keywords: "Ide Pokok Paragraf, Ringkasan Inti", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Gagasan pokok adalah inti sari dari kalimat utama. Biasanya berupa frasa atau klausa ringkas yang menjadi payung bagi seluruh kalimat penjelas." },
+      { id: 51, subtes: "PPU", materi: "Bacaan", submateri: "Ungkapan", week: 9, lowProb: false, keywords: "Idiom, Makna Kias Kontekstual", youtubeUrl: "http://www.youtube.com/playlist?list=PLz2VS8nU0Z7FDRWs44HFKG-boqDMB072h", summary: "Gabungan kata yang membentuk makna baru dan tidak dapat diartikan kata demi kata (contoh: 'gulung tikar' = bangkrut, 'naik daun' = terkenal, 'kambing hitam' = pihak yang dipersalahkan)." },
+      { id: 52, subtes: "PPU", materi: "Bahasa Panda", submateri: "Bahasa Hipotesis", week: 9, lowProb: false, keywords: "Kriptografi Bahasa, Pola Sintaksis", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY3U6drTMI4RsxdXhEQg6QI", summary: "Strategi menaklukkan Bahasa Panda: (1) cari kata yang muncul berulang pada dua kalimat contoh untuk mengunci terjemahannya, (2) perhatikan posisi S-P-O atau hukum D-M / M-D, (3) amati pola imbuhan/akhiran untuk penanda jamak atau waktu." },
+
+      // --- PK (21) ---
+      { id: 53, subtes: "PK", materi: "Operasi Matematika Dasar", submateri: "Operasi MTK Dasar (PEMDAS)", week: 2, lowProb: false, keywords: "Urutan Operasi, Kurung, Eksponen", youtubeUrl: "http://www.youtube.com/playlist?list=PLPtbHTXes2LODiuJ0tHgrIMLeozqQakGM", summary: "Prioritas mutlak: (1) Tanda kurung, (2) Pangkat & Akar, (3) Perkalian & Pembagian (setara, kerjakan dari kiri ke kanan), (4) Penjumlahan & Pengurangan (setara, kiri ke kanan)." },
+      { id: 54, subtes: "PK", materi: "Operasi Matematika Dasar", submateri: "Operasi Pecahan, Desimal, Persentase", week: 2, lowProb: false, keywords: "Pecahan Campuran, Desimal Berulang", youtubeUrl: "http://www.youtube.com/playlist?list=PLPtbHTXes2LODiuJ0tHgrIMLeozqQakGM", summary: "Desimal berulang 0,ababab... = ab/99 (contoh: 0,363636... = 36/99 = 4/11). Pembagian pecahan: (a/b) ÷ (c/d) = (a/b) × (d/c)." },
+      { id: 55, subtes: "PK", materi: "Operasi Matematika Dasar", submateri: "Sistem Koordinat", week: 2, lowProb: false, keywords: "Kuadran, Jarak Titik, Titik Tengah", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "Kuadran I (+,+), II (-,+), III (-,-), IV (+,-). Jarak titik A(x₁,y₁) ke B(x₂,y₂): d = √((x₂-x₁)² + (y₂-y₁)²). Titik tengah M = ((x₁+x₂)/2, (y₁+y₂)/2)." },
+      { id: 56, subtes: "PK", materi: "Aljabar Dasar", submateri: "Operasi Aljabar Sederhana", week: 3, lowProb: false, keywords: "Suku Sejenis, Substitusi", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA1mbequcqp0nR5bh9slT8c", summary: "Sederhanakan bentuk pecahan aljabar sebelum mensubstitusi angka. Gunakan pemisalan variabel baru untuk bentuk simetris." },
+      { id: 57, subtes: "PK", materi: "Aljabar Dasar", submateri: "Penyederhanaan, Faktorisasi, Distribusi Aljabar", week: 3, lowProb: false, keywords: "Selisih Kuadrat, Identitas Aljabar", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "Identitas emas SNBT: a² - b² = (a - b)(a + b); (a + b)² = a² + 2ab + b²; (a - b)² = a² - 2ab + b²; a³ + b³ = (a + b)(a² - ab + b²); a³ - b³ = (a - b)(a² + ab + b²)." },
+      { id: 58, subtes: "PK", materi: "Akar, Pangkat, Logaritma", submateri: "Akar dan Eksponen", week: 4, lowProb: false, keywords: "Sifat Pangkat, Merasionalkan Akar", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA1mbequcqp0nR5bh9slT8c", summary: "a^m · a^n = a^(m+n); (a^m)^n = a^(mn); a^(-n) = 1/a^n; a^(m/n) = ⁿ√(a^m). Bentuk akar bersarang: √((a+b) ± 2√(ab)) = √a ± √b (dengan a > b)." },
+      { id: 59, subtes: "PK", materi: "Akar, Pangkat, Logaritma", submateri: "Logaritma*", week: 4, lowProb: true, keywords: "Basis, Numerus, Sifat Logaritma", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "ᵃlog b = c ⇔ a^c = b (syarat: a > 0, a ≠ 1, b > 0). Sifat kunci: ᵃlog(xy) = ᵃlog x + ᵃlog y; ᵃlog(x/y) = ᵃlog x - ᵃlog y; ^(a^n)log(b^m) = (m/n)·ᵃlog b; ᵃlog b · ᵇlog c = ᵃlog c." },
+      { id: 60, subtes: "PK", materi: "Himpunan, Fungsi & PGL", submateri: "Himpunan", week: 5, lowProb: false, keywords: "Diagram Venn, Irisan, Gabungan, Komplemen", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA1mbequcqp0nR5bh9slT8c", summary: "2 Himpunan: n(S) = n(A) + n(B) - n(A ∩ B) + n(A ∪ B)^c. Banyaknya himpunan bagian dari himpunan dengan n anggota adalah 2^n." },
+      { id: 61, subtes: "PK", materi: "Himpunan, Fungsi & PGL", submateri: "Persamaan Garis Lurus", week: 5, lowProb: false, keywords: "Gradien, Sejajar, Tegak Lurus", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "Gradien garis ax + by + c = 0 adalah m = -a/b. Melalui dua titik: m = (y₂ - y₁)/(x₂ - x₁). Sejajar: m₁ = m₂. Tegak lurus: m₁ · m₂ = -1. Garis memotong sumbu-y di (0,a) dan sumbu-x di (b,0) adalah ax + by = ab." },
+      { id: 62, subtes: "PK", materi: "Himpunan, Fungsi & PGL", submateri: "Fungsi, Relasi, Komposisi, Invers", week: 6, lowProb: false, keywords: "Domain, Range, f(g(x)), f⁻¹(x)", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "Komposisi (f ∘ g)(x) = f(g(x)). Sifat invers: f(a) = b ⇔ f⁻¹(b) = a; (f ∘ g)⁻¹(x) = (g⁻¹ ∘ f⁻¹)(x). Invers pecahan linear f(x) = (ax+b)/(cx+d) adalah f⁻¹(x) = (-dx+b)/(cx-a)." },
+      { id: 63, subtes: "PK", materi: "Himpunan, Fungsi & PGL", submateri: "Persamaan dan Fungsi Kuadrat", week: 7, lowProb: false, keywords: "Diskriminan, Akar-akar, Titik Puncak", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA1mbequcqp0nR5bh9slT8c", summary: "ax² + bx + c = 0: x₁ + x₂ = -b/a; x₁ · x₂ = c/a; Diskriminan D = b² - 4ac (D > 0 dua akar real beda, D = 0 akar kembar, D < 0 akar imajiner). Puncak parabola: x_p = -b/(2a), y_p = f(x_p) = -D/(4a)." },
+      { id: 64, subtes: "PK", materi: "Geometri", submateri: "Sudut dan Operasi Sudut", week: 8, lowProb: false, keywords: "Berpelurus, Berpenyiku, Garis Sejajar", youtubeUrl: "http://www.youtube.com/playlist?list=PLPtbHTXes2LODiuJ0tHgrIMLeozqQakGM", summary: "Berpelurus = 180°, berpenyiku = 90°, bertolak belakang = sama besar. Pada dua garis sejajar dipotong garis transversal: sudut sehadap, dalam berseberangan, dan luar berseberangan sama besar; sudut dalam sepihak berjumlah 180°." },
+      { id: 65, subtes: "PK", materi: "Geometri", submateri: "Sifat Bangun Datar dan Ruang", week: 8, lowProb: false, keywords: "Segi-n, Simetri, Polihedron", youtubeUrl: "http://www.youtube.com/playlist?list=PLPtbHTXes2LODiuJ0tHgrIMLeozqQakGM", summary: "Jumlah sudut dalam segi-n = (n - 2) × 180°. Banyak diagonal segi-n = n(n - 3)/2. Syarat terbentuk segitiga dengan sisi a, b, c (c terpanjang): a + b > c." },
+      { id: 66, subtes: "PK", materi: "Geometri", submateri: "Trigonometri Dasar", week: 9, lowProb: false, keywords: "Sin Cos Tan, Sudut Istimewa, Aturan Sinus/Kosinus", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "sin α = depan/miring, cos α = samping/miring, tan α = depan/samping. Identitas: sin²α + cos²α = 1. Aturan sinus: a/sin A = b/sin B = c/sin C. Aturan kosinus: a² = b² + c² - 2bc cos A." },
+      { id: 67, subtes: "PK", materi: "Geometri", submateri: "Dimensi Tiga", week: 9, lowProb: false, keywords: "Kubus, Diagonal Ruang, Proyeksi", youtubeUrl: "http://www.youtube.com/watch?v=xWA4AKKUQPU", summary: "Pada kubus rusuk s: diagonal bidang = s√2, diagonal ruang = s√3. Jarak titik sudut ke bidang diagonal ruang terdekat = (1/3)s√3, terjauh = (2/3)s√3." },
+      { id: 68, subtes: "PK", materi: "Statistika dan Peluang", submateri: "Statistik Dasar dan Penyajian Data", week: 10, lowProb: false, keywords: "Diagram Lingkaran, Histogram, Ogive", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA1mbequcqp0nR5bh9slT8c", summary: "Konversi diagram lingkaran: (Sudut° / 360°) × Total Data = (% / 100%) × Total Data. Cek kecukupan data (Pernyataan 1 dan 2) sering menggunakan perbandingan rata-rata dan median." },
+      { id: 69, subtes: "PK", materi: "Statistika dan Peluang", submateri: "Peluang Dasar dan Pencacahan", week: 10, lowProb: false, keywords: "Faktorial, Aturan Pengisian Tempat", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "n! = n × (n-1) × ... × 1, dengan 0! = 1. Untuk soal penyusunan angka ganjil/genap atau lebih dari nilai tertentu, isi kotak syarat (satuan atau ribuan) terlebih dahulu." },
+      { id: 70, subtes: "PK", materi: "Barisan dan Deret", submateri: "Barisan-Deret Aritmatika", week: 11, lowProb: false, keywords: "Beda Tetap, Un, Sn, Suku Tengah", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA1mbequcqp0nR5bh9slT8c", summary: "U_n = a + (n - 1)b; S_n = (n/2)(2a + (n - 1)b) = (n/2)(a + U_n). Untuk n ganjil, suku tengah U_t = (a + U_n)/2 dan S_n = n · U_t." },
+      { id: 71, subtes: "PK", materi: "Barisan dan Deret", submateri: "Barisan-Deret Geometri", week: 11, lowProb: false, keywords: "Rasio Tetap, r = Un / Un-1", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA1mbequcqp0nR5bh9slT8c", summary: "U_n = a · r^(n-1); S_n = a(r^n - 1)/(r - 1) untuk r > 1 atau a(1 - r^n)/(1 - r) untuk r < 1. Suku tengah: U_t = √(a · U_n)." },
+      { id: 72, subtes: "PK", materi: "Barisan dan Deret", submateri: "Deret Tak Hingga", week: 11, lowProb: false, keywords: "Konvergen, Pantulan Bola", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "Syarat konvergen: -1 < r < 1. Jumlah tak hingga: S_∞ = a / (1 - r). Lintasan pantulan bola jatuh dari tinggi h dengan rasio p/q: S_total = h · (q + p) / (q - p)." },
+      { id: 73, subtes: "PK", materi: "Matriks, Transformasi & Kalkulus", submateri: "Matriks, Transformasi Geometri & Limit/Turunan*", week: 12, lowProb: true, keywords: "Determinan, Invers Matriks, Translasi/Refleksi/Rotasi, Turunan Stasioner", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCRJxEyuVUd2IV8G8yYXyChX", summary: "Determinan 2×2: ad - bc; Invers A⁻¹ = (1/(ad-bc))[[d,-b],[-c,a]]. Refleksi sumbu-x: (x,-y); sumbu-y: (-x,y); garis y=x: (y,x); rotasi +90°: (-y,x). Turunan f(x)=ax^n ⇒ f'(x)=anx^(n-1); nilai maks/min saat f'(x)=0." },
+
+      // --- PM (18) ---
+      { id: 74, subtes: "PM", materi: "Bilangan", submateri: "Teori dan Jenis Bilangan", week: 2, lowProb: false, keywords: "Faktorisasi Prima, Banyak Faktor", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Jika N = p^a · q^b (p, q bilangan prima berbeda), maka banyaknya faktor positif dari N adalah (a + 1)(b + 1). Jika N bilangan kuadrat sempurna, banyak faktor positifnya selalu ganjil." },
+      { id: 75, subtes: "PM", materi: "Bilangan", submateri: "Sifat-sifat Bilangan", week: 2, lowProb: false, keywords: "Sisa Pembagian, Modulo, Angka Satuan", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Angka satuan a^n berulang setiap kelipatan 4 pada pangkatnya (bagi pangkat n dengan 4, lihat sisanya; jika habis dibagi 4, pakai pangkat 4)." },
+      { id: 76, subtes: "PM", materi: "Bilangan", submateri: "KPK, FPB dan Aplikasinya", week: 3, lowProb: false, keywords: "Jadwal Bersamaan, Pembagian Adil", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA0uubil7Dhw_4jHwd-s-_Q", summary: "Hubungan: KPK(a,b) × FPB(a,b) = a × b. Gunakan KPK untuk menentukan kapan dua/tiga kejadian berulang bersamaan lagi. Gunakan FPB untuk membagi beberapa jenis benda ke dalam paket terbanyak yang sama rata." },
+      { id: 77, subtes: "PM", materi: "Aljabar Dasar", submateri: "Persamaan Aljabar", week: 4, lowProb: false, keywords: "Pemodelan Linear, Persamaan Rasional", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Ubah masalah kontekstual (umur, harga tiket, campuran larutan) menjadi variabel eksplisit dan periksa apakah solusi memenuhi syarat domain bilangan bulat positif." },
+      { id: 78, subtes: "PM", materi: "Aljabar Dasar", submateri: "Pertidaksamaan Aljabar", week: 4, lowProb: false, keywords: "Garis Bilangan, Syarat Penyebut", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "JANGAN kali silang variabel pada pertidaksamaan pecahan karena tanda variabel belum tentu positif! Pindahkan semua suku ke ruas kiri, samakan penyebut, cari pembuat nol pembilang & penyebut, lalu uji tanda di garis bilangan." },
+      { id: 79, subtes: "PM", materi: "Perbandingan", submateri: "Konsep Perbandingan", week: 5, lowProb: false, keywords: "Senilai, Berbalik Nilai, Kerja Bersama", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA0uubil7Dhw_4jHwd-s-_Q", summary: "Senilai: a₁/b₁ = a₂/b₂. Berbalik nilai (pekerja vs hari, kecepatan vs waktu): a₁·b₁ = a₂·b₂. Kerja bersama 2 orang/mesin: t_gab = (t₁ · t₂) / (t₁ + t₂)." },
+      { id: 80, subtes: "PM", materi: "Sistem Persamaan", submateri: "SPLDV/SPLTV", week: 6, lowProb: false, keywords: "Eliminasi Cepat, Kombinasi Linear", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Sebelum mengeliminasi satu per satu, cek apakah menjumlahkan atau mengurangkan ketiga persamaan langsung menghasilkan bentuk yang ditanyakan (misal 2x + 2y + 2z)." },
+      { id: 81, subtes: "PM", materi: "Sistem Persamaan", submateri: "Persamaan Berbentuk Flowchart", week: 6, lowProb: false, keywords: "Diagram Alir, Percabangan, Iterasi", youtubeUrl: "https://www.youtube.com/playlist?list=PLS0In5_hJZuo", summary: "Telusuri algoritma dari kotak Start dengan mencatat setiap perubahan nilai variabel di tabel kecil tiap langkah hingga memenuhi syarat berhenti (Stop/Output)." },
+      { id: 82, subtes: "PM", materi: "Geometri", submateri: "Kesebangunan dan Bangun Datar Kompleks", week: 7, lowProb: false, keywords: "Segitiga Sebangun, Rumus Air Mancur", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Pada segitiga siku-siku ABC (siku-siku di A) dengan garis tinggi AD ke sisi miring BC: AD² = BD · CD; AB² = BD · BC; AC² = CD · BC." },
+      { id: 83, subtes: "PM", materi: "Geometri", submateri: "Jarak Titik, Garis dan Bidang", week: 8, lowProb: false, keywords: "Proyeksi Tegak Lurus, Luas Segitiga", youtubeUrl: "http://www.youtube.com/watch?v=g7PAduTNXLw", summary: "Untuk mencari jarak titik P ke garis AB: buat segitiga PAB, hitung panjang ketiga sisinya, lalu gunakan kesamaan luas (½ · AB · t = L_PAB) atau dalil proyeksi Pythagoras." },
+      { id: 84, subtes: "PM", materi: "Geometri", submateri: "Bangun Datar, Luas dan Keliling", week: 9, lowProb: false, keywords: "Lingkaran, Juring, Tembereng, Trapesium", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Panjang busur = (α/360°)·2πr; Luas juring = (α/360°)·πr²; Luas tembereng = Luas juring - Luas segitiga pusat. Luas trapesium = ½(a + b)·t." },
+      { id: 85, subtes: "PM", materi: "Geometri", submateri: "Bangun Ruang, Luas dan Volume", week: 9, lowProb: false, keywords: "Prisma, Limas, Tabung, Kerucut, Bola", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Volume Prisma/Tabung = L_alas × t. Volume Limas/Kerucut = ⅓ × L_alas × t. Volume Bola = (4/3)πr³, Luas Permukaan Bola = 4πr². Selimut kerucut = πrs (s = √(r² + t²))." },
+      { id: 86, subtes: "PM", materi: "Statistika dan Peluang", submateri: "Penyebaran Data/Tendensi Sentral", week: 10, lowProb: false, keywords: "Jangkauan, Kuartil, Transformasi Data", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Jika setiap data dikali p lalu ditambah q: (1) Rata-rata, median, modus ikut dikali p lalu ditambah q; (2) Jangkauan, simpangan kuartil, dan simpangan baku HANYA dikali |p| (tidak terpengaruh penjumlahan q)." },
+      { id: 87, subtes: "PM", materi: "Statistika dan Peluang", submateri: "Peluang Kejadian, Kombinasi, Permutasi", week: 10, lowProb: false, keywords: "Permutasi Siklis, Kombinasi, Komplemen", youtubeUrl: "http://www.youtube.com/playlist?list=PLYnalzwncOCTES7rScIoDaWPh3c0cifpC", summary: "Permutasi (urutan penting: ketua-sekretaris, antrean): P(n,r) = n!/(n-r)!. Permutasi siklis (duduk melingkar): (n-1)!. Kombinasi (urutan diabaikan: tim, jabat tangan): C(n,r) = n!/(r!(n-r)!)." },
+      { id: 88, subtes: "PM", materi: "Aritmatika Sosial", submateri: "Aritmatika Sosial", week: 11, lowProb: false, keywords: "Untung/Rugi, Bruto-Neto-Tara, Pajak", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA0uubil7Dhw_4jHwd-s-_Q", summary: "% Untung = ((Harga Jual - Harga Beli)/Harga Beli) × 100%. Bruto (berat kotor) = Neto (berat bersih) + Tara (berat kemasan)." },
+      { id: 89, subtes: "PM", materi: "Aritmatika Sosial", submateri: "Bunga dan Diskon", week: 11, lowProb: false, keywords: "Bunga Majemuk, Angsuran, Diskon", youtubeUrl: "http://www.youtube.com/playlist?list=PL3_jBeULKPLA0uubil7Dhw_4jHwd-s-_Q", summary: "Bunga tunggal: M_n = M₀(1 + n·i). Bunga majemuk / pertumbuhan penduduk: M_n = M₀(1 + i)^n; peluruhan/penyusutan: M_n = M₀(1 - i)^n." },
+      { id: 90, subtes: "PM", materi: "Pemodelan Kontekstual", submateri: "Optimasi & Pemodelan Multi-Konsep", week: 12, lowProb: false, keywords: "Program Linear Dasar, Titik Pojok", youtubeUrl: "https://www.youtube.com/playlist?list=PLS0In5_hJZuo", summary: "Untuk menentukan nilai maksimum/minimum fungsi objektif f(x,y) = ax + by pada daerah kendala pertidaksamaan linear, uji nilai f(x,y) pada setiap titik pojok daerah himpunan penyelesaian." },
+      { id: 91, subtes: "PM", materi: "Pemodelan Kontekstual", submateri: "Interpretasi Infografik & Data Kompleks", week: 12, lowProb: false, keywords: "Multi-Grafik, Proyeksi Kuantitatif", youtubeUrl: "https://www.youtube.com/playlist?list=PLS0In5_hJZuo", summary: "Gabungkan informasi dari teks wacana + tabel/grafik untuk menghitung rasio, rata-rata tertimbang, atau selisih skenario antar periode." },
+
+      // --- LBE (17) ---
+      { id: 92, subtes: "LBE", materi: "Comprehension", submateri: "Topic and Main Idea", week: 2, lowProb: false, keywords: "Topic Sentence, Skimming", youtubeUrl: "http://www.youtube.com/watch?v=acvtozNHiV8", summary: "Skim kalimat pertama dan terakhir setiap paragraf. Topic berbentuk frasa nomina umum, sedangkan Main Idea berbentuk kalimat utuh yang merangkum seluruh bacaan (hindari opsi terlalu sempit atau terlalu luas)." },
+      { id: 93, subtes: "LBE", materi: "Comprehension", submateri: "Conclusion", week: 3, lowProb: false, keywords: "Drawing Conclusions, Logical Wrap-up", youtubeUrl: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz", summary: "Kesimpulan yang valid harus merangkum benang merah argumen penulis di semua paragraf tanpa menambahkan opini atau prediksi di luar bukti teks." },
+      { id: 94, subtes: "LBE", materi: "Comprehension", submateri: "Summary of Passage", week: 3, lowProb: false, keywords: "Best Summary, Key Points", youtubeUrl: "http://www.youtube.com/watch?v=CHXEKGjAy9E", summary: "Pilih opsi yang mencakup ide pokok setiap paragraf secara proporsional dan mengabaikan contoh minor atau detail statistik kecil." },
+      { id: 95, subtes: "LBE", materi: "Detail & Scanning", submateri: "Specific Information", week: 4, lowProb: false, keywords: "Scanning, Keywords, Proper Nouns", youtubeUrl: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz", summary: "Gunakan kata kunci unik dari pertanyaan (nama tokoh, tahun, istilah sains) untuk memindai lokasi paragraf yang tepat, lalu baca kalimat sebelum dan sesudahnya secara teliti." },
+      { id: 96, subtes: "LBE", materi: "Detail & Scanning", submateri: "Finding Detail Info", week: 4, lowProb: false, keywords: "Paraphrase Matching, Word Trap", youtubeUrl: "http://www.youtube.com/watch?v=-gavpynYc4A", summary: "Jawaban benar hampir selalu ditulis dalam bentuk parafrase/sinonim dari kalimat teks. Waspadai jebakan opsi yang menyalin kata persis dari teks tetapi membalik maknanya." },
+      { id: 97, subtes: "LBE", materi: "Author's Perspective", submateri: "Purpose of the Text", week: 5, lowProb: false, keywords: "To inform, To persuade, To compare", youtubeUrl: "http://www.youtube.com/watch?v=hWZ4VdMoLK8", summary: "Cermati kata kerja pembuka opsi: to explain/inform (teks ekspositori netral), to persuade/advocate (ajakan/argumen), to criticize/warn (kritik/peringatan), to compare/contrast (perbandingan dua hal)." },
+      { id: 98, subtes: "LBE", materi: "Author's Perspective", submateri: "Author's Tone/Attitude", week: 5, lowProb: false, keywords: "Objective, Critical, Optimistic, Skeptical", youtubeUrl: "http://www.youtube.com/watch?v=hWZ4VdMoLK8", summary: "Amati adjektiva dan adverbia bernuansa emosi: positif (supportive, hopeful, appreciative), negatif (skeptical, concerned, critical), atau netral ilmiah (objective, analytical, informative)." },
+      { id: 99, subtes: "LBE", materi: "Author's Perspective", submateri: "Writer's Motive", week: 6, lowProb: false, keywords: "Author's Intent, Underlying Reason", youtubeUrl: "http://www.youtube.com/watch?v=Aq_yK4u78HE", summary: "Identifikasi alasan utama penulis mengangkat topik tersebut—misalnya untuk meluruskan kesalahpahaman umum, menyoroti temuan riset baru, atau mendorong perubahan kebijakan." },
+      { id: 100, subtes: "LBE", materi: "Vocabulary in Context", submateri: "Synonym and Antonym", week: 6, lowProb: false, keywords: "Word Substitution, Part of Speech", youtubeUrl: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz", summary: "Substitusikan langsung kata pada opsi ke posisi kata yang ditanyakan dalam kalimat asli untuk memastikan kesesuaian kelas kata (noun/verb/adj) dan nuansa makna." },
+      { id: 101, subtes: "LBE", materi: "Vocabulary in Context", submateri: "Word's Meaning", week: 7, lowProb: false, keywords: "Context Clues, Definition/Contrast Clues", youtubeUrl: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz", summary: "Manfaatkan context clues di sekitar kata sulit: penanda definisi (which means, is defined as), contoh (such as, including), atau kontras (unlike, however, whereas)." },
+      { id: 102, subtes: "LBE", materi: "Vocabulary in Context", submateri: "Contextual Meaning", week: 7, lowProb: false, keywords: "Polysemy, Academic Word List", youtubeUrl: "http://www.youtube.com/watch?v=UFCv9S8KtDQ", summary: "Kata umum sering memiliki makna khusus di teks akademik (contoh: 'address' = menangani, 'state' = menyatakan/kondisi, 'yield' = menghasilkan/hasil panen, 'harbor' = menyimpan/memendam)." },
+      { id: 103, subtes: "LBE", materi: "Critical Reading", submateri: "Reference and Inference", week: 8, lowProb: false, keywords: "Pronoun Reference, Implied Meaning", youtubeUrl: "http://www.youtube.com/watch?v=Aq_yK4u78HE", summary: "Reference: telusuri pronomina (it, they, these, those, the former, the latter) ke frasa nomina terdekat sebelumnya yang sesuai jumlah (tunggal/jamak). Inference: kesimpulan tersirat yang logis berdasarkan bukti eksplisit." },
+      { id: 104, subtes: "LBE", materi: "Critical Reading", submateri: "Restating Sentences/Phrases", week: 9, lowProb: false, keywords: "Paraphrasing, Active-Passive Shift", youtubeUrl: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz", summary: "Cari kalimat dengan makna 100% identik menggunakan struktur gramatikal berbeda (perubahan aktif ↔ pasif, sinonim, atau perubahan klausa sebab-akibat tanpa mengurangi/menambah informasi)." },
+      { id: 105, subtes: "LBE", materi: "Critical Reading", submateri: "True/False Statement", week: 9, lowProb: false, keywords: "Fact Verification, Extreme Words", youtubeUrl: "http://www.youtube.com/watch?v=-gavpynYc4A", summary: "Periksa setiap pernyataan secara sistematis. Curigai kata-kata ekstrem seperti always, never, all, none, only, exclusively karena sering memutarbalikkan fakta teks." },
+      { id: 106, subtes: "LBE", materi: "Critical Reading", submateri: "Detailing Facts", week: 10, lowProb: false, keywords: "Fact vs Opinion, Evidence Check", youtubeUrl: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz", summary: "Bedakan fakta objektif yang terverifikasi data dari opini/klaim narasumber (yang ditandai kata according to, argues that, believes, suggests)." },
+      { id: 107, subtes: "LBE", materi: "Advanced Passage Analysis", submateri: "Comparing Two Texts", week: 10, lowProb: false, keywords: "Paired Passages, Synthesis, Contrast", youtubeUrl: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz", summary: "Catat ide utama dan sikap penulis Teks 1 secara terpisah sebelum membaca Teks 2, lalu tentukan apakah Teks 2 mendukung, mengkritik, memberi contoh kasus, atau memperluas sudut pandang Teks 1." },
+      { id: 108, subtes: "LBE", materi: "Advanced Passage Analysis", submateri: "Text Structure", week: 10, lowProb: false, keywords: "Organization Pattern, Transition Signals", youtubeUrl: "http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz", summary: "Kenali pola organisasi paragraf: cause-effect (consequently, thus), compare-contrast (conversely, on the other hand), problem-solution, chronological/process, atau general-to-specific." },
+
+      // --- LBI (8) ---
+      { id: 109, subtes: "LBI", materi: "Pemahaman Teks", submateri: "Menentukan Tema dan Unsur Teks", week: 2, lowProb: false, keywords: "Pokok Persoalan, Tujuan Penulisan", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY9PDd0eio3JggQ6-Eo2kJV", summary: "Mengidentifikasi persoalan sentral bacaan, pihak/objek utama yang dibahas, serta maksud penulis menyajikan teks (informatif, persuasif, atau reflektif)." },
+      { id: 110, subtes: "LBI", materi: "Pemahaman Teks", submateri: "Struktur Teks", week: 3, lowProb: false, keywords: "Eksposisi, Eksplanasi, Diskusi, LHO", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY9PDd0eio3JggQ6-Eo2kJV", summary: "Eksposisi: tesis → argumentasi → penegasan ulang. Eksplanasi: pernyataan umum → deretan penjelas sebab-akibat → interpretasi. Diskusi: isu → argumen pro → argumen kontra → simpulan." },
+      { id: 111, subtes: "LBI", materi: "Pemahaman Teks", submateri: "Makna Implisit dan Eksplisit", week: 4, lowProb: false, keywords: "Tersurat vs Tersirat, Inferensi Teks", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY9PDd0eio3JggQ6-Eo2kJV", summary: "Makna eksplisit tertulis langsung secara tersurat dalam kalimat teks. Makna implisit ditarik secara logis dari keterkaitan beberapa pernyataan tanpa melampaui konteks bacaan." },
+      { id: 112, subtes: "LBI", materi: "Strategi Informasi", submateri: "Mencari Info Relevan", week: 5, lowProb: false, keywords: "Scanning, Syarat & Pengecualian", youtubeUrl: "http://www.youtube.com/playlist?list=PLcvu229uvTFJ-GeTz9gMciXz_iqcCUX3K", summary: "Memindai kata kunci pertanyaan pada bacaan panjang untuk menemukan rincian syarat, penyebab, pengecualian ('kecuali', 'bukan'), atau kronologi kejadian secara akurat." },
+      { id: 113, subtes: "LBI", materi: "Strategi Informasi", submateri: "Menyimpulkan Isi Bacaan", week: 6, lowProb: false, keywords: "Simpulan Utuh, Generalisasi Teks", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY9PDd0eio3JggQ6-Eo2kJV", summary: "Merumuskan pernyataan ringkas yang mencakup keseluruhan gagasan utama bacaan dari paragraf awal hingga akhir, bukan hanya cuplikan satu paragraf." },
+      { id: 114, subtes: "LBI", materi: "Jenis Teks Khusus", submateri: "Unsur Teks Eksplanatif", week: 7, lowProb: false, keywords: "Fenomena Alam/Sosial, Kausalitas", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY9PDd0eio3JggQ6-Eo2kJV", summary: "Teks eksplanatif menjawab pertanyaan 'mengapa' dan 'bagaimana' suatu fenomena terjadi. Ditandai dominasi konjungsi kausalitas (sebab, karena, sehingga, berdampak pada) dan kronologis." },
+      { id: 115, subtes: "LBI", materi: "Jenis Teks Khusus", submateri: "Tema dan Nilai Teks Sastra", week: 8, lowProb: false, keywords: "Unsur Intrinsik, Nilai Moral/Sosial/Budaya", youtubeUrl: "http://www.youtube.com/playlist?list=PL8z-Ae17U3FY9PDd0eio3JggQ6-Eo2kJV", summary: "Menganalisis watak tokoh, konflik batin/sosial, latar suasana, amanat, serta nilai-nilai kehidupan (moral, sosial, budaya, religius, pendidikan) melalui dialog dan tindakan tokoh dalam kutipan cerpen/novel." },
+      { id: 116, subtes: "LBI", materi: "Evaluasi & Sintesis", submateri: "Menilai dan Menghubungkan Informasi", week: 9, lowProb: false, keywords: "Validitas Argumen, Teks & Infografik", youtubeUrl: "http://www.youtube.com/playlist?list=PLcvu229uvTFJ-GeTz9gMciXz_iqcCUX3K", summary: "Menghubungkan informasi antarparagraf atau membandingkan kesesuaian data antara narasi teks dengan tabel/infografik pendamping untuk menilai kekuatan klaim." }
+    ];
+
+    const SYLLABUS_ITEMS = RAW_SYLLABUS.map(item => ({
+      ...item,
+      practice2027Url: build2027SearchUrl(item.subtes, item.submateri)
+    }));
+
+    // =========================================================================
+    // 4. PERSISTENCE ENGINE (localStorage + URL Hash)
+    // =========================================================================
+    const STORAGE_KEY = "larissa_snbt_2027_antro_ugm_v4";
+
+    const DEFAULT_STATE = {
+      profile: {
+        name: "Larissa",
+        ptn: "Universitas Gadjah Mada (UGM)",
+        major: "Antropologi Budaya",
+        deadline: "2027-03-31",
+        activeWeek: 1,
+        targetIrt: 680
+      },
+      progress: {},
+      pekan1: {},
+      weeklyLatsol: {},
+      notes: {},
+      tryouts: [],
+      lastSaved: null
+    };
+
+    let appState = structuredClone(DEFAULT_STATE);
+    let activeTab = "DASBOR";
+    let bulanFilter = "ALL";
+    let hubSubtesFilter = "ALL";
+    let mascotMoodIdx = 0;
+    const expandedCards = new Set();
+
+    const MASCOT_MOODS = [
+      { label: "Siap menemani", mouth: "M29 39C30.2 41 33.8 41 35 39", msg: "Mochi: Fokus literasi & logika dulu, PK/PM cukup amankan yang masuk akal." },
+      { label: "Semangat UGM!", mouth: "M28.5 38.5C30.2 42 33.8 42 35.5 38.5", msg: "Mochi: Satu submateri per sesi sudah cukup. Jaga ritme belajarmu ya!" },
+      { label: "Mode santai", mouth: "M29 40L35 40", msg: "Mochi: Kalau pusing lihat gambar rumit, skip dulu dan lanjutkan yang ringan." }
+    ];
+
+    function cycleMascotMood() {
+      mascotMoodIdx = (mascotMoodIdx + 1) % MASCOT_MOODS.length;
+      const m = MASCOT_MOODS[mascotMoodIdx];
+      document.getElementById("mascot-status-label").textContent = m.label;
+      document.getElementById("mascot-mouth").setAttribute("d", m.mouth);
+      showToast(m.msg, "spark");
+    }
+
+    function encodeStateToHash(stateObj) {
+      try {
+        const compact = {
+          p: stateObj.profile,
+          g: stateObj.progress,
+          p1: stateObj.pekan1,
+          wl: stateObj.weeklyLatsol,
+          n: stateObj.notes,
+          t: stateObj.tryouts
+        };
+        const json = JSON.stringify(compact);
+        const b64 = btoa(unescape(encodeURIComponent(json)));
+        window.history.replaceState(null, "", `#state=${b64}`);
+      } catch (err) {}
+    }
+
+    function decodeStateFromHash() {
+      try {
+        const hash = window.location.hash || "";
+        if (!hash.startsWith("#state=")) return null;
+        const b64 = hash.slice(7);
+        const json = decodeURIComponent(escape(atob(b64)));
+        const parsed = JSON.parse(json);
+        return {
+          profile: { ...DEFAULT_STATE.profile, ...(parsed.p || {}) },
+          progress: parsed.g || {},
+          pekan1: parsed.p1 || {},
+          weeklyLatsol: parsed.wl || {},
+          notes: parsed.n || {},
+          tryouts: Array.isArray(parsed.t) ? parsed.t : []
+        };
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function loadState() {
+      let loaded = null;
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          loaded = {
+            profile: { ...DEFAULT_STATE.profile, ...(parsed.profile || {}) },
+            progress: parsed.progress || {},
+            pekan1: parsed.pekan1 || {},
+            weeklyLatsol: parsed.weeklyLatsol || {},
+            notes: parsed.notes || {},
+            tryouts: Array.isArray(parsed.tryouts) ? parsed.tryouts : [],
+            lastSaved: parsed.lastSaved || null
+          };
+        }
+      } catch (err) {
+        loaded = null;
+      }
+
+      if (!loaded) {
+        const hashLoaded = decodeStateFromHash();
+        if (hashLoaded) loaded = hashLoaded;
+      }
+
+      if (loaded) {
+        appState = loaded;
+      }
+      updateSaveBadge(appState.lastSaved);
+    }
+
+    function saveState() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      appState.lastSaved = timeStr;
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (err) {}
+
+      encodeStateToHash(appState);
+      updateSaveBadge(timeStr);
+    }
+
+    function updateSaveBadge(timeStr) {
+      const el = document.getElementById("save-status-text");
+      if (!el) return;
+      el.textContent = timeStr ? `Tersimpan Otomatis • ${timeStr}` : "Tersimpan Otomatis";
+    }
+
+    // =========================================================================
+    // 5. TOAST & CUSTOM MODAL HELPERS
+    // =========================================================================
+    let toastTimer = null;
+    function showToast(message, iconKey = "spark") {
+      const box = document.getElementById("studio-toast");
+      document.getElementById("toast-message").textContent = message;
+      document.getElementById("toast-icon-slot").innerHTML = SVG_ICONS[iconKey] || SVG_ICONS.spark;
+      box.classList.remove("opacity-0", "translate-y-2");
+      box.classList.add("opacity-100", "translate-y-0");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add("opacity-0", "translate-y-2");
+        box.classList.remove("opacity-100", "translate-y-0");
+      }, 3000);
+    }
+
+    let pendingConfirmAction = null;
+    function openConfirmModal(title, desc, onConfirm) {
+      document.getElementById("confirm-modal-title").textContent = title;
+      document.getElementById("confirm-modal-desc").textContent = desc;
+      pendingConfirmAction = onConfirm;
+      document.getElementById("confirm-modal").classList.remove("hidden");
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("confirm-modal").classList.add("hidden");
+      pendingConfirmAction = null;
+    }
+
+    document.getElementById("confirm-modal-ok").addEventListener("click", () => {
+      if (typeof pendingConfirmAction === "function") pendingConfirmAction();
+      closeConfirmModal();
+    });
+
+    // =========================================================================
+    // 6. PROGRESS CALCULATIONS & NAVIGATION
+    // =========================================================================
+    function getItemProgress(id) {
+      return appState.progress[id] || { belajar: false, latsol: false, review: false };
+    }
+
+    function computeGlobalStats() {
+      let belajar = 0, latsol = 0, review = 0;
+      SYLLABUS_ITEMS.forEach(item => {
+        const p = getItemProgress(item.id);
+        if (p.belajar) belajar++;
+        if (p.latsol) latsol++;
+        if (p.review) review++;
+      });
+      const p1Done = PEKAN_1_ITEMS.filter(i => !!appState.pekan1[i.id]).length;
+      const completedUnits = belajar + latsol + review + p1Done;
+      const totalUnits = (SYLLABUS_ITEMS.length * 3) + PEKAN_1_ITEMS.length;
+      const pct = totalUnits > 0 ? (completedUnits / totalUnits) * 100 : 0;
+      return { belajar, latsol, review, p1Done, completedUnits, totalUnits, pct };
+    }
+
+    function computeSubtestStats(code) {
+      const items = SYLLABUS_ITEMS.filter(i => i.subtes === code);
+      let b = 0, l = 0, r = 0;
+      items.forEach(item => {
+        const p = getItemProgress(item.id);
+        if (p.belajar) b++;
+        if (p.latsol) l++;
+        if (p.review) r++;
+      });
+      const totalStages = items.length * 3;
+      const doneStages = b + l + r;
+      const pct = totalStages > 0 ? (doneStages / totalStages) * 100 : 0;
+      return { total: items.length, b, l, r, doneStages, totalStages, pct };
+    }
+
+    function switchTab(tabName) {
+      activeTab = tabName;
+      ["DASBOR", "JADWAL", "HUB", "TRYOUT"].forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        if (view) view.classList.toggle("hidden", t !== tabName);
+      });
+
+      document.querySelectorAll(".nav-tab-btn").forEach(btn => {
+        const isAct = btn.dataset.nav === tabName;
+        btn.className = isAct
+          ? "nav-tab-btn px-4 py-2 rounded-xl text-xs font-extrabold royal-gradient text-white transition inline-flex items-center gap-1.5"
+          : "nav-tab-btn px-4 py-2 rounded-xl text-xs font-extrabold text-slate-600 hover:text-plum hover:bg-white/70 transition inline-flex items-center gap-1.5";
+      });
+
+      document.querySelectorAll(".mob-tab-btn").forEach(btn => {
+        const isAct = btn.dataset.navMob === tabName;
+        btn.className = isAct
+          ? "mob-tab-btn flex-1 py-2 px-2 rounded-2xl flex flex-col items-center gap-0.5 text-[11px] font-extrabold royal-gradient text-white transition"
+          : "mob-tab-btn flex-1 py-2 px-2 rounded-2xl flex flex-col items-center gap-0.5 text-[11px] font-extrabold text-slate-500 transition";
+      });
+
+      if (tabName === "DASBOR") renderDashboard();
+      else if (tabName === "JADWAL") renderJadwalView();
+      else if (tabName === "HUB") renderHubView();
+      else if (tabName === "TRYOUT") renderTryoutView();
+    }
+
+    // =========================================================================
+    // 7. TAB 1: DASBOR RENDERING & SPOTLIGHT LOGIC
+    // =========================================================================
+    const DAY_ROTATION = [
+      { dayName: "Minggu", subtes: "PPU" },
+      { dayName: "Senin", subtes: "PK" },
+      { dayName: "Selasa", subtes: "PM" },
+      { dayName: "Rabu", subtes: "LBI" },
+      { dayName: "Kamis", subtes: "LBE" },
+      { dayName: "Jumat", subtes: "PU" },
+      { dayName: "Sabtu", subtes: "PBM" }
+    ];
+
+    function updateProfileField(key, value) {
+      appState.profile[key] = value;
+      saveState();
+      if (key === "name") {
+        document.getElementById("hero-greeting-name").textContent = value.trim() || "Larissa";
+      } else if (key === "deadline") {
+        updateCountdownDisplay();
+      }
+    }
+
+    function updateActiveWeek(weekNum) {
+      appState.profile.activeWeek = weekNum;
+      const sel = document.getElementById("prof-active-week");
+      if (sel) sel.value = String(weekNum);
+      saveState();
+      renderDashboard();
+    }
+
+    function updateCountdownDisplay() {
+      const deadlineStr = appState.profile.deadline || "2027-03-31";
+      const target = new Date(`${deadlineStr}T00:00:00`);
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      const diffDays = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+      const pill = document.getElementById("countdown-pill");
+      if (!pill) return;
+      if (diffDays > 0) pill.textContent = `H-${diffDays} Menuju Target`;
+      else if (diffDays === 0) pill.textContent = "Hari H Target Selesai";
+      else pill.textContent = `H+${Math.abs(diffDays)} Lewat Target`;
+    }
+
+    function renderDashboard() {
+      const p = appState.profile;
+      document.getElementById("prof-name").value = p.name || "Larissa";
+      document.getElementById("prof-ptn").value = p.ptn || "";
+      document.getElementById("prof-major").value = p.major || "";
+      document.getElementById("prof-deadline").value = p.deadline || "2027-03-31";
+      document.getElementById("prof-active-week").value = String(p.activeWeek || 1);
+      document.getElementById("hero-greeting-name").textContent = (p.name || "Larissa").trim() || "Larissa";
+      updateCountdownDisplay();
+
+      const stats = computeGlobalStats();
+      const pctStr = `${stats.pct.toFixed(1)}%`;
+      document.getElementById("ring-percent-text").textContent = pctStr;
+      document.getElementById("header-readiness-pill").textContent = pctStr;
+      document.getElementById("ring-fraction-text").textContent = `${stats.completedUnits} / ${stats.totalUnits}`;
+      document.getElementById("kpi-belajar-count").textContent = `${stats.belajar}/116`;
+      document.getElementById("kpi-latsol-count").textContent = `${stats.latsol}/116`;
+      document.getElementById("kpi-review-count").textContent = `${stats.review}/116`;
+
+      const circumference = 2 * Math.PI * 66;
+      const offset = circumference - (stats.pct / 100) * circumference;
+      document.getElementById("readiness-ring-path").style.strokeDashoffset = offset.toFixed(2);
+
+      const todayIdx = new Date().getDay();
+      const rot = DAY_ROTATION[todayIdx];
+      const activeWk = Number(p.activeWeek) || 1;
+      const subInfo = SUBTES_INFO[rot.subtes];
+
+      document.getElementById("today-day-badge").textContent = `${rot.dayName} • Rotasi ${rot.subtes} (${subInfo.name})`;
+      document.getElementById("today-week-badge").textContent = `Pekan ${activeWk}`;
+
+      if (activeWk === 1) {
+        document.getElementById("today-spotlight-title").textContent = "Kurikulum Pekan 1: Fondasi & Strategi Antropologi UGM";
+        document.getElementById("today-spotlight-desc").textContent = "Selesaikan 7 agenda orientasi jalur SNBT, profil Antropologi Budaya UGM, dan teknik manajemen waktu sebelum masuk ke rotasi subtes Pekan 2.";
+      } else {
+        const wkData = PEKAN_SCHEDULE.find(w => w.week === activeWk);
+        const dayTask = wkData ? wkData.tasks.find(t => t.subtes === rot.subtes) : null;
+        document.getElementById("today-spotlight-title").textContent = dayTask ? dayTask.topics : `Pendalaman ${subInfo.name}`;
+        document.getElementById("today-spotlight-desc").textContent = `Sesuai rotasi hari ${rot.dayName}, fokuskan sesi belajarmu pada ${subInfo.name} untuk Pekan ${activeWk}.`;
+      }
+
+      // Prioritized order for Antropologi Budaya UGM: LBI, LBE, PBM, PPU, PU first, then PK & PM
+      const grid = document.getElementById("subtest-mastery-grid");
+      const order = ["LBI", "LBE", "PBM", "PPU", "PU", "PK", "PM"];
+      grid.innerHTML = order.map(code => {
+        const info = SUBTES_INFO[code];
+        const st = computeSubtestStats(code);
+        const isComplete = st.pct >= 99.9;
+        return `
+          <div onclick="jumpToSubtesHub('${code}')" class="glass-card glass-card-hover cursor-pointer rounded-3xl p-5 space-y-3.5 ${isComplete ? 'ring-2 ring-emerald-400/70' : ''}">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="inline-block px-2.5 py-0.5 rounded-lg text-[11px] font-extrabold border ${info.badge}">${code}</span>
+                  <span class="text-[10px] font-bold text-slate-400">${info.priorityTag}</span>
+                </div>
+                <h3 class="text-sm font-extrabold text-plum mt-1.5 leading-snug">${info.name}</h3>
+              </div>
+              <span class="font-mono text-base font-extrabold ${isComplete ? 'text-emerald-600' : info.accent}">${st.pct.toFixed(0)}%</span>
+            </div>
+
+            <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+              <div class="h-full ${isComplete ? 'bg-emerald-500' : info.bar} rounded-full transition-all duration-500" style="width: ${st.pct.toFixed(1)}%"></div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-1.5 text-center pt-0.5">
+              <div class="bg-slate-50/90 rounded-xl py-1.5">
+                <div class="text-[9px] font-bold text-slate-400 uppercase">Belajar</div>
+                <div class="font-mono text-[11px] font-extrabold text-plum">${st.b}/${st.total}</div>
+              </div>
+              <div class="bg-slate-50/90 rounded-xl py-1.5">
+                <div class="text-[9px] font-bold text-slate-400 uppercase">Latsol</div>
+                <div class="font-mono text-[11px] font-extrabold text-plum">${st.l}/${st.total}</div>
+              </div>
+              <div class="bg-slate-50/90 rounded-xl py-1.5">
+                <div class="text-[9px] font-bold text-slate-400 uppercase">Review</div>
+                <div class="font-mono text-[11px] font-extrabold text-plum">${st.r}/${st.total}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function startTodaySession() {
+      const todayIdx = new Date().getDay();
+      const rot = DAY_ROTATION[todayIdx];
+      const activeWk = Number(appState.profile.activeWeek) || 1;
+      if (activeWk === 1) {
+        switchTab("JADWAL");
+        showToast("Membuka Kurikulum Pekan 1.", "info");
+      } else {
+        hubSubtesFilter = rot.subtes;
+        switchTab("HUB");
+        document.getElementById("hub-week-filter").value = String(activeWk);
+        onHubFilterChange();
+        showToast(`Menampilkan ${rot.subtes} • Pekan ${activeWk}`, "spark");
+      }
+    }
+
+    function jumpToSubtesHub(code) {
+      hubSubtesFilter = code;
+      switchTab("HUB");
+      document.getElementById("hub-week-filter").value = "ALL";
+      onHubFilterChange();
+    }
+
+    // =========================================================================
+    // 8. TAB 2: JADWAL 12 PEKAN RENDERING
+    // =========================================================================
+    function setBulanFilter(val) {
+      bulanFilter = val;
+      renderJadwalView();
+    }
+
+    function togglePekan1Item(id) {
+      appState.pekan1[id] = !appState.pekan1[id];
+      saveState();
+      renderJadwalView();
+      const done = PEKAN_1_ITEMS.filter(i => !!appState.pekan1[i.id]).length;
+      if (done === PEKAN_1_ITEMS.length && appState.pekan1[id]) {
+        showToast("Kurikulum Pekan 1 tuntas 100%.", "award");
+      }
+    }
+
+    function toggleWeeklyLatsol(key) {
+      appState.weeklyLatsol[key] = !appState.weeklyLatsol[key];
+      saveState();
+      renderJadwalView();
+    }
+
+    function renderJadwalView() {
+      document.querySelectorAll(".bulan-pill").forEach(btn => {
+        const isAct = btn.dataset.bulan === bulanFilter;
+        btn.className = isAct
+          ? "bulan-pill px-4 py-2 rounded-2xl text-xs font-extrabold royal-gradient text-white transition"
+          : "bulan-pill px-4 py-2 rounded-2xl text-xs font-extrabold bg-white/85 hover:bg-purple-50 text-slate-600 border border-slate-200/80 transition";
+      });
+
+      const p1Card = document.getElementById("pekan-1-card");
+      p1Card.classList.toggle("hidden", bulanFilter !== "ALL" && bulanFilter !== "B1");
+
+      const p1Done = PEKAN_1_ITEMS.filter(i => !!appState.pekan1[i.id]).length;
+      document.getElementById("pekan1-progress-badge").textContent = `${p1Done} / ${PEKAN_1_ITEMS.length} Selesai`;
+
+      document.getElementById("pekan-1-list").innerHTML = PEKAN_1_ITEMS.map((item, idx) => {
+        const checked = !!appState.pekan1[item.id];
+        return `
+          <div class="flex items-center justify-between gap-3 p-3.5 rounded-2xl border transition ${checked ? 'bg-emerald-50/70 border-emerald-200' : 'bg-white/90 border-slate-200/80'}">
+            <label class="flex items-center gap-3 cursor-pointer flex-1 min-w-0">
+              <input type="checkbox" ${checked ? "checked" : ""} onchange="togglePekan1Item('${item.id}')" class="w-4 h-4 rounded accent-emerald-600 cursor-pointer shrink-0" />
+              <span class="text-xs sm:text-sm font-bold ${checked ? 'line-through text-slate-400' : 'text-plum'} truncate">
+                ${idx + 1}. ${item.title}
+              </span>
+            </label>
+            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 text-[11px] font-extrabold shrink-0 transition inline-flex items-center gap-1">
+              <span>Buka</span>
+              ${SVG_ICONS.ext}
+            </a>
+          </div>
+        `;
+      }).join("");
+
+      const filteredWeeks = PEKAN_SCHEDULE.filter(w => bulanFilter === "ALL" || w.bulan === bulanFilter);
+      document.getElementById("pekan-2-12-container").innerHTML = filteredWeeks.map(wk => {
+        const isCurrentActive = Number(appState.profile.activeWeek) === wk.week;
+        return `
+          <div class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 ${isCurrentActive ? 'ring-2 ring-purple-500/60' : ''}">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-full text-xs font-extrabold ${isCurrentActive ? 'royal-gradient text-white' : 'bg-purple-100 text-purple-900'}">
+                  ${wk.label}
+                </span>
+                ${isCurrentActive ? '<span class="text-[11px] font-extrabold text-pink-700">Pekan Aktif</span>' : ''}
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="openWeekInHub(${wk.week})" class="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-50 border border-slate-200/80 text-purple-900 text-xs font-extrabold transition">
+                  Lihat di Study Hub
+                </button>
+                <button onclick="updateActiveWeek(${wk.week}); renderJadwalView(); showToast('Pekan ${wk.week} aktif.', 'info')" class="px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 text-xs font-extrabold transition">
+                  Set Aktif
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              ${wk.tasks.map(task => {
+                const info = SUBTES_INFO[task.subtes];
+                const latsolKey = `w${wk.week}_${task.subtes}`;
+                const latsolDone = !!appState.weeklyLatsol[latsolKey];
+                return `
+                  <div class="rounded-2xl bg-white/90 border border-slate-200/80 p-3.5 flex flex-col justify-between gap-3">
+                    <div class="space-y-1.5">
+                      <div class="flex items-center justify-between gap-1">
+                        <div class="flex items-center gap-1.5">
+                          <span class="px-2 py-0.5 rounded-lg text-[10px] font-extrabold border ${info.badge}">${task.subtes}</span>
+                          <span class="text-[11px] font-bold text-slate-400">${task.day}</span>
+                        </div>
+                        <a href="${task.srcUrl}" target="_blank" rel="noopener noreferrer" class="px-2 py-0.5 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 text-[10px] font-extrabold transition inline-flex items-center gap-1">
+                          <span>SOAL 2026–2027</span>
+                          ${SVG_ICONS.ext}
+                        </a>
+                      </div>
+                      <p class="text-xs font-bold text-plum leading-relaxed">${task.topics}</p>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                      <label class="stage-pill cursor-pointer select-none inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-extrabold ${latsolDone ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-600 hover:bg-amber-50'}">
+                        <input type="checkbox" ${latsolDone ? "checked" : ""} onchange="toggleWeeklyLatsol('${latsolKey}')" class="sr-only" />
+                        <span>${latsolDone ? SVG_ICONS.checkedBox : SVG_ICONS.box}</span>
+                        <span>Latihan Soal</span>
+                      </label>
+                      <button onclick="jumpToSubtesWeek('${task.subtes}', ${wk.week})" class="text-[11px] font-extrabold text-purple-800 hover:underline">
+                        Buka Materi
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openWeekInHub(weekNum) {
+      hubSubtesFilter = "ALL";
+      switchTab("HUB");
+      document.getElementById("hub-week-filter").value = String(weekNum);
+      onHubFilterChange();
+    }
+
+    function jumpToSubtesWeek(subtes, weekNum) {
+      hubSubtesFilter = subtes;
+      switchTab("HUB");
+      document.getElementById("hub-week-filter").value = String(weekNum);
+      onHubFilterChange();
+    }
+
+    // =========================================================================
+    // 9. TAB 3: STUDY HUB 116 MATERI RENDERING & STAGE TOGGLES
+    // =========================================================================
+    function renderHubView() {
+      renderHubSubtesPills();
+      renderCuratedYoutubeBanner();
+      renderHubList();
+    }
+
+    function setHubSubtesFilter(code) {
+      hubSubtesFilter = code;
+      renderHubView();
+    }
+
+    function onHubFilterChange() {
+      renderHubList();
+    }
+
+    function resetHubFilters() {
+      hubSubtesFilter = "ALL";
+      document.getElementById("hub-search-input").value = "";
+      document.getElementById("hub-week-filter").value = "ALL";
+      document.getElementById("hub-status-filter").value = "ALL";
+      document.getElementById("hub-priority-filter").value = "ALL";
+      renderHubView();
+    }
+
+    function renderHubSubtesPills() {
+      const tabs = [
+        { code: "ALL", label: "Semua (116)" },
+        { code: "LBI", label: "LBI (8)" },
+        { code: "LBE", label: "LBE (17)" },
+        { code: "PBM", label: "PBM (15)" },
+        { code: "PPU", label: "PPU (16)" },
+        { code: "PU", label: "PU (21)" },
+        { code: "PK", label: "PK (21)" },
+        { code: "PM", label: "PM (18)" }
+      ];
+
+      document.getElementById("hub-subtes-pills").innerHTML = tabs.map(t => {
+        const isAct = hubSubtesFilter === t.code;
+        return `
+          <button onclick="setHubSubtesFilter('${t.code}')" class="px-4 py-2 rounded-2xl text-xs font-extrabold whitespace-nowrap transition ${isAct ? 'royal-gradient text-white' : 'bg-white/90 hover:bg-purple-50 text-slate-600 border border-slate-200/80'}">
+            ${t.label}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function renderCuratedYoutubeBanner() {
+      const banner = document.getElementById("curated-yt-banner");
+      if (hubSubtesFilter === "ALL") {
+        banner.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-purple-800 inline-flex items-center gap-1.5">
+                ${SVG_ICONS.book}
+                <span>Referensi Belajar &amp; Soal 2026–2027</span>
+              </span>
+              <p class="text-xs text-slate-600 mt-0.5">Pilih tab subtes di atas (LBI, LBE, PBM, PPU, PU, PK, PM) untuk membuka rujukan video &amp; soal terbaru sesuai subtes.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <a href="http://www.youtube.com/playlist?list=PL8z-Ae17U3FY9PDd0eio3JggQ6-Eo2kJV" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 text-xs font-extrabold transition inline-flex items-center gap-1">LBI ${SVG_ICONS.ext}</a>
+              <a href="http://www.youtube.com/playlist?list=PLMy3IfqlhmJlh3B9R0VYfORomR6ZZXWnz" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 text-xs font-extrabold transition inline-flex items-center gap-1">LBE 2027 ${SVG_ICONS.ext}</a>
+              <a href="http://www.youtube.com/playlist?list=PL8z-Ae17U3Fb68cfSZ8C7fHIRVv30O1bw" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-extrabold transition inline-flex items-center gap-1">PBM 2026 ${SVG_ICONS.ext}</a>
+              <a href="https://www.youtube.com/playlist?list=PLS0In5_hJZuo" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-800 text-xs font-extrabold transition inline-flex items-center gap-1">TO PM 2027 ${SVG_ICONS.ext}</a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const info = SUBTES_INFO[hubSubtesFilter];
+      banner.innerHTML = `
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-purple-900">Sumber Video &amp; Latihan Soal — ${info.name} (${info.code})</span>
+            <span class="font-mono text-[11px] font-bold text-slate-400">${info.playlists.length} Tautan Pilihan</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            ${info.playlists.map(pl => `
+              <a href="${pl.url}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-2xl bg-purple-50/90 hover:bg-purple-100 border border-purple-200/70 text-purple-950 text-xs font-extrabold transition inline-flex items-center gap-1.5">
+                <span>${pl.title}</span>
+                ${SVG_ICONS.ext}
+              </a>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function getFilteredHubItems() {
+      const q = (document.getElementById("hub-search-input").value || "").trim().toLowerCase();
+      const wk = document.getElementById("hub-week-filter").value;
+      const st = document.getElementById("hub-status-filter").value;
+      const pr = document.getElementById("hub-priority-filter").value;
+
+      return SYLLABUS_ITEMS.filter(item => {
+        if (hubSubtesFilter !== "ALL" && item.subtes !== hubSubtesFilter) return false;
+        if (wk !== "ALL" && String(item.week) !== wk) return false;
+        if (pr === "HIGH" && item.lowProb) return false;
+        if (pr === "LOW" && !item.lowProb) return false;
+
+        const p = getItemProgress(item.id);
+        const count = (p.belajar ? 1 : 0) + (p.latsol ? 1 : 0) + (p.review ? 1 : 0);
+        if (st === "UNSTARTED" && count !== 0) return false;
+        if (st === "IN_PROGRESS" && (count === 0 || count === 3)) return false;
+        if (st === "COMPLETED" && count !== 3) return false;
+
+        if (q) {
+          const hay = `${item.subtes} ${item.materi} ${item.submateri} ${item.keywords} ${item.summary}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function toggleStageCheck(id, stage) {
+      const cur = getItemProgress(id);
+      const nextVal = !cur[stage];
+      appState.progress[id] = { ...cur, [stage]: nextVal };
+      saveState();
+
+      const updated = appState.progress[id];
+      const item = SYLLABUS_ITEMS.find(i => i.id === id);
+      if (nextVal && updated.belajar && updated.latsol && updated.review && item) {
+        const subStats = computeSubtestStats(item.subtes);
+        if (subStats.pct >= 99.9) {
+          showToast(`Seluruh subtes ${item.subtes} tuntas 100%.`, "award");
+        } else {
+          showToast(`Submateri #${id} (${item.submateri}) tuntas 3/3 tahap.`, "check");
+        }
+      }
+
+      renderHubList();
+      const globalStats = computeGlobalStats();
+      document.getElementById("header-readiness-pill").textContent = `${globalStats.pct.toFixed(1)}%`;
+    }
+
+    function toggleCardDrawer(id) {
+      if (expandedCards.has(id)) expandedCards.delete(id);
+      else expandedCards.add(id);
+      renderHubList();
+    }
+
+    function saveCardNote(id, value) {
+      appState.notes[id] = value;
+      saveState();
+      const badge = document.getElementById(`note-pill-${id}`);
+      if (badge) badge.classList.toggle("hidden", value.trim().length === 0);
+    }
+
+    function renderHubList() {
+      const items = getFilteredHubItems();
+      const totalScope = hubSubtesFilter === "ALL"
+        ? SYLLABUS_ITEMS.length
+        : SYLLABUS_ITEMS.filter(i => i.subtes === hubSubtesFilter).length;
+
+      document.getElementById("hub-result-count").textContent = `Menampilkan ${items.length} dari ${totalScope} submateri`;
+
+      const container = document.getElementById("hub-cards-container");
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="glass-card rounded-3xl p-10 text-center space-y-3">
+            <p class="font-serif italic text-xl font-bold text-plum">Tidak ada submateri yang cocok dengan filter ini.</p>
+            <button onclick="resetHubFilters()" class="px-5 py-2.5 rounded-2xl royal-gradient text-white text-xs font-extrabold">Reset Semua Filter</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = items.map(item => {
+        const info = SUBTES_INFO[item.subtes];
+        const p = getItemProgress(item.id);
+        const isDoneAll = p.belajar && p.latsol && p.review;
+        const isOpen = expandedCards.has(item.id);
+        const noteVal = appState.notes[item.id] || "";
+        const hasNote = noteVal.trim().length > 0;
+
+        return `
+          <div class="glass-card rounded-3xl p-4 sm:p-5 transition-all ${isDoneAll ? 'border-emerald-300 bg-emerald-50/40' : ''}">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
+              <div class="space-y-1.5 flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <span class="px-2.5 py-0.5 rounded-lg text-[11px] font-extrabold border ${info.badge}">${item.subtes}</span>
+                  <span class="font-mono px-2 py-0.5 rounded-lg text-[10px] font-bold bg-purple-50 text-purple-900">Pekan ${item.week}</span>
+                  <span class="text-xs font-bold text-slate-500">${item.materi}</span>
+                  ${item.lowProb ? '<span class="px-2 py-0.5 rounded-lg text-[10px] font-extrabold bg-amber-100 text-amber-800">Peluang Kecil *</span>' : ''}
+                  <span id="note-pill-${item.id}" class="${hasNote ? '' : 'hidden'} px-2 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-100 text-sky-800 inline-flex items-center gap-1">${SVG_ICONS.edit}<span>Catatan</span></span>
+                  ${isDoneAll ? `<span class="px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-emerald-100 text-emerald-800 inline-flex items-center gap-1">${SVG_ICONS.check}<span>Tuntas 3/3</span></span>` : ''}
+                </div>
+                <h3 class="text-sm sm:text-base font-extrabold text-plum leading-snug">
+                  <span class="font-mono text-slate-400 font-semibold mr-1.5">#${item.id}</span>${item.submateri}
+                </h3>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2 shrink-0">
+                <div class="flex items-center gap-1 bg-slate-100/90 p-1 rounded-2xl border border-white">
+                  <button type="button" onclick="toggleStageCheck(${item.id}, 'belajar')" class="stage-pill px-2.5 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1 ${p.belajar ? 'royal-gradient text-white' : 'text-slate-600 hover:bg-white'}">
+                    <span>${p.belajar ? SVG_ICONS.checkedBox : SVG_ICONS.box}</span>
+                    <span>Belajar</span>
+                  </button>
+                  <button type="button" onclick="toggleStageCheck(${item.id}, 'latsol')" class="stage-pill px-2.5 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1 ${p.latsol ? 'bg-amber-500 text-white' : 'text-slate-600 hover:bg-white'}">
+                    <span>${p.latsol ? SVG_ICONS.checkedBox : SVG_ICONS.box}</span>
+                    <span>Latsol</span>
+                  </button>
+                  <button type="button" onclick="toggleStageCheck(${item.id}, 'review')" class="stage-pill px-2.5 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1 ${p.review ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:bg-white'}">
+                    <span>${p.review ? SVG_ICONS.checkedBox : SVG_ICONS.box}</span>
+                    <span>Review</span>
+                  </button>
+                </div>
+
+                <button type="button" onclick="toggleCardDrawer(${item.id})" class="px-3.5 py-2 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-950 text-xs font-extrabold transition inline-flex items-center gap-1.5">
+                  <span>${isOpen ? 'Tutup Materi' : 'Materi & Catatan'}</span>
+                  ${isOpen ? SVG_ICONS.chevronUp : SVG_ICONS.chevronDown}
+                </button>
+              </div>
+            </div>
+
+            <div class="${isOpen ? 'block' : 'hidden'} mt-4 pt-4 border-t border-slate-200/80 space-y-3.5">
+              <div class="rounded-2xl bg-white/95 border border-slate-200/80 p-4 space-y-2.5">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <span class="text-[11px] font-extrabold uppercase tracking-wider text-purple-900 inline-flex items-center gap-1.5">
+                    ${SVG_ICONS.book}
+                    <span>Materi Tulisan, Rumus &amp; Kaidah Inti</span>
+                  </span>
+                  <span class="font-mono text-[11px] text-slate-400">Kata kunci: ${item.keywords}</span>
+                </div>
+                <p class="text-xs sm:text-sm text-plum/90 leading-relaxed">${item.summary}</p>
+                <div class="pt-1 flex flex-wrap items-center gap-2">
+                  <a href="${item.youtubeUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-extrabold transition inline-flex items-center gap-1">
+                    <span>Video Konsep</span>
+                    ${SVG_ICONS.ext}
+                  </a>
+                  <a href="${item.practice2027Url}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 text-xs font-extrabold transition inline-flex items-center gap-1">
+                    <span>Soal 2026–2027</span>
+                    ${SVG_ICONS.ext}
+                  </a>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-extrabold text-plum inline-flex items-center gap-1.5">
+                    ${SVG_ICONS.edit}
+                    <span>Catatan Pribadi Larissa</span>
+                  </label>
+                  <span class="text-[10px] font-semibold text-emerald-700">Auto-saved</span>
+                </div>
+                <textarea rows="2" oninput="saveCardNote(${item.id}, this.value)" placeholder="Tulis kaidah singkat, trik eliminasi, atau catatan latihan di sini..." class="w-full px-3.5 py-2.5 rounded-2xl bg-white/95 border border-slate-200/80 text-xs sm:text-sm text-plum focus:outline-none focus:ring-2 focus:ring-purple-500">${noteVal}</textarea>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 10. TAB 4: TRYOUT IRT & PURE INLINE SVG CHART
+    // =========================================================================
+    function calcTryoutAvg(entry) {
+      const codes = ["PU", "PBM", "PPU", "PK", "LBI", "LBE", "PM"];
+      const sum = codes.reduce((acc, c) => acc + (Number(entry[c]) || 0), 0);
+      return Number((sum / codes.length).toFixed(2));
+    }
+
+    function updateTargetIrt(val) {
+      appState.profile.targetIrt = Number(val) || 680;
+      saveState();
+      renderTryoutSvgChart();
+    }
+
+    function saveTryoutEntry(e) {
+      e.preventDefault();
+      const editId = document.getElementById("to-edit-id").value;
+      const entry = {
+        id: editId || `to_${Date.now()}`,
+        date: document.getElementById("to-date").value,
+        platform: document.getElementById("to-platform").value.trim() || "Tryout SNBT",
+        PU: Number(document.getElementById("to-pu").value) || 0,
+        PBM: Number(document.getElementById("to-pbm").value) || 0,
+        PPU: Number(document.getElementById("to-ppu").value) || 0,
+        PK: Number(document.getElementById("to-pk").value) || 0,
+        LBI: Number(document.getElementById("to-lbi").value) || 0,
+        LBE: Number(document.getElementById("to-lbe").value) || 0,
+        PM: Number(document.getElementById("to-pm").value) || 0
+      };
+
+      if (editId) {
+        const idx = appState.tryouts.findIndex(t => t.id === editId);
+        if (idx !== -1) appState.tryouts[idx] = entry;
+        showToast("Skor Tryout IRT diperbarui.", "check");
+      } else {
+        appState.tryouts.push(entry);
+        showToast("Skor Tryout IRT baru dicatat.", "check");
+      }
+
+      saveState();
+      resetTryoutForm();
+      renderTryoutView();
+    }
+
+    function editTryoutEntry(id) {
+      const t = appState.tryouts.find(x => x.id === id);
+      if (!t) return;
+      document.getElementById("to-edit-id").value = t.id;
+      document.getElementById("to-date").value = t.date;
+      document.getElementById("to-platform").value = t.platform;
+      document.getElementById("to-pu").value = t.PU;
+      document.getElementById("to-pbm").value = t.PBM;
+      document.getElementById("to-ppu").value = t.PPU;
+      document.getElementById("to-pk").value = t.PK;
+      document.getElementById("to-lbi").value = t.LBI;
+      document.getElementById("to-lbe").value = t.LBE;
+      document.getElementById("to-pm").value = t.PM;
+
+      document.getElementById("to-form-title").innerHTML = `${SVG_ICONS.edit}<span>Edit Skor Tryout IRT</span>`;
+      document.getElementById("to-submit-btn").textContent = "Update Skor Tryout";
+      document.getElementById("to-cancel-edit-btn").classList.remove("hidden");
+      document.getElementById("tryout-form").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function resetTryoutForm() {
+      document.getElementById("to-edit-id").value = "";
+      document.getElementById("to-date").value = new Date().toISOString().slice(0, 10);
+      document.getElementById("to-platform").value = "";
+      ["pu", "pbm", "ppu", "pk", "lbi", "lbe", "pm"].forEach(c => {
+        document.getElementById(`to-${c}`).value = "";
+      });
+      document.getElementById("to-form-title").innerHTML = `<svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg><span>Catat Skor Tryout IRT Baru</span>`;
+      document.getElementById("to-submit-btn").textContent = "Simpan Skor Tryout";
+      document.getElementById("to-cancel-edit-btn").classList.add("hidden");
+    }
+
+    function deleteTryoutEntry(id) {
+      openConfirmModal(
+        "Hapus Skor Tryout?",
+        "Data skor Tryout IRT ini akan dihapus permanen dari riwayat dan grafik.",
+        () => {
+          appState.tryouts = appState.tryouts.filter(t => t.id !== id);
+          saveState();
+          renderTryoutView();
+          showToast("Riwayat Tryout dihapus.", "info");
+        }
+      );
+    }
+
+    function renderTryoutSvgChart() {
+      const container = document.getElementById("svg-chart-container");
+      const metric = document.getElementById("chart-subtes-filter").value;
+      const targetScore = Number(appState.profile.targetIrt) || 680;
+      const sorted = [...appState.tryouts].sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+
+      if (sorted.length === 0) {
+        container.innerHTML = `<div class="py-16 text-center text-xs text-slate-400">Belum ada data Tryout IRT. Catat hasil tryout pertamamu di formulir di bawah.</div>`;
+        return;
+      }
+
+      const w = 680, h = 250, padL = 46, padR = 26, padT = 26, padB = 38;
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+
+      const points = sorted.map((t, idx) => {
+        const val = metric === "avg" ? calcTryoutAvg(t) : (Number(t[metric]) || 0);
+        const x = sorted.length === 1 ? padL + plotW / 2 : padL + (idx / (sorted.length - 1)) * plotW;
+        const y = padT + plotH - (Math.min(1000, Math.max(0, val)) / 1000) * plotH;
+        return { x, y, val, platform: t.platform, date: t.date };
+      });
+
+      const ticks = [0, 250, 500, 750, 1000];
+      const gridSvg = ticks.map(tk => {
+        const y = padT + plotH - (tk / 1000) * plotH;
+        return `
+          <line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="#E2E8F0" stroke-dasharray="4 4" stroke-width="1" />
+          <text x="${padL - 8}" y="${y + 4}" text-anchor="end" fill="#64748B" font-size="10" font-family="JetBrains Mono, monospace">${tk}</text>
+        `;
+      }).join("");
+
+      const targetY = padT + plotH - (Math.min(1000, Math.max(0, targetScore)) / 1000) * plotH;
+      const targetLineSvg = `
+        <line x1="${padL}" y1="${targetY.toFixed(1)}" x2="${w - padR}" y2="${targetY.toFixed(1)}" stroke="#059669" stroke-dasharray="6 4" stroke-width="1.5" />
+        <text x="${w - padR}" y="${(targetY - 5).toFixed(1)}" text-anchor="end" fill="#059669" font-size="9.5" font-weight="700" font-family="JetBrains Mono, monospace">Target ${targetScore}</text>
+      `;
+
+      const poly = points.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+      const area = `${points[0].x.toFixed(1)},${padT + plotH} ${poly} ${points[points.length - 1].x.toFixed(1)},${padT + plotH}`;
+
+      const nodesSvg = points.map((p, idx) => `
+        <g>
+          <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="5.5" fill="#DB2777" stroke="#FFFFFF" stroke-width="2.5">
+            <title>${p.date} • ${p.platform}: ${p.val}</title>
+          </circle>
+          <text x="${p.x.toFixed(1)}" y="${(p.y - 11).toFixed(1)}" text-anchor="middle" fill="#1E1B4B" font-size="10.5" font-weight="700" font-family="JetBrains Mono, monospace">${p.val}</text>
+          <text x="${p.x.toFixed(1)}" y="${h - 12}" text-anchor="middle" fill="#64748B" font-size="9.5" font-family="Plus Jakarta Sans, sans-serif">TO #${idx + 1}</text>
+        </g>
+      `).join("");
+
+      container.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-auto block">
+          <defs>
+            <linearGradient id="irtAreaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6D28D9" stop-opacity="0.24" />
+              <stop offset="100%" stop-color="#DB2777" stop-opacity="0.02" />
+            </linearGradient>
+            <linearGradient id="irtLineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#6D28D9" />
+              <stop offset="100%" stop-color="#DB2777" />
+            </linearGradient>
+          </defs>
+          ${gridSvg}
+          ${targetLineSvg}
+          ${points.length > 1 ? `<polygon points="${area}" fill="url(#irtAreaGrad)" />` : ""}
+          ${points.length > 1 ? `<polyline fill="none" stroke="url(#irtLineGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${poly}" />` : ""}
+          ${nodesSvg}
+        </svg>
+      `;
+    }
+
+    function renderTryoutView() {
+      if (!document.getElementById("to-date").value) {
+        document.getElementById("to-date").value = new Date().toISOString().slice(0, 10);
+      }
+      document.getElementById("to-target-score").value = appState.profile.targetIrt || 680;
+
+      const sorted = [...appState.tryouts].sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+      const avgs = sorted.map(calcTryoutAvg);
+      const count = sorted.length;
+
+      document.getElementById("to-stat-count").textContent = count;
+      if (count > 0) {
+        document.getElementById("to-stat-max").textContent = Math.max(...avgs).toFixed(2);
+        document.getElementById("to-stat-avg").textContent = (avgs.reduce((a, b) => a + b, 0) / count).toFixed(2);
+
+        const codes = ["PU", "PBM", "PPU", "PK", "LBI", "LBE", "PM"];
+        const best = codes.map(c => ({
+          c,
+          avg: sorted.reduce((acc, t) => acc + (Number(t[c]) || 0), 0) / count
+        })).sort((a, b) => b.avg - a.avg)[0];
+        document.getElementById("to-stat-best-sub").textContent = best && best.avg > 0 ? `${best.c} (${best.avg.toFixed(0)})` : "-";
+      } else {
+        document.getElementById("to-stat-max").textContent = "-";
+        document.getElementById("to-stat-avg").textContent = "-";
+        document.getElementById("to-stat-best-sub").textContent = "-";
+      }
+
+      renderTryoutSvgChart();
+
+      const tbody = document.getElementById("tryout-tbody");
+      if (count === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" class="py-8 text-center text-xs text-slate-400">Belum ada riwayat Tryout IRT.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = [...sorted].reverse().map(t => {
+        const avg = calcTryoutAvg(t).toFixed(2);
+        return `
+          <tr class="hover:bg-purple-50/40 transition">
+            <td class="py-3 px-2.5 font-mono text-xs font-bold text-slate-600 whitespace-nowrap">${t.date || "-"}</td>
+            <td class="py-3 px-2.5 font-extrabold text-plum">${t.platform}</td>
+            <td class="py-3 px-2 text-center font-mono text-xs">${t.PU}</td>
+            <td class="py-3 px-2 text-center font-mono text-xs">${t.PBM}</td>
+            <td class="py-3 px-2 text-center font-mono text-xs">${t.PPU}</td>
+            <td class="py-3 px-2 text-center font-mono text-xs">${t.PK}</td>
+            <td class="py-3 px-2 text-center font-mono text-xs">${t.LBI}</td>
+            <td class="py-3 px-2 text-center font-mono text-xs">${t.LBE}</td>
+            <td class="py-3 px-2 text-center font-mono text-xs">${t.PM}</td>
+            <td class="py-3 px-2.5 text-center font-mono font-extrabold royal-text-gradient">${avg}</td>
+            <td class="py-3 px-2.5 text-right whitespace-nowrap space-x-1">
+              <button onclick="editTryoutEntry('${t.id}')" class="px-2.5 py-1 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-extrabold transition">Edit</button>
+              <button onclick="deleteTryoutEntry('${t.id}')" class="px-2.5 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-extrabold transition">Hapus</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 11. EXPORT / IMPORT JSON & RESET DATA
+    // =========================================================================
+    function exportJsonBackup() {
+      const blob = new Blob([JSON.stringify(appState, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const dateStamp = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `Larissa-SNBT-2027-Antro-UGM-${dateStamp}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("File backup JSON diunduh.", "check");
+    }
+
+    function importJsonBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          appState = {
+            profile: { ...DEFAULT_STATE.profile, ...(parsed.profile || {}) },
+            progress: parsed.progress || {},
+            pekan1: parsed.pekan1 || {},
+            weeklyLatsol: parsed.weeklyLatsol || {},
+            notes: parsed.notes || {},
+            tryouts: Array.isArray(parsed.tryouts) ? parsed.tryouts : [],
+            lastSaved: null
+          };
+          saveState();
+          switchTab(activeTab);
+          showToast("Data backup berhasil dipulihkan.", "check");
+        } catch (err) {
+          showToast("Format file JSON tidak valid.", "info");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function confirmResetAllData() {
+      openConfirmModal(
+        "Reset Seluruh Progres?",
+        "Semua centang belajar, catatan pribadi, jadwal 12 pekan, dan riwayat Tryout IRT akan dikembalikan ke pengaturan awal.",
+        () => {
+          appState = structuredClone(DEFAULT_STATE);
+          saveState();
+          switchTab("DASBOR");
+          showToast("Semua data telah di-reset.", "info");
+        }
+      );
+    }
+
+    // =========================================================================
+    // 12. INITIALIZE STUDIO
+    // =========================================================================
+    window.addEventListener("DOMContentLoaded", () => {
+      loadState();
+      switchTab("DASBOR");
+    });
+  </script>
+</body>
+</html>
