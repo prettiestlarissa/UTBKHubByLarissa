@@ -280,10 +280,14 @@
           </div>
 
           <!-- Minimalist Profile & Week Bar -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             <div class="rounded-2xl bg-yellow-50/90 border border-yellow-300/80 px-3.5 py-2">
               <label class="block text-[10px] font-mono font-bold uppercase text-muted">Target Prodi</label>
               <input id="prof-major" type="text" oninput="updateProfileField('major', this.value)" class="w-full bg-transparent text-xs font-bold text-ink focus:outline-none" />
+            </div>
+            <div class="rounded-2xl bg-yellow-50/90 border border-yellow-300/80 px-3.5 py-2">
+              <label class="block text-[10px] font-mono font-bold uppercase text-muted">Mulai Belajar</label>
+              <input id="prof-startdate" type="date" oninput="updateProfileField('startDate', this.value)" class="w-full bg-transparent font-mono text-xs font-bold text-ink focus:outline-none" />
             </div>
             <div class="rounded-2xl bg-yellow-50/90 border border-yellow-300/80 px-3.5 py-2">
               <label class="block text-[10px] font-mono font-bold uppercase text-muted">Tanggal UTBK</label>
@@ -436,7 +440,10 @@
             <div class="space-y-2">
               <div id="cal-selected-date-title" class="font-serif italic text-lg font-bold text-ink">-</div>
               <div id="cal-selected-rotation-sub" class="font-mono text-[11px] font-bold text-brand">-</div>
-              <p id="cal-selected-topic-desc" class="text-xs text-ink">-</p>
+              <div id="cal-selected-topic-card" class="rounded-xl bg-white/95 border border-[#FDE68A] p-2.5 space-y-2">
+                <p id="cal-selected-topic-desc" class="text-xs font-bold text-ink leading-snug">-</p>
+                <div id="cal-selected-stage-btns" class="flex items-center gap-1.5"></div>
+              </div>
               <div id="cal-selected-review-box" class="rounded-xl bg-white/90 border border-[#CFE3C4] p-2.5 space-y-1">
                 <div class="font-mono text-[10px] font-bold uppercase text-[#2F4F29]">Jadwal Review Materi</div>
                 <div id="cal-selected-review-list" class="text-[11px] text-ink space-y-0.5">-</div>
@@ -453,7 +460,7 @@
 
       <div class="clean-card rounded-3xl p-5 sm:p-6 space-y-3">
         <div class="flex items-center justify-between">
-          <h3 class="font-serif italic text-xl font-bold text-ink">Pekan 1 • Fondasi Awal</h3>
+          <h3 class="font-serif italic text-xl font-bold text-ink">Pekan 1 • Fondasi Awal (7 Hari Pertama)</h3>
           <span id="pekan1-progress-badge" class="font-mono text-xs font-bold px-3 py-1 rounded-full bg-yellow-100 text-ink">0 / 7 Selesai</span>
         </div>
         <div id="pekan-1-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
@@ -953,23 +960,28 @@
     let appState = loadState();
     let currentTab = "DASBOR";
     let hubSubtesFilter = "ALL";
+    let highlightedHubItemId = null;
     let calYear = new Date().getFullYear();
     let calMonth = new Date().getMonth();
     let selectedCalIso = getLocalDateIso(new Date());
 
+    // =====================================================================
+    // 3. REAL-TIME SYNC, NAVIGATION & PROFILE HELPERS
+    // =====================================================================
     let isCloudReady = false;
     let firestoreDb = null;
     let firestoreDocRef = null;
-    let saveTimer = null;
+    let unsubscribeSnapshot = null;
+    let saveDebounceTimer = null;
 
-    function setSyncBadge(mode, text) {
+    function updateSyncStatus(text, isOnline = false) {
+      const el = document.getElementById("save-status-text");
       const dot = document.getElementById("rtdb-status-dot");
-      const label = document.getElementById("save-status-text");
-      if (label) label.textContent = text;
+      if (el) el.textContent = text;
       if (dot) {
-        dot.className = mode === "CLOUD"
+        dot.className = isOnline
           ? "absolute bottom-0.5 right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"
-          : "absolute bottom-0.5 right-0.5 w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-white";
+          : "absolute bottom-0.5 right-0.5 w-2.5 h-2.5 rounded-full bg-yellow-400 ring-2 ring-white";
       }
     }
 
@@ -977,26 +989,25 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
       } catch (e) {
-        // Ignore storage quota issues
+        // Ignore storage quota warning
       }
-      setSyncBadge(isCloudReady ? "CLOUD" : "LOCAL", isCloudReady ? "Auto-save • Cloud & Perangkat" : "Auto-save aktif • Tersimpan di perangkat");
-
       if (isCloudReady && firestoreDocRef) {
-        clearTimeout(saveTimer);
-        saveTimer = setTimeout(async () => {
+        clearTimeout(saveDebounceTimer);
+        saveDebounceTimer = setTimeout(async () => {
           try {
             await setDoc(firestoreDocRef, { payload: JSON.stringify(appState), updatedAt: Date.now() }, { merge: true });
-            setSyncBadge("CLOUD", "Auto-save • Sinkron real-time aktif");
+            updateSyncStatus("Tersimpan otomatis • Cloud & Perangkat", true);
           } catch (e) {
             isCloudReady = false;
-            setSyncBadge("LOCAL", "Auto-save aktif • Mode lokal");
+            updateSyncStatus("Auto-save aktif • Perangkat lokal", false);
           }
-        }, 300);
+        }, 400);
+      } else {
+        updateSyncStatus("Auto-save aktif • Perangkat lokal", false);
       }
     }
 
     async function initRealtimeSync() {
-      setSyncBadge("LOCAL", "Auto-save aktif • Tersimpan otomatis");
       try {
         if (typeof __firebase_config !== "undefined" && __firebase_config) {
           const cfg = JSON.parse(__firebase_config);
@@ -1008,46 +1019,48 @@
           } else {
             await signInAnonymously(auth);
           }
-          if (!auth.currentUser) return;
+          if (!auth.currentUser) {
+            updateSyncStatus("Auto-save aktif • Perangkat lokal", false);
+            return;
+          }
           const appId = typeof __app_id !== "undefined" ? __app_id : "larissa-snbt-2027";
-          firestoreDocRef = doc(firestoreDb, "artifacts", appId, "users", auth.currentUser.uid, "studio", "yellowState");
-
-          onSnapshot(
+          firestoreDocRef = doc(firestoreDb, "artifacts", appId, "users", auth.currentUser.uid, "studio", "yellowPastelState");
+          unsubscribeSnapshot = onSnapshot(
             firestoreDocRef,
             (snap) => {
               isCloudReady = true;
-              setSyncBadge("CLOUD", "Auto-save • Sinkron real-time aktif");
+              updateSyncStatus("Terhubung real-time • Cloud & Perangkat", true);
               if (snap.exists() && snap.data().payload) {
                 try {
                   const remote = JSON.parse(snap.data().payload);
-                  if (JSON.stringify(remote) !== JSON.stringify(appState)) {
-                    const def = getDefaultState();
-                    appState = { ...def, ...remote, profile: { ...def.profile, ...(remote.profile || {}) } };
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-                    refreshAllViews();
-                  }
+                  const def = getDefaultState();
+                  appState = { ...def, ...remote, profile: { ...def.profile, ...(remote.profile || {}) } };
+                  localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+                  refreshAllViews();
                 } catch (e) {
-                  // Keep local state on parse error
+                  // Keep local state on parse mismatch
                 }
               }
             },
             () => {
               isCloudReady = false;
               firestoreDocRef = null;
-              setSyncBadge("LOCAL", "Auto-save aktif • Mode perangkat");
+              if (typeof unsubscribeSnapshot === "function") {
+                unsubscribeSnapshot();
+                unsubscribeSnapshot = null;
+              }
+              updateSyncStatus("Auto-save aktif • Perangkat lokal", false);
             }
           );
+        } else {
+          updateSyncStatus("Auto-save aktif • Perangkat lokal", false);
         }
       } catch (e) {
         isCloudReady = false;
-        setSyncBadge("LOCAL", "Auto-save aktif • Mode perangkat");
+        updateSyncStatus("Auto-save aktif • Perangkat lokal", false);
       }
     }
 
-    // =====================================================================
-    // 3. NAVIGATION & TOAST
-    // =====================================================================
-    let toastTimeout = null;
     function showToast(msg) {
       const box = document.getElementById("studio-toast");
       const txt = document.getElementById("toast-message");
@@ -1055,11 +1068,76 @@
       txt.textContent = msg;
       box.classList.remove("opacity-0", "translate-y-2");
       box.classList.add("opacity-100", "translate-y-0");
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
+      setTimeout(() => {
         box.classList.remove("opacity-100", "translate-y-0");
         box.classList.add("opacity-0", "translate-y-2");
-      }, 2400);
+      }, 2600);
+    }
+
+    function formatIndoDate(iso) {
+      return parseLocalIso(iso).toLocaleDateString("id-ID", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function diffDaysIso(startIso, endIso) {
+      const a = parseLocalIso(startIso);
+      const b = parseLocalIso(endIso);
+      a.setHours(0, 0, 0, 0);
+      b.setHours(0, 0, 0, 0);
+      return Math.round((b - a) / 86400000);
+    }
+
+    function getDynamicPlanForDate(dtInput = new Date()) {
+      const d = dtInput instanceof Date ? dtInput : parseLocalIso(dtInput);
+      const iso = getLocalDateIso(d);
+      const rot = DAY_ROTATION[d.getDay()] || DAY_ROTATION[1];
+      const startIso = appState.profile.startDate || getLocalDateIso(new Date(Date.now() - 2 * 86400000));
+      const deadlineIso = appState.profile.deadline || "2027-05-03";
+      const dayOffset = diffDaysIso(startIso, iso);
+      const daysToExam = diffDaysIso(iso, deadlineIso);
+      const inStudyWindow = dayOffset >= 0 && daysToExam >= 0;
+      const weekNum = Math.min(12, Math.max(1, Math.floor(Math.max(0, dayOffset) / 7) + 1));
+
+      const subItems = SYLLABUS_ITEMS.filter(it => it.subtes === rot.subtes);
+      const item = subItems.length > 0 ? subItems[Math.abs(dayOffset) % subItems.length] : null;
+
+      const reviews = [];
+      if (inStudyWindow) {
+        [1, 3, 7, 14].forEach(lag => {
+          if (dayOffset >= lag) {
+            const pastDate = new Date(d.getTime() - lag * 86400000);
+            const pastRot = DAY_ROTATION[pastDate.getDay()] || DAY_ROTATION[1];
+            const pastSubItems = SYLLABUS_ITEMS.filter(it => it.subtes === pastRot.subtes);
+            const pastIdx = Math.abs(dayOffset - lag) % Math.max(1, pastSubItems.length);
+            const pastItem = pastSubItems[pastIdx];
+            if (pastItem) {
+              reviews.push({
+                tag: `H+${lag}`,
+                itemId: pastItem.id,
+                subtes: pastRot.subtes,
+                label: `${pastRot.subtes}: ${pastItem.submateri}`
+              });
+            }
+          }
+        });
+      }
+
+      return {
+        iso,
+        dayName: rot.dayName,
+        subtes: rot.subtes,
+        weekNum,
+        dayOffset,
+        daysToExam,
+        inStudyWindow,
+        item,
+        reviews,
+        topicTitle: item ? `${item.materi}: ${item.submateri}` : SUBTES_INFO[rot.subtes].name
+      };
     }
 
     function switchTab(tabName) {
@@ -1072,7 +1150,7 @@
       document.querySelectorAll(".nav-tab-btn").forEach(btn => {
         const active = btn.getAttribute("data-nav") === tabName;
         btn.className = active
-          ? "nav-tab-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition brand-grad text-ink shadow-xs"
+          ? "nav-tab-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition brand-grad text-ink shadow-2xs"
           : "nav-tab-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition text-muted hover:text-ink";
       });
 
@@ -1086,113 +1164,62 @@
       refreshAllViews();
     }
 
+    function updateProfileField(field, val) {
+      appState.profile[field] = val;
+      if (field === "startDate" && val) {
+        const dt = parseLocalIso(val);
+        calYear = dt.getFullYear();
+        calMonth = dt.getMonth();
+        selectedCalIso = val;
+      }
+      saveState();
+      refreshAllViews();
+    }
+
+    function updateActiveWeek(w) {
+      appState.profile.activeWeek = Number(w) || 1;
+      saveState();
+      refreshAllViews();
+    }
+
+    function updateTargetIrt(val) {
+      appState.profile.targetIrt = Number(val) || 690;
+      saveState();
+      renderTryoutSvgChart();
+    }
+
+    function openSubtesHub(code) {
+      hubSubtesFilter = code;
+      highlightedHubItemId = null;
+      switchTab("HUB");
+    }
+
+    function openSyllabusItemInHub(itemId, subtesCode) {
+      const targetItem = SYLLABUS_ITEMS.find(it => it.id === itemId);
+      hubSubtesFilter = subtesCode || targetItem?.subtes || "ALL";
+      highlightedHubItemId = itemId || null;
+
+      const searchInp = document.getElementById("hub-search-input");
+      const statusSel = document.getElementById("hub-status-filter");
+      if (searchInp) searchInp.value = "";
+      if (statusSel) statusSel.value = "ALL";
+
+      switchTab("HUB");
+
+      if (highlightedHubItemId) {
+        requestAnimationFrame(() => {
+          const cardEl = document.getElementById(`hub-item-${highlightedHubItemId}`);
+          if (cardEl) {
+            cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        });
+      }
+    }
+
     // =====================================================================
-    // 4. CLOCK, COUNTDOWN & DAILY PLAN
+    // 4. DASHBOARD & COUNTDOWN RENDERING
     // =====================================================================
-    function getStudyStartDate() {
-      const fallback = new Date(Date.now() - 2 * 86400000);
-      const dt = appState.profile?.startDate ? parseLocalIso(appState.profile.startDate) : fallback;
-      dt.setHours(0, 0, 0, 0);
-      return dt;
-    }
-
-    function getStudyEndDate() {
-      const dt = parseLocalIso(appState.profile?.deadline || "2027-05-03");
-      dt.setHours(23, 59, 59, 999);
-      return dt;
-    }
-
-    function getReviewScheduleForDate(dtInput) {
-      const dt = dtInput instanceof Date ? new Date(dtInput.getTime()) : parseLocalIso(dtInput);
-      dt.setHours(0, 0, 0, 0);
-      const startDt = getStudyStartDate();
-      const endDt = getStudyEndDate();
-
-      if (dt < startDt || dt > endDt) {
-        return [];
-      }
-
-      const dayOffset = Math.max(0, Math.floor((dt.getTime() - startDt.getTime()) / 86400000));
-      const reviews = [];
-
-      // H+1 review from yesterday's topic
-      if (dayOffset >= 1) {
-        const prevDt = new Date(dt.getTime() - 86400000);
-        const prevRot = DAY_ROTATION[prevDt.getDay()] || DAY_ROTATION[4];
-        const prevList = SYLLABUS_ITEMS.filter(it => it.subtes === prevRot.subtes);
-        const prevItem = prevList[Math.abs(Math.floor(prevDt.getTime() / 86400000)) % prevList.length] || SYLLABUS_ITEMS[0];
-        reviews.push({
-          tag: "Review H+1",
-          subtes: prevRot.subtes,
-          label: `Ulang ringkasan ${prevRot.subtes}: ${prevItem.submateri}`
-        });
-      }
-
-      // H+3 & H+7 spaced repetition slots
-      if (dayOffset >= 3) {
-        const d3Dt = new Date(dt.getTime() - 3 * 86400000);
-        const d3Rot = DAY_ROTATION[d3Dt.getDay()] || DAY_ROTATION[4];
-        reviews.push({
-          tag: "Spaced H+3",
-          subtes: d3Rot.subtes,
-          label: `Cek ingatan & 5 soal cepat ${d3Rot.subtes}`
-        });
-      }
-
-      if (dayOffset >= 7 || dt.getDay() === 0) {
-        const d7Dt = new Date(dt.getTime() - 7 * 86400000);
-        const d7Rot = DAY_ROTATION[d7Dt.getDay()] || DAY_ROTATION[4];
-        reviews.push({
-          tag: dt.getDay() === 0 ? "Review Mingguan" : "Spaced H+7",
-          subtes: d7Rot.subtes,
-          label: `Evaluasi mingguan & log kesalahan IRT ${d7Rot.subtes}`
-        });
-      }
-
-      return reviews;
-    }
-
-    function getDynamicPlanForDate(dtInput = new Date()) {
-      const dt = dtInput instanceof Date ? new Date(dtInput.getTime()) : parseLocalIso(dtInput);
-      dt.setHours(0, 0, 0, 0);
-      const startDt = getStudyStartDate();
-      const endDt = getStudyEndDate();
-      const rot = DAY_ROTATION[dt.getDay()] || DAY_ROTATION[4];
-      const list = SYLLABUS_ITEMS.filter(it => it.subtes === rot.subtes);
-      const dayIndex = Math.floor(dt.getTime() / 86400000);
-      const item = list[Math.abs(dayIndex) % list.length] || SYLLABUS_ITEMS[0];
-      const reviews = getReviewScheduleForDate(dt);
-
-      const isBeforeStart = dt < startDt;
-      const isAfterEnd = dt > endDt;
-      const isExamDay = getLocalDateIso(dt) === getLocalDateIso(endDt);
-      const isStartDay = getLocalDateIso(dt) === getLocalDateIso(startDt);
-      const inStudyWindow = !isBeforeStart && !isAfterEnd;
-
-      let topicTitle = `${item.materi}: ${item.submateri}`;
-      if (isBeforeStart) {
-        topicTitle = `Pra-mulai belajar (Mulai efektif ${startDt.toLocaleDateString("id-ID", { day: "numeric", month: "short" })})`;
-      } else if (isExamDay) {
-        topicTitle = `Hari H Tes UTBK SNBT • ${appState.profile.major || "Antropologi Budaya UGM"}`;
-      } else if (isAfterEnd) {
-        topicTitle = "Periode setelah tes UTBK SNBT selesai";
-      }
-
-      return {
-        iso: getLocalDateIso(dt),
-        dayName: rot.dayName,
-        subtes: rot.subtes,
-        weekNum: appState.profile.activeWeek || 1,
-        item,
-        topicTitle,
-        inStudyWindow,
-        isStartDay,
-        isExamDay,
-        reviews
-      };
-    }
-
-    function updateClockAndCountdown() {
+    function updateCountdownClock() {
       const now = new Date();
       const clockEl = document.getElementById("live-clock-pill");
       if (clockEl) {
@@ -1200,49 +1227,117 @@
       }
 
       const deadlineIso = appState.profile.deadline || "2027-05-03";
-      const targetDt = parseLocalIso(deadlineIso);
-      targetDt.setHours(7, 30, 0, 0);
+      const targetLbl = document.getElementById("countdown-target-label");
+      if (targetLbl) targetLbl.textContent = `Target: ${formatIndoDate(deadlineIso)}`;
 
-      const lbl = document.getElementById("countdown-target-label");
-      if (lbl) {
-        lbl.textContent = "Target: " + targetDt.toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-      }
+      const target = parseLocalIso(deadlineIso);
+      target.setHours(7, 30, 0, 0);
+      const diff = Math.max(0, target.getTime() - now.getTime());
 
-      const diff = Math.max(0, targetDt.getTime() - now.getTime());
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
 
-      const dEl = document.getElementById("cd-days");
-      const hEl = document.getElementById("cd-hours");
-      const mEl = document.getElementById("cd-mins");
-      const sEl = document.getElementById("cd-secs");
-      if (dEl) dEl.textContent = String(d).padStart(3, "0");
-      if (hEl) hEl.textContent = String(h).padStart(2, "0");
-      if (mEl) mEl.textContent = String(m).padStart(2, "0");
-      if (sEl) sEl.textContent = String(s).padStart(2, "0");
+      const cdD = document.getElementById("cd-days");
+      const cdH = document.getElementById("cd-hours");
+      const cdM = document.getElementById("cd-mins");
+      const cdS = document.getElementById("cd-secs");
+      if (cdD) cdD.textContent = String(d).padStart(3, "0");
+      if (cdH) cdH.textContent = String(h).padStart(2, "0");
+      if (cdM) cdM.textContent = String(m).padStart(2, "0");
+      if (cdS) cdS.textContent = String(s).padStart(2, "0");
     }
 
-    // =====================================================================
-    // 5. DASHBOARD & PROFILE ACTIONS
-    // =====================================================================
-    function updateProfileField(field, val) {
-      appState.profile[field] = val;
-      saveState();
-      updateClockAndCountdown();
-    }
+    function renderDashboard() {
+      const p = appState.profile;
+      const greet = document.getElementById("hero-greeting-name");
+      if (greet) greet.textContent = p.name || "Larissa";
 
-    function updateActiveWeek(wk) {
-      appState.profile.activeWeek = Number(wk) || 1;
-      saveState();
-      renderDashboard();
-    }
+      const majInp = document.getElementById("prof-major");
+      const startInp = document.getElementById("prof-startdate");
+      const deadInp = document.getElementById("prof-deadline");
+      const wkSel = document.getElementById("prof-active-week");
 
-    function updateTargetIrt(val) {
-      appState.profile.targetIrt = Number(val) || 690;
-      saveState();
-      renderTryoutView();
+      if (majInp && document.activeElement !== majInp) majInp.value = p.major || "Antropologi Budaya (FIB UGM)";
+      if (startInp && document.activeElement !== startInp) startInp.value = p.startDate || "";
+      if (deadInp && document.activeElement !== deadInp) deadInp.value = p.deadline || "2027-05-03";
+      if (wkSel) wkSel.value = String(p.activeWeek || 1);
+
+      let bDone = 0;
+      let lDone = 0;
+      let rDone = 0;
+      SYLLABUS_ITEMS.forEach(it => {
+        const pr = appState.progress[it.id] || {};
+        if (pr.belajar) bDone++;
+        if (pr.latsol) lDone++;
+        if (pr.review) rDone++;
+      });
+      const p1Done = PEKAN_1_ITEMS.filter(it => appState.pekan1Done[it.id]).length;
+      const totalDone = bDone + lDone + rDone + p1Done;
+      const totalAll = SYLLABUS_ITEMS.length * 3 + PEKAN_1_ITEMS.length;
+      const pct = totalAll > 0 ? (totalDone / totalAll) * 100 : 0;
+
+      const ring = document.getElementById("readiness-ring-path");
+      if (ring) {
+        const circ = 351.86;
+        ring.style.strokeDashoffset = (circ - (pct / 100) * circ).toFixed(2);
+      }
+
+      const ringPct = document.getElementById("ring-percent-text");
+      const headPill = document.getElementById("header-readiness-pill");
+      const ringFrac = document.getElementById("ring-fraction-text");
+      if (ringPct) ringPct.textContent = `${pct.toFixed(1)}%`;
+      if (headPill) headPill.textContent = `${pct.toFixed(1)}%`;
+      if (ringFrac) ringFrac.textContent = `${totalDone} / ${totalAll}`;
+
+      const kb = document.getElementById("kpi-belajar-count");
+      const kl = document.getElementById("kpi-latsol-count");
+      const kr = document.getElementById("kpi-review-count");
+      if (kb) kb.textContent = `${bDone}/${SYLLABUS_ITEMS.length}`;
+      if (kl) kl.textContent = `${lDone}/${SYLLABUS_ITEMS.length}`;
+      if (kr) kr.textContent = `${rDone}/${SYLLABUS_ITEMS.length}`;
+
+      const plan = getDynamicPlanForDate(new Date());
+      const dBadge = document.getElementById("today-day-badge");
+      const wBadge = document.getElementById("today-week-badge");
+      const sTitle = document.getElementById("today-spotlight-title");
+      const sDesc = document.getElementById("today-spotlight-desc");
+      const qBtn = document.getElementById("dash-quick-complete-label");
+
+      if (dBadge) dBadge.textContent = `${plan.dayName} • ${plan.subtes}`;
+      if (wBadge) wBadge.textContent = `Pekan ${plan.weekNum}`;
+      if (sTitle) sTitle.textContent = plan.topicTitle;
+      if (sDesc) sDesc.textContent = `Target UGM ${SUBTES_INFO[plan.subtes].ugmMin}–${SUBTES_INFO[plan.subtes].ugmMax} • Kecepatan ideal ${SUBTES_INFO[plan.subtes].secPerSoal} dtk/soal.`;
+      if (qBtn) qBtn.textContent = appState.studyLogDates[plan.iso] ? "Selesai Hari Ini ✓" : "Tandai Selesai";
+
+      const grid = document.getElementById("subtest-mastery-grid");
+      if (grid) {
+        grid.innerHTML = Object.values(SUBTES_INFO).map(st => {
+          const items = SYLLABUS_ITEMS.filter(it => it.subtes === st.code);
+          let done = 0;
+          items.forEach(it => {
+            const pr = appState.progress[it.id] || {};
+            if (pr.belajar) done++;
+            if (pr.latsol) done++;
+            if (pr.review) done++;
+          });
+          const stPct = items.length > 0 ? Math.round((done / (items.length * 3)) * 100) : 0;
+          return `
+            <button type="button" onclick="openSubtesHub('${st.code}')" class="clean-card clean-card-interactive rounded-2xl p-4 text-left space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded-lg font-mono text-[10px] font-bold border ${st.badge}">${st.code}</span>
+                <span class="font-mono text-xs font-bold text-ink">${stPct}%</span>
+              </div>
+              <div class="text-xs font-bold text-ink leading-snug">${st.name}</div>
+              <div class="w-full h-1.5 rounded-full bg-yellow-100 overflow-hidden">
+                <div class="h-full rounded-full bg-amber-400" style="width:${stPct}%"></div>
+              </div>
+              <div class="font-mono text-[10px] text-muted">Target UGM: ${st.ugmMin}–${st.ugmMax}</div>
+            </button>
+          `;
+        }).join("");
+      }
     }
 
     function quickCompleteTodayTarget() {
@@ -1254,114 +1349,28 @@
       }
       saveState();
       refreshAllViews();
-      showToast(`Target ${plan.subtes} hari ini ditandai selesai!`);
+      showToast(`Target ${plan.subtes} hari ini selesai!`);
     }
 
     function launchTodayCbtSession() {
       const plan = getDynamicPlanForDate(new Date());
       switchTab("CBT");
-      startCbtDrill(plan.subtes, false);
-    }
-
-    function openSubtesHub(code) {
-      hubSubtesFilter = code;
-      switchTab("HUB");
-    }
-
-    function renderDashboard() {
-      const greet = document.getElementById("hero-greeting-name");
-      if (greet) greet.textContent = appState.profile.name || "Larissa";
-
-      const maj = document.getElementById("prof-major");
-      const dead = document.getElementById("prof-deadline");
-      const wk = document.getElementById("prof-active-week");
-      if (maj && document.activeElement !== maj) maj.value = appState.profile.major || "";
-      if (dead && document.activeElement !== dead) dead.value = appState.profile.deadline || "2027-05-03";
-      if (wk) wk.value = String(appState.profile.activeWeek || 1);
-
-      let bCnt = 0, lCnt = 0, rCnt = 0;
-      SYLLABUS_ITEMS.forEach(it => {
-        const pr = appState.progress[it.id] || {};
-        if (pr.belajar) bCnt++;
-        if (pr.latsol) lCnt++;
-        if (pr.review) rCnt++;
-      });
-      const p1Cnt = Object.values(appState.pekan1Done || {}).filter(Boolean).length;
-      const doneAll = bCnt + lCnt + rCnt + p1Cnt;
-      const totalAll = SYLLABUS_ITEMS.length * 3 + PEKAN_1_ITEMS.length;
-      const pct = totalAll > 0 ? (doneAll / totalAll) * 100 : 0;
-
-      const circ = 351.86;
-      const ring = document.getElementById("readiness-ring-path");
-      if (ring) ring.style.strokeDashoffset = (circ - (pct / 100) * circ).toFixed(2);
-
-      const pctTxt = document.getElementById("ring-percent-text");
-      const hdrPill = document.getElementById("header-readiness-pill");
-      const fracTxt = document.getElementById("ring-fraction-text");
-      if (pctTxt) pctTxt.textContent = `${pct.toFixed(1)}%`;
-      if (hdrPill) hdrPill.textContent = `${pct.toFixed(1)}%`;
-      if (fracTxt) fracTxt.textContent = `${doneAll} / ${totalAll}`;
-
-      const kb = document.getElementById("kpi-belajar-count");
-      const kl = document.getElementById("kpi-latsol-count");
-      const kr = document.getElementById("kpi-review-count");
-      if (kb) kb.textContent = `${bCnt}/${SYLLABUS_ITEMS.length}`;
-      if (kl) kl.textContent = `${lCnt}/${SYLLABUS_ITEMS.length}`;
-      if (kr) kr.textContent = `${rCnt}/${SYLLABUS_ITEMS.length}`;
-
-      const plan = getDynamicPlanForDate(new Date());
-      const dBadge = document.getElementById("today-day-badge");
-      const wBadge = document.getElementById("today-week-badge");
-      const sTitle = document.getElementById("today-spotlight-title");
-      const cbtLbl = document.getElementById("dash-today-cbt-label");
-      const qLbl = document.getElementById("dash-quick-complete-label");
-
-      if (dBadge) dBadge.textContent = `${plan.dayName} • ${plan.subtes}`;
-      if (wBadge) wBadge.textContent = `Pekan ${plan.weekNum}`;
-      if (sTitle) sTitle.textContent = plan.topicTitle;
-      if (cbtLbl) cbtLbl.textContent = `Latsol CBT ${plan.subtes}`;
-      if (qLbl) qLbl.textContent = appState.studyLogDates[plan.iso] ? "Selesai ✓" : "Tandai Selesai";
-
-      const grid = document.getElementById("subtest-mastery-grid");
-      if (grid) {
-        grid.innerHTML = Object.values(SUBTES_INFO).map(st => {
-          const items = SYLLABUS_ITEMS.filter(i => i.subtes === st.code);
-          let stDone = 0;
-          items.forEach(i => {
-            const pr = appState.progress[i.id] || {};
-            if (pr.belajar) stDone++;
-            if (pr.latsol) stDone++;
-            if (pr.review) stDone++;
-          });
-          const stPct = items.length > 0 ? Math.round((stDone / (items.length * 3)) * 100) : 0;
-          return `
-            <button type="button" onclick="openSubtesHub('${st.code}')" class="clean-card clean-card-interactive rounded-3xl p-4 text-left space-y-2.5">
-              <div class="flex items-center justify-between">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border ${st.badge}">${st.code}</span>
-                <span class="font-mono text-xs font-bold text-ink">${stPct}%</span>
-              </div>
-              <div class="text-xs font-bold text-ink leading-snug">${st.name}</div>
-              <div class="w-full h-1.5 rounded-full bg-[#E9F2E4] overflow-hidden">
-                <div class="h-full rounded-full bg-amber-400" style="width:${stPct}%"></div>
-              </div>
-              <div class="flex justify-between font-mono text-[10px] text-muted">
-                <span>${items.length} topik</span>
-                <span>Target ${st.ugmMin}+</span>
-              </div>
-            </button>
-          `;
-        }).join("");
-      }
+      startCbtDailyScheduleDrill(plan, false);
     }
 
     // =====================================================================
-    // 6. CALENDAR & PEKAN 1
+    // 5. CALENDAR & PEKAN 1 VIEW
     // =====================================================================
     function changeCalendarMonth(delta) {
       calMonth += delta;
-      if (calMonth < 0) { calMonth = 11; calYear--; }
-      else if (calMonth > 11) { calMonth = 0; calYear++; }
-      renderJadwalView();
+      if (calMonth < 0) {
+        calMonth = 11;
+        calYear--;
+      } else if (calMonth > 11) {
+        calMonth = 0;
+        calYear++;
+      }
+      renderCalendarView();
     }
 
     function jumpCalendarToToday() {
@@ -1369,12 +1378,12 @@
       calYear = now.getFullYear();
       calMonth = now.getMonth();
       selectedCalIso = getLocalDateIso(now);
-      renderJadwalView();
+      renderCalendarView();
     }
 
     function selectCalendarDate(iso) {
       selectedCalIso = iso;
-      renderJadwalView();
+      renderCalendarView();
     }
 
     function saveCalendarDateNote(val) {
@@ -1383,8 +1392,13 @@
     }
 
     function toggleManualStudyDay() {
-      if (appState.studyLogDates[selectedCalIso]) delete appState.studyLogDates[selectedCalIso];
-      else appState.studyLogDates[selectedCalIso] = true;
+      if (appState.studyLogDates[selectedCalIso]) {
+        delete appState.studyLogDates[selectedCalIso];
+        showToast("Tanda selesai dihapus.");
+      } else {
+        appState.studyLogDates[selectedCalIso] = true;
+        showToast("Hari belajar ditandai selesai!");
+      }
       saveState();
       refreshAllViews();
     }
@@ -1392,73 +1406,62 @@
     function startSelectedCalendarCbtDrill() {
       const plan = getDynamicPlanForDate(selectedCalIso);
       switchTab("CBT");
-      startCbtDrill(plan.subtes, false);
+      startCbtDailyScheduleDrill(plan, false);
     }
 
     function togglePekan1Item(id) {
       appState.pekan1Done[id] = !appState.pekan1Done[id];
-      if (appState.pekan1Done[id]) appState.studyLogDates[getLocalDateIso(new Date())] = true;
+      if (appState.pekan1Done[id]) {
+        appState.studyLogDates[getLocalDateIso(new Date())] = true;
+      }
       saveState();
       refreshAllViews();
     }
 
-    function renderJadwalView() {
-      const streakEl = document.getElementById("cal-streak-badge");
+    function renderCalendarView() {
       const activeDays = Object.values(appState.studyLogDates || {}).filter(Boolean).length;
-      if (streakEl) streakEl.textContent = `${activeDays} Hari Aktif`;
+      const streakBadge = document.getElementById("cal-streak-badge");
+      if (streakBadge) streakBadge.textContent = `${activeDays} Hari Aktif`;
 
-      const startDt = getStudyStartDate();
-      const endDt = getStudyEndDate();
-
-      const lbl = document.getElementById("cal-month-year-label");
-      const first = new Date(calYear, calMonth, 1);
-      if (lbl) lbl.textContent = first.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+      const firstDay = new Date(calYear, calMonth, 1);
+      const monthLbl = document.getElementById("cal-month-year-label");
+      if (monthLbl) {
+        monthLbl.textContent = firstDay.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+      }
 
       const grid = document.getElementById("calendar-days-grid");
       if (grid) {
-        const startOffset = (first.getDay() + 6) % 7;
+        const startDow = (firstDay.getDay() + 6) % 7;
         const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
         const todayIso = getLocalDateIso(new Date());
+        const startIso = appState.profile.startDate || "";
+        const deadlineIso = appState.profile.deadline || "2027-05-03";
+
         let html = "";
-        for (let i = 0; i < startOffset; i++) html += `<div class="h-14 rounded-2xl bg-yellow-50/40"></div>`;
-        for (let d = 1; d <= daysInMonth; d++) {
-          const iso = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        for (let i = 0; i < startDow; i++) {
+          html += `<div class="h-14 sm:h-16 rounded-2xl bg-yellow-50/30"></div>`;
+        }
+        for (let day = 1; day <= daysInMonth; day++) {
+          const iso = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
           const plan = getDynamicPlanForDate(iso);
-          const isSel = iso === selectedCalIso;
           const isToday = iso === todayIso;
+          const isSel = iso === selectedCalIso;
           const isDone = !!appState.studyLogDates[iso];
-          const hasReview = plan.reviews && plan.reviews.length > 0;
+          const isStart = iso === startIso;
+          const isExam = iso === deadlineIso;
 
-          let cls = "bg-yellow-50/35 border-yellow-100/80 opacity-55";
-          if (plan.inStudyWindow) {
-            cls = isSel
-              ? "bg-yellow-200/80 border-amber-500"
-              : isDone
-                ? "bg-yellow-100/90 border-yellow-400"
-                : "bg-white hover:bg-yellow-50/70 border-[#FDE68A]";
-          }
-          if (plan.isStartDay || plan.isExamDay) {
-            cls += " ring-1 ring-amber-500";
-          }
-
-          const markerText = plan.isStartDay
-            ? "START"
-            : plan.isExamDay
-              ? "UTBK"
-              : plan.inStudyWindow
-                ? plan.subtes
-                : "-";
+          let cls = "bg-white border-[#FDE68A] hover:border-amber-400";
+          if (isSel) cls = "bg-yellow-100 border-amber-500 ring-2 ring-yellow-300";
+          else if (isExam) cls = "bg-rose-50 border-rose-300";
+          else if (isDone) cls = "bg-[#E9F2E4] border-[#C6DEC0]";
 
           html += `
-            <button type="button" onclick="selectCalendarDate('${iso}')" class="h-14 rounded-2xl border p-1.5 flex flex-col justify-between text-left transition ${cls}">
+            <button type="button" onclick="selectCalendarDate('${iso}')" class="h-14 sm:h-16 rounded-2xl border p-1.5 flex flex-col justify-between text-left transition ${cls}">
               <div class="flex items-center justify-between w-full">
-                <span class="font-mono text-xs font-bold ${isToday ? "px-1.5 py-0.5 rounded-lg brand-grad" : "text-ink"}">${d}</span>
-                <div class="flex items-center gap-1">
-                  ${hasReview ? `<span title="Ada jadwal review" class="w-2 h-2 rounded-full bg-emerald-500"></span>` : ""}
-                  ${isDone ? `<span class="w-2 h-2 rounded-full bg-amber-500"></span>` : ""}
-                </div>
+                <span class="font-mono text-[11px] font-bold ${isToday ? "px-1.5 py-0.5 rounded-md brand-grad text-ink" : "text-ink"}">${day}</span>
+                <span class="font-mono text-[9px] font-bold text-muted">${isExam ? "UTBK" : isStart ? "START" : isDone ? "✓" : ""}</span>
               </div>
-              <span class="font-mono text-[10px] font-bold ${plan.isStartDay || plan.isExamDay ? "text-brand" : "text-muted"}">${markerText}</span>
+              <div class="font-mono text-[10px] font-bold text-brand truncate w-full">${plan.inStudyWindow ? plan.subtes : "-"}</div>
             </button>
           `;
         }
@@ -1469,50 +1472,100 @@
       const selTitle = document.getElementById("cal-selected-date-title");
       const selSub = document.getElementById("cal-selected-rotation-sub");
       const selDesc = document.getElementById("cal-selected-topic-desc");
+      const selStageBtns = document.getElementById("cal-selected-stage-btns");
       const selRevList = document.getElementById("cal-selected-review-list");
       const selNote = document.getElementById("cal-day-note-input");
       const selBtn = document.getElementById("cal-toggle-streak-btn");
 
-      if (selTitle) selTitle.textContent = parseLocalIso(selectedCalIso).toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      if (selTitle) selTitle.textContent = formatIndoDate(selectedCalIso);
       if (selSub) {
-        const rangeLabel = `Periode: ${startDt.toLocaleDateString("id-ID", { day: "numeric", month: "short" })} – ${endDt.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}`;
-        selSub.textContent = `${selPlan.subtes} • ${SUBTES_INFO[selPlan.subtes].name} (${rangeLabel})`;
+        selSub.textContent = selPlan.inStudyWindow
+          ? `Hari ke-${selPlan.dayOffset + 1} • ${selPlan.subtes} (Pekan ${selPlan.weekNum})`
+          : "Di luar rentang belajar aktif";
       }
       if (selDesc) selDesc.textContent = selPlan.topicTitle;
-      if (selRevList) {
-        if (!selPlan.inStudyWindow) {
-          selRevList.innerHTML = `<div class="text-muted">Di luar rentang belajar (2 hari lalu s.d. hari tes UTBK).</div>`;
-        } else if (!selPlan.reviews || selPlan.reviews.length === 0) {
-          selRevList.innerHTML = `<div class="text-[#2F4F29] font-medium">Hari awal fondasi — fokus serap materi baru hari ini.</div>`;
+      if (selNote && document.activeElement !== selNote) selNote.value = appState.calendarNotes[selectedCalIso] || "";
+      if (selBtn) selBtn.textContent = appState.studyLogDates[selectedCalIso] ? "Batalkan Selesai" : "Tandai Selesai";
+
+      if (selStageBtns) {
+        if (selPlan.inStudyWindow && selPlan.item) {
+          const pr = appState.progress[selPlan.item.id] || {};
+          selStageBtns.innerHTML = `
+            <button type="button" onclick="toggleStage('${selPlan.item.id}', 'belajar')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${pr.belajar ? "brand-grad text-ink" : "bg-yellow-50 text-muted border border-yellow-200"}">Belajar ${pr.belajar ? "✓" : ""}</button>
+            <button type="button" onclick="toggleStage('${selPlan.item.id}', 'latsol')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${pr.latsol ? "brand-grad text-ink" : "bg-yellow-50 text-muted border border-yellow-200"}">Latsol ${pr.latsol ? "✓" : ""}</button>
+            <button type="button" onclick="toggleStage('${selPlan.item.id}', 'review')" class="px-2 py-1 rounded-lg text-[10px] font-bold ${pr.review ? "brand-grad text-ink" : "bg-yellow-50 text-muted border border-yellow-200"}">Review ${pr.review ? "✓" : ""}</button>
+            <button type="button" onclick="openSyllabusItemInHub('${selPlan.item.id}', '${selPlan.subtes}')" class="ml-auto px-2.5 py-1 rounded-lg text-[10px] font-bold bg-amber-100 hover:bg-amber-200 text-ink border border-amber-300 transition">Buka Materi →</button>
+          `;
         } else {
-          selRevList.innerHTML = selPlan.reviews.map(r => `
-            <div class="flex items-start gap-1.5">
-              <span class="font-mono font-bold text-[#2F4F29] shrink-0">[${r.tag}]</span>
-              <span>${r.label}</span>
-            </div>
-          `).join("");
+          selStageBtns.innerHTML = "";
         }
       }
-      if (selNote && document.activeElement !== selNote) selNote.value = appState.calendarNotes[selectedCalIso] || "";
-      if (selBtn) selBtn.textContent = appState.studyLogDates[selectedCalIso] ? "Selesai ✓" : "Tandai Selesai";
 
+      if (selRevList) {
+        if (!selPlan.inStudyWindow) {
+          selRevList.innerHTML = `<div class="text-muted">Di luar rentang belajar (ubah tanggal Mulai Belajar di Dasbor jika perlu).</div>`;
+        } else if (!selPlan.reviews || selPlan.reviews.length === 0) {
+          selRevList.innerHTML = `<div class="text-[#2F4F29] font-medium">Hari ke-1 mulai belajar — fokus serap materi baru hari ini.</div>`;
+        } else {
+          selRevList.innerHTML = selPlan.reviews.map(r => {
+            const revDone = !!(appState.progress[r.itemId]?.review);
+            return `
+              <div class="flex items-center justify-between gap-2">
+                <button type="button" onclick="openSyllabusItemInHub('${r.itemId}', '${r.subtes}')" class="flex items-start gap-1.5 text-left hover:underline">
+                  <span class="font-mono font-bold text-[#2F4F29] shrink-0">[${r.tag}]</span>
+                  <span>${r.label}</span>
+                </button>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" onclick="openSyllabusItemInHub('${r.itemId}', '${r.subtes}')" title="Buka di Bank Materi" class="px-1.5 py-0.5 rounded-md font-mono text-[10px] font-bold bg-amber-100 hover:bg-amber-200 text-ink border border-amber-300">↗</button>
+                  <button type="button" onclick="toggleStage('${r.itemId}', 'review')" class="px-2 py-0.5 rounded-md font-mono text-[10px] font-bold ${revDone ? "bg-emerald-200 text-emerald-950" : "bg-yellow-50 border border-yellow-300 text-ink"}">
+                    ${revDone ? "✓" : "Review"}
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join("");
+        }
+      }
+
+      const startIso = appState.profile.startDate || getLocalDateIso(new Date(Date.now() - 2 * 86400000));
+      const startDt = parseLocalIso(startIso);
+      const dynamicPekan1 = PEKAN_1_ITEMS.map((base, idx) => {
+        const dayDt = new Date(startDt.getTime() + idx * 86400000);
+        const plan = getDynamicPlanForDate(dayDt);
+        const syllabusItem = plan.item || SYLLABUS_ITEMS.find(it => it.subtes === plan.subtes) || SYLLABUS_ITEMS[0];
+        return {
+          id: base.id,
+          day: plan.dayName,
+          dateLabel: dayDt.toLocaleDateString("id-ID", { day: "numeric", month: "short" }),
+          subtes: plan.subtes,
+          title: base.title,
+          syllabusItem
+        };
+      });
+
+      const p1Done = dynamicPekan1.filter(it => appState.pekan1Done[it.id]).length;
       const p1Badge = document.getElementById("pekan1-progress-badge");
-      const p1DoneCount = PEKAN_1_ITEMS.filter(it => appState.pekan1Done[it.id]).length;
-      if (p1Badge) p1Badge.textContent = `${p1DoneCount} / ${PEKAN_1_ITEMS.length} Selesai`;
+      if (p1Badge) p1Badge.textContent = `${p1Done} / 7 Selesai`;
 
       const p1List = document.getElementById("pekan-1-list");
       if (p1List) {
-        p1List.innerHTML = PEKAN_1_ITEMS.map(it => {
+        p1List.innerHTML = dynamicPekan1.map(it => {
           const done = !!appState.pekan1Done[it.id];
           return `
             <div class="rounded-2xl border ${done ? "bg-yellow-100/80 border-yellow-400" : "bg-white border-[#FDE68A]"} p-3.5 flex items-center justify-between gap-3">
               <div>
-                <span class="font-mono text-[10px] font-bold text-brand">${it.day} • ${it.subtes}</span>
+                <span class="font-mono text-[10px] font-bold text-brand">${it.day}, ${it.dateLabel} • ${it.subtes}</span>
                 <div class="text-xs font-bold text-ink ${done ? "line-through opacity-65" : ""}">${it.title}</div>
+                <button type="button" onclick="openSyllabusItemInHub('${it.syllabusItem.id}', '${it.subtes}')" class="text-[11px] text-amber-800 hover:underline mt-0.5 text-left font-medium">Materi: ${it.syllabusItem.submateri} →</button>
               </div>
-              <button type="button" onclick="togglePekan1Item('${it.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 ${done ? "brand-grad text-ink" : "bg-yellow-50 hover:bg-yellow-100 text-ink border border-yellow-200"}">
-                ${done ? "✓" : "Pilih"}
-              </button>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" onclick="openSyllabusItemInHub('${it.syllabusItem.id}', '${it.subtes}')" class="px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-amber-100 hover:bg-amber-200 text-ink border border-amber-300">
+                  Materi
+                </button>
+                <button type="button" onclick="togglePekan1Item('${it.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold ${done ? "brand-grad text-ink" : "bg-yellow-50 hover:bg-yellow-100 text-ink border border-yellow-200"}">
+                  ${done ? "✓" : "Pilih"}
+                </button>
+              </div>
             </div>
           `;
         }).join("");
@@ -1520,17 +1573,20 @@
     }
 
     // =====================================================================
-    // 7. STUDY HUB
+    // 6. STUDY HUB (116 SUBMATERI)
     // =====================================================================
-    function setHubSubtes(code) {
+    function setHubFilter(code) {
       hubSubtesFilter = code;
+      highlightedHubItemId = null;
       renderHubView();
     }
 
-    function toggleStage(id, stage) {
-      if (!appState.progress[id]) appState.progress[id] = {};
-      appState.progress[id][stage] = !appState.progress[id][stage];
-      if (appState.progress[id][stage]) appState.studyLogDates[getLocalDateIso(new Date())] = true;
+    function toggleStage(itemId, stage) {
+      if (!appState.progress[itemId]) appState.progress[itemId] = {};
+      appState.progress[itemId][stage] = !appState.progress[itemId][stage];
+      if (appState.progress[itemId][stage]) {
+        appState.studyLogDates[getLocalDateIso(new Date())] = true;
+      }
       saveState();
       refreshAllViews();
     }
@@ -1541,7 +1597,11 @@
         const codes = ["ALL", "LBI", "LBE", "PBM", "PPU", "PU", "PK", "PM"];
         pills.innerHTML = codes.map(c => {
           const active = hubSubtesFilter === c;
-          return `<button type="button" onclick="setHubSubtes('${c}')" class="px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition ${active ? "brand-grad text-ink" : "bg-white border border-[#FDE68A] text-muted hover:text-ink"}">${c === "ALL" ? "Semua" : c}</button>`;
+          return `
+            <button type="button" onclick="setHubFilter('${c}')" class="px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition ${active ? "brand-grad text-ink" : "bg-white border border-[#FDE68A] text-muted hover:text-ink"}">
+              ${c === "ALL" ? "Semua (116)" : c}
+            </button>
+          `;
         }).join("");
       }
 
@@ -1551,23 +1611,24 @@
       const items = SYLLABUS_ITEMS.filter(it => {
         if (hubSubtesFilter !== "ALL" && it.subtes !== hubSubtesFilter) return false;
         const pr = appState.progress[it.id] || {};
-        const cnt = (pr.belajar ? 1 : 0) + (pr.latsol ? 1 : 0) + (pr.review ? 1 : 0);
-        if (stFilter === "UNSTARTED" && cnt !== 0) return false;
-        if (stFilter === "IN_PROGRESS" && (cnt === 0 || cnt === 3)) return false;
-        if (stFilter === "COMPLETED" && cnt !== 3) return false;
+        const count = (pr.belajar ? 1 : 0) + (pr.latsol ? 1 : 0) + (pr.review ? 1 : 0);
+        if (stFilter === "UNSTARTED" && count !== 0) return false;
+        if (stFilter === "IN_PROGRESS" && (count === 0 || count === 3)) return false;
+        if (stFilter === "COMPLETED" && count !== 3) return false;
         if (q && !`${it.subtes} ${it.materi} ${it.submateri}`.toLowerCase().includes(q)) return false;
         return true;
       });
 
-      const countEl = document.getElementById("hub-result-count");
-      if (countEl) countEl.textContent = `${items.length} / ${SYLLABUS_ITEMS.length}`;
+      const badge = document.getElementById("hub-result-count");
+      if (badge) badge.textContent = `${items.length} / ${SYLLABUS_ITEMS.length}`;
 
       const container = document.getElementById("hub-cards-container");
       if (!container) return;
       container.innerHTML = items.map(it => {
         const pr = appState.progress[it.id] || {};
+        const isHighlighted = highlightedHubItemId === it.id;
         return `
-          <div class="clean-card rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div id="hub-item-${it.id}" class="clean-card rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${isHighlighted ? "ring-2 ring-amber-500 bg-yellow-100/90" : ""}">
             <div>
               <div class="flex items-center gap-2 font-mono text-[10px] font-bold text-brand">
                 <span>${it.subtes}</span>
@@ -1575,6 +1636,7 @@
                 <span>Pekan ${it.week}</span>
                 <span>•</span>
                 <span class="text-muted">${it.materi}</span>
+                ${isHighlighted ? `<span class="px-2 py-0.5 rounded-full bg-amber-200 text-ink text-[9px]">Terpilih dari Kalender</span>` : ""}
               </div>
               <div class="text-xs sm:text-sm font-bold text-ink mt-0.5">${it.submateri}</div>
             </div>
@@ -1589,11 +1651,11 @@
     }
 
     // =====================================================================
-    // 8. PACE TIMER & IRT MISTAKE BANK
+    // 7. PACE TIMER & IRT MISTAKE LOG
     // =====================================================================
     let paceTimer = null;
-    let paceSecsLeft = 15 * 60;
-    let paceQNum = 1;
+    let paceRemain = 15 * 60;
+    let paceQ = 1;
     let paceQElapsed = 0;
     let paceDurations = [];
 
@@ -1601,9 +1663,9 @@
       clearInterval(paceTimer);
       paceTimer = null;
       const code = document.getElementById("pace-subtes-select")?.value || "PPU";
-      const qCnt = Math.max(1, Number(document.getElementById("pace-question-count")?.value) || 20);
-      paceSecsLeft = qCnt * (SUBTES_INFO[code]?.secPerSoal || 60);
-      paceQNum = 1;
+      const total = Math.max(1, Number(document.getElementById("pace-question-count")?.value) || 20);
+      paceRemain = total * (SUBTES_INFO[code]?.secPerSoal || 60);
+      paceQ = 1;
       paceQElapsed = 0;
       paceDurations = [];
       const btn = document.getElementById("pace-start-btn");
@@ -1613,20 +1675,22 @@
 
     function renderPaceUI() {
       const code = document.getElementById("pace-subtes-select")?.value || "PPU";
-      const qCnt = Math.max(1, Number(document.getElementById("pace-question-count")?.value) || 20);
+      const total = Math.max(1, Number(document.getElementById("pace-question-count")?.value) || 20);
       const targetSec = SUBTES_INFO[code]?.secPerSoal || 60;
 
       const tBadge = document.getElementById("pace-target-badge");
       const qProg = document.getElementById("pace-q-progress");
-      const clk = document.getElementById("pace-main-clock");
+      const clock = document.getElementById("pace-main-clock");
       const curEl = document.getElementById("pace-current-q-secs");
       const avgEl = document.getElementById("pace-avg-secs");
       const warn = document.getElementById("pace-warning-banner");
 
       if (tBadge) tBadge.textContent = `Target: ${targetSec} dtk/soal`;
-      if (qProg) qProg.textContent = `Soal ${Math.min(paceQNum, qCnt)} / ${qCnt}`;
-      if (clk) {
-        clk.textContent = `${String(Math.floor(paceSecsLeft / 60)).padStart(2, "0")}:${String(paceSecsLeft % 60).padStart(2, "0")}`;
+      if (qProg) qProg.textContent = `Soal ${Math.min(paceQ, total)} / ${total}`;
+      if (clock) {
+        const m = Math.floor(paceRemain / 60);
+        const s = paceRemain % 60;
+        clock.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
       }
       if (curEl) curEl.textContent = `${paceQElapsed} dtk`;
       if (avgEl) {
@@ -1647,23 +1711,23 @@
       }
       if (btn) btn.textContent = "Jeda";
       paceTimer = setInterval(() => {
-        if (paceSecsLeft > 0) {
-          paceSecsLeft--;
+        if (paceRemain > 0) {
+          paceRemain--;
           paceQElapsed++;
           renderPaceUI();
         } else {
           clearInterval(paceTimer);
           paceTimer = null;
-          showToast("Waktu sesi subtes selesai!");
+          showToast("Waktu latihan selesai!");
         }
       }, 1000);
     }
 
     function nextPaceQuestion() {
-      const qCnt = Math.max(1, Number(document.getElementById("pace-question-count")?.value) || 20);
+      const total = Math.max(1, Number(document.getElementById("pace-question-count")?.value) || 20);
       paceDurations.push(Math.max(1, paceQElapsed));
       paceQElapsed = 0;
-      if (paceQNum < qCnt) paceQNum++;
+      if (paceQ < total) paceQ++;
       else {
         clearInterval(paceTimer);
         paceTimer = null;
@@ -1678,28 +1742,32 @@
 
     function saveIrtMistakeEntry(e) {
       e.preventDefault();
-      const subtes = document.getElementById("mb-subtes")?.value || "LBI";
-      const difficulty = document.getElementById("mb-difficulty")?.value || "MUDAH";
-      const reason = document.getElementById("mb-reason")?.value.trim() || "";
-      const note = document.getElementById("mb-note")?.value.trim() || "";
-
       appState.mistakeBank.unshift({
         id: `mb_${Date.now()}`,
         date: getLocalDateIso(new Date()),
-        subtes,
-        difficulty,
-        reason,
-        note
+        subtes: document.getElementById("mb-subtes")?.value || "LBI",
+        difficulty: document.getElementById("mb-difficulty")?.value || "MUDAH",
+        reason: document.getElementById("mb-reason")?.value.trim() || "",
+        note: document.getElementById("mb-note")?.value.trim() || "",
+        resolved: false
       });
       saveState();
-      document.getElementById("mb-reason").value = "";
-      document.getElementById("mb-note").value = "";
+      e.target.reset();
       renderMistakeView();
       showToast("Catatan kesalahan tersimpan!");
     }
 
+    function toggleMistakeResolved(id) {
+      const item = appState.mistakeBank.find(m => m.id === id);
+      if (item) {
+        item.resolved = !item.resolved;
+        saveState();
+        renderMistakeView();
+      }
+    }
+
     function deleteMistakeEntry(id) {
-      appState.mistakeBank = (appState.mistakeBank || []).filter(m => m.id !== id);
+      appState.mistakeBank = appState.mistakeBank.filter(m => m.id !== id);
       saveState();
       renderMistakeView();
     }
@@ -1710,128 +1778,190 @@
       const badge = document.getElementById("mb-total-badge");
       if (badge) badge.textContent = `${list.length} Catatan`;
 
-      const container = document.getElementById("mistake-bank-list");
-      if (!container) return;
+      const box = document.getElementById("mistake-bank-list");
+      if (!box) return;
       if (list.length === 0) {
-        container.innerHTML = `<div class="col-span-full text-xs text-muted">Belum ada catatan kesalahan.</div>`;
+        box.innerHTML = `<div class="col-span-full text-xs text-muted">Belum ada catatan kesalahan.</div>`;
         return;
       }
-      container.innerHTML = list.map(m => `
-        <div class="rounded-2xl bg-white border border-[#FDE68A] p-3.5 flex items-start justify-between gap-2">
-          <div class="space-y-1">
-            <div class="font-mono text-[10px] font-bold text-brand">${m.subtes} • ${m.difficulty} • ${m.date}</div>
-            <div class="text-xs font-bold text-ink">${m.reason}</div>
-            <div class="text-xs text-muted">${m.note}</div>
+      box.innerHTML = list.map(m => `
+        <div class="rounded-2xl border ${m.resolved ? "bg-yellow-50/70 border-yellow-200" : "bg-white border-[#FDE68A]"} p-4 space-y-1.5">
+          <div class="flex items-center justify-between font-mono text-[10px] font-bold">
+            <span class="text-brand">${m.subtes} • ${m.difficulty}</span>
+            <span class="text-muted">${m.date}</span>
           </div>
-          <button type="button" onclick="deleteMistakeEntry('${m.id}')" class="text-[11px] font-bold text-muted hover:text-rose-600">Hapus</button>
+          <div class="text-xs font-bold text-ink">${m.reason}</div>
+          <p class="text-xs text-muted">${m.note}</p>
+          <div class="flex items-center justify-between pt-1.5">
+            <button type="button" onclick="toggleMistakeResolved('${m.id}')" class="text-[11px] font-bold text-brand">${m.resolved ? "Sudah Paham ✓" : "Tandai Paham"}</button>
+            <button type="button" onclick="deleteMistakeEntry('${m.id}')" class="text-[11px] text-muted hover:text-rose-600">Hapus</button>
+          </div>
         </div>
       `).join("");
     }
 
     // =====================================================================
-    // 9. DAILY CBT GENERATOR & EXAM
+    // 8. CBT DAILY SIMULATOR
     // =====================================================================
-    function generateDailyQuestions(subtes, count = 8, variant = 0) {
-      const seed = Number(getLocalDateIso(new Date()).replace(/-/g, "")) + variant * 13;
-      const out = [];
+    function generateDailyQuestions(subtes, count = 10, offset = 0) {
+      const seed = parseInt(getLocalDateIso(new Date()).replace(/-/g, ""), 10) + offset;
+      const questions = [];
       for (let i = 0; i < count; i++) {
-        const n = ((seed + i * 7) % 15) + 4;
-        if (subtes === "PK" || subtes === "PM") {
-          const a = n + 2;
-          const b = 3 * n + 4;
-          out.push({
-            subtes,
-            topic: subtes === "PK" ? "Perbandingan Kuantitas" : "Pemodelan Matematika",
-            stimulus: `Diketahui nilai variabel dasar n = ${n}.`,
-            prompt: `Jika P = ${a * 2} dan Q = ${b}, manakah pernyataan yang tepat?`,
-            options: ["P > Q", "Q > P", "P = Q", "Data tidak cukup", "P + Q = 0"],
-            answer: a * 2 > b ? 0 : a * 2 < b ? 1 : 2,
-            explanation: `Nilai P = ${a * 2} dan Q = ${b}, sehingga hubungan yang benar adalah ${a * 2 > b ? "P > Q" : a * 2 < b ? "Q > P" : "P = Q"}.`
+        const val = ((seed + i * 7) % 15) + 3;
+        if (subtes === "PK") {
+          const p = val * val + 2;
+          const q = 4 * val + 5;
+          questions.push({
+            subtes: "PK",
+            topic: "Perbandingan P vs Q",
+            stimulus: `Diketahui x = ${val} adalah bilangan bulat positif.`,
+            prompt: `Bandingkan kuantitas P = x² + 2 dan Q = 4x + 5.`,
+            options: ["P > Q", "Q > P", "P = Q", "Tidak dapat ditentukan", "P + Q = 0"],
+            answer: p > q ? 0 : p < q ? 1 : 2,
+            explanation: `P = ${p} dan Q = ${q}.`
           });
-        } else if (subtes === "PBM") {
-          const pairs = [
-            ["diubah", "di ubah", "diubah"],
-            ["risiko", "resiko", "risiko"],
-            ["analisis", "analisa", "analisis"]
-          ];
-          const p = pairs[(seed + i) % pairs.length];
-          out.push({
-            subtes,
-            topic: "EYD V & Kata Baku",
-            stimulus: `Kalimat: "Peneliti meninjau ${p[1]} data lapangan secara cermat."`,
-            prompt: `Bentuk penulisan yang baku sesuai kaidah EYD V dan KBBI adalah ...`,
-            options: [p[1], p[2], "analisa", "praktek", "obyek"],
-            answer: 1,
-            explanation: `Bentuk baku yang tepat menurut KBBI & EYD V adalah "${p[2]}".`
-          });
-        } else {
-          out.push({
-            subtes,
-            topic: `Latihan ${subtes} Harian`,
-            stimulus: `Kajian antropologi budaya menunjukkan bahwa tradisi lokal terus beradaptasi seiring perubahan zaman tanpa kehilangan makna sosial intinya.`,
-            prompt: `Simpulan paling tepat dari paragraf singkat tersebut adalah ...`,
+        } else if (subtes === "PM") {
+          const base = val * 10000;
+          const finalPrice = base * 0.8 * 0.9;
+          questions.push({
+            subtes: "PM",
+            topic: "Aritmetika Sosial",
+            stimulus: `Sebuah buku seharga Rp${base.toLocaleString("id-ID")} mendapat diskon 20% lalu diskon tambahan 10%.`,
+            prompt: `Berapa harga akhir buku tersebut?`,
             options: [
-              "Tradisi lokal selalu hilang saat modernisasi terjadi",
-              "Adaptasi budaya berjalan selaras dengan pelestarian makna inti",
-              "Kajian antropologi hanya membahas masa lalu",
-              "Perubahan zaman menolak nilai sosial",
-              "Semua tradisi bersifat kaku"
+              `Rp${(base * 0.7).toLocaleString("id-ID")}`,
+              `Rp${finalPrice.toLocaleString("id-ID")}`,
+              `Rp${(base * 0.75).toLocaleString("id-ID")}`,
+              `Rp${(base * 0.8).toLocaleString("id-ID")}`,
+              `Rp${(base * 0.85).toLocaleString("id-ID")}`
             ],
             answer: 1,
-            explanation: "Teks menekankan adaptasi tradisi tetap menjaga makna sosial intinya."
+            explanation: `Diskon bertingkat: ${base} × 0,8 × 0,9 = Rp${finalPrice.toLocaleString("id-ID")}.`
+          });
+        } else if (subtes === "PBM") {
+          questions.push({
+            subtes: "PBM",
+            topic: "EYD V & Kata Baku",
+            stimulus: `Kalimat: "Penelitian etnografi ini bertujuan menganalisa resiko perubahan budaya."`,
+            prompt: `Perbaikan kata tidak baku yang tepat sesuai KBBI dan EYD V adalah ...`,
+            options: ["menganalisis dan risiko", "menganalisa dan risiko", "menganalisis dan resiko", "meng-analisis dan risiko", "sudah baku semua"],
+            answer: 0,
+            explanation: `Bentuk baku yang sesuai KBBI adalah 'menganalisis' dan 'risiko'.`
+          });
+        } else if (subtes === "PPU") {
+          questions.push({
+            subtes: "PPU",
+            topic: "Bahasa Hipotesis",
+            stimulus: `"LUNA KIRA" = "rumah kayu", "KIRA TORU" = "kayu jati".`,
+            prompt: `Jika "TORU" berarti "jati", arti dari "LUNA TORU" adalah ...`,
+            options: ["kayu rumah", "rumah jati", "jati kayu", "rumah kayu", "kayu jati"],
+            answer: 1,
+            explanation: `"LUNA" = rumah dan "TORU" = jati, sehingga "LUNA TORU" = rumah jati.`
+          });
+        } else if (subtes === "PU") {
+          const start = val * 2;
+          const step = (i % 4) + 3;
+          questions.push({
+            subtes: "PU",
+            topic: "Pola Bilangan",
+            stimulus: `Barisan: ${start}, ${start + step}, ${start + 2 * step}, ${start + 3 * step}, ...`,
+            prompt: `Suku berikutnya dari barisan tersebut adalah ...`,
+            options: [String(start + 4 * step - 1), String(start + 4 * step), String(start + 5 * step), String(start + 3 * step + 1), String(start + 4 * step + 2)],
+            answer: 1,
+            explanation: `Setiap suku bertambah +${step}, sehingga suku ke-5 adalah ${start + 4 * step}.`
+          });
+        } else if (subtes === "LBE") {
+          questions.push({
+            subtes: "LBE",
+            topic: "Reading Inference",
+            stimulus: `"Unlike static models of culture, contemporary ethnography views traditions as dynamic practices shaped by daily interaction."`,
+            prompt: `What does the passage imply about traditions?`,
+            options: ["They never change over time.", "They evolve through everyday social practices.", "They are unaffected by human interaction.", "They exist only in isolated villages.", "They reject all modern influences."],
+            answer: 1,
+            explanation: `The text states traditions are dynamic practices shaped by daily interaction.`
+          });
+        } else {
+          questions.push({
+            subtes: "LBI",
+            topic: "Simpulan Teks Budaya",
+            stimulus: `"Tradisi lisan Nusantara tidak hanya berfungsi sebagai hiburan, tetapi juga merekam pengetahuan ekologis masyarakat setempat."`,
+            prompt: `Simpulan paling tepat dari pernyataan tersebut adalah ...`,
+            options: [
+              "Tradisi lisan hanya berisi cerita hiburan semata.",
+              "Pengetahuan ekologis masyarakat terekam dalam tradisi lisan.",
+              "Masyarakat tidak lagi membutuhkan pengetahuan ekologis.",
+              "Tradisi lisan tidak memiliki nilai budaya.",
+              "Hiburan tradisional menggantikan ilmu ekologi."
+            ],
+            answer: 1,
+            explanation: `Kalimat menegaskan tradisi lisan menyimpan pengetahuan ekologis masyarakat.`
           });
         }
       }
-      return out;
+      return questions;
     }
 
-    let cbtState = null;
+    let cbtSession = null;
     let cbtTimer = null;
 
     function renderCbtLobby() {
       const plan = getDynamicPlanForDate(new Date());
-      const badge = document.getElementById("cbt-daily-seed-badge");
-      const title = document.getElementById("cbt-daily-banner-title");
-      if (badge) badge.textContent = `${plan.iso} • ${plan.dayName}`;
-      if (title) title.textContent = `Fokus Hari Ini (${plan.subtes}): ${plan.topicTitle}`;
-
+      const seedBadge = document.getElementById("cbt-daily-seed-badge");
+      const bannerTitle = document.getElementById("cbt-daily-banner-title");
       const grid = document.getElementById("cbt-subtest-cards-grid");
+
+      if (seedBadge) seedBadge.textContent = `Edisi ${plan.iso} • ${plan.dayName}`;
+      if (bannerTitle) bannerTitle.textContent = `Paket ${plan.subtes}: ${plan.topicTitle}`;
+
       if (grid) {
         grid.innerHTML = Object.values(SUBTES_INFO).map(st => `
-          <button type="button" onclick="startCbtDrill('${st.code}', false)" class="rounded-2xl bg-yellow-50/75 hover:bg-yellow-100/80 border border-[#FDE68A] p-3.5 text-left transition flex items-center justify-between gap-2">
+          <button type="button" onclick="startCbtSingleSubtest('${st.code}')" class="rounded-2xl bg-yellow-50/70 hover:bg-yellow-100/80 border border-[#FDE68A] p-4 text-left flex items-center justify-between transition">
             <div>
-              <div class="font-mono text-[10px] font-bold text-brand">${st.code} • ${st.secPerSoal} dtk/soal</div>
+              <div class="font-mono text-xs font-bold text-brand">${st.code}</div>
               <div class="text-xs font-bold text-ink mt-0.5">${st.name}</div>
             </div>
-            <span class="px-2.5 py-1 rounded-xl brand-grad text-[10px] font-bold text-ink">Mulai</span>
+            <span class="px-3 py-1 rounded-xl brand-grad text-[11px] font-bold text-ink">Latihan</span>
           </button>
         `).join("");
       }
     }
 
-    function startCbtDrill(subtes, isNewVariant) {
-      const variant = isNewVariant ? Math.floor(Math.random() * 50) + 1 : 0;
-      const qs = generateDailyQuestions(subtes, 8, variant);
-      cbtState = {
+    function startCbtDailyScheduleDrill(plan, randomVariant = false) {
+      const qs = generateDailyQuestions(plan.subtes, 10, randomVariant ? Math.floor(Math.random() * 500) + 1 : 0);
+      openCbtExam(`Latsol ${plan.subtes}`, plan.subtes, qs, plan.item?.id || null);
+    }
+
+    function startCbtSingleSubtest(code) {
+      const qs = generateDailyQuestions(code, 10, 0);
+      openCbtExam(`Latihan ${code}`, code, qs, null);
+    }
+
+    function openCbtExam(title, subtes, questions, targetItemId) {
+      cbtSession = {
+        title,
         subtes,
-        questions: qs,
-        idx: 0,
+        questions,
+        targetItemId,
+        qIdx: 0,
         answers: {},
         flags: {},
-        secsLeft: qs.length * (SUBTES_INFO[subtes]?.secPerSoal || 60)
+        remainSecs: questions.length * (SUBTES_INFO[subtes]?.secPerSoal || 60)
       };
-
       document.getElementById("cbt-lobby-panel")?.classList.add("hidden");
       document.getElementById("cbt-result-screen")?.classList.add("hidden");
       document.getElementById("cbt-exam-screen")?.classList.remove("hidden");
 
       clearInterval(cbtTimer);
       cbtTimer = setInterval(() => {
-        if (!cbtState) return;
-        if (cbtState.secsLeft > 0) {
-          cbtState.secsLeft--;
-          const tEl = document.getElementById("cbt-exam-timer");
-          if (tEl) tEl.textContent = `${String(Math.floor(cbtState.secsLeft / 60)).padStart(2, "0")}:${String(cbtState.secsLeft % 60).padStart(2, "0")}`;
+        if (!cbtSession) return;
+        if (cbtSession.remainSecs > 0) {
+          cbtSession.remainSecs--;
+          const el = document.getElementById("cbt-exam-timer");
+          if (el) {
+            const m = Math.floor(cbtSession.remainSecs / 60);
+            const s = cbtSession.remainSecs % 60;
+            el.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+          }
         } else {
           handleFinishCurrentCbtStage();
         }
@@ -1841,82 +1971,72 @@
     }
 
     function renderCbtQuestion() {
-      if (!cbtState) return;
-      const q = cbtState.questions[cbtState.idx];
-      const stTitle = document.getElementById("cbt-exam-subtest-title");
-      const stProg = document.getElementById("cbt-exam-stage-progress");
-      const qPill = document.getElementById("cbt-q-number-pill");
-      const qTop = document.getElementById("cbt-q-topic-label");
-      const stim = document.getElementById("cbt-q-stimulus-box");
-      const prompt = document.getElementById("cbt-q-prompt");
-      const opts = document.getElementById("cbt-q-options-area");
-      const nav = document.getElementById("cbt-nav-grid");
-      const ansCnt = document.getElementById("cbt-answered-counter");
+      if (!cbtSession) return;
+      const q = cbtSession.questions[cbtSession.qIdx];
+      document.getElementById("cbt-exam-subtest-title").textContent = cbtSession.title;
+      document.getElementById("cbt-exam-stage-progress").textContent = `${SUBTES_INFO[cbtSession.subtes].name}`;
+      document.getElementById("cbt-q-number-pill").textContent = `Soal ${cbtSession.qIdx + 1} / ${cbtSession.questions.length}`;
+      document.getElementById("cbt-q-topic-label").textContent = q.topic;
 
-      if (stTitle) stTitle.textContent = `${SUBTES_INFO[cbtState.subtes].name} (${cbtState.subtes})`;
-      if (stProg) stProg.textContent = `Latihan Harian • ${cbtState.questions.length} Soal`;
-      if (qPill) qPill.textContent = `Soal ${cbtState.idx + 1}`;
-      if (qTop) qTop.textContent = q.topic;
+      const stim = document.getElementById("cbt-q-stimulus-box");
       if (stim) {
-        if (q.stimulus) { stim.classList.remove("hidden"); stim.textContent = q.stimulus; }
-        else stim.classList.add("hidden");
+        stim.classList.toggle("hidden", !q.stimulus);
+        stim.textContent = q.stimulus || "";
       }
-      if (prompt) prompt.textContent = q.prompt;
+      document.getElementById("cbt-q-prompt").textContent = q.prompt;
 
       const letters = ["A", "B", "C", "D", "E"];
-      const chosen = cbtState.answers[cbtState.idx];
-      if (opts) {
-        opts.innerHTML = q.options.map((op, i) => `
-          <button type="button" onclick="selectCbtOption(${i})" class="w-full p-3 rounded-2xl border text-left text-xs sm:text-sm flex items-center gap-3 transition ${chosen === i ? "bg-yellow-200/80 border-amber-500 font-bold text-ink" : "bg-white hover:bg-yellow-50/70 border-[#FDE68A] text-ink"}">
-            <span class="w-6 h-6 rounded-lg flex items-center justify-center font-mono text-xs font-bold ${chosen === i ? "brand-grad" : "bg-yellow-50"}">${letters[i]}</span>
-            <span>${op}</span>
-          </button>
-        `).join("");
-      }
+      const chosen = cbtSession.answers[cbtSession.qIdx];
+      document.getElementById("cbt-q-options-area").innerHTML = q.options.map((opt, idx) => `
+        <button type="button" onclick="selectCbtOption(${idx})" class="w-full p-3 rounded-2xl border text-left flex items-center gap-3 text-xs sm:text-sm transition ${chosen === idx ? "bg-yellow-100 border-amber-500 font-bold text-ink" : "bg-white hover:bg-yellow-50/70 border-[#FDE68A] text-ink"}">
+          <span class="w-6 h-6 rounded-lg flex items-center justify-center font-mono text-xs font-bold ${chosen === idx ? "brand-grad text-ink" : "bg-yellow-50 text-muted"}">${letters[idx]}</span>
+          <span>${opt}</span>
+        </button>
+      `).join("");
 
-      let answered = 0;
-      if (nav) {
-        nav.innerHTML = cbtState.questions.map((_, i) => {
-          const isAns = cbtState.answers[i] !== undefined;
-          const isFlag = !!cbtState.flags[i];
-          if (isAns) answered++;
-          const cls = isFlag ? "bg-amber-400 text-ink" : isAns ? "brand-grad text-ink" : "bg-white border border-yellow-200 text-muted";
-          return `<button type="button" onclick="jumpToCbtQuestion(${i})" class="h-9 rounded-xl font-mono text-xs font-bold ${cls} ${i === cbtState.idx ? "ring-2 ring-amber-500" : ""}">${i + 1}</button>`;
-        }).join("");
-      }
-      if (ansCnt) ansCnt.textContent = `${answered} / ${cbtState.questions.length}`;
+      const ansCount = Object.keys(cbtSession.answers).length;
+      document.getElementById("cbt-answered-counter").textContent = `${ansCount} / ${cbtSession.questions.length}`;
+      document.getElementById("cbt-nav-grid").innerHTML = cbtSession.questions.map((_, idx) => {
+        const isAns = cbtSession.answers[idx] !== undefined;
+        const isFlag = !!cbtSession.flags[idx];
+        let cls = "bg-white border border-[#FDE68A] text-ink";
+        if (isFlag) cls = "bg-amber-300 text-ink";
+        else if (isAns) cls = "brand-grad text-ink";
+        if (idx === cbtSession.qIdx) cls += " ring-2 ring-amber-500";
+        return `<button type="button" onclick="jumpToCbtQuestion(${idx})" class="h-9 rounded-xl font-mono text-xs font-bold ${cls}">${idx + 1}</button>`;
+      }).join("");
     }
 
-    function selectCbtOption(i) {
-      if (!cbtState) return;
-      cbtState.answers[cbtState.idx] = i;
+    function selectCbtOption(idx) {
+      if (!cbtSession) return;
+      cbtSession.answers[cbtSession.qIdx] = idx;
       renderCbtQuestion();
     }
 
     function toggleCbtFlagCurrent() {
-      if (!cbtState) return;
-      cbtState.flags[cbtState.idx] = !cbtState.flags[cbtState.idx];
+      if (!cbtSession) return;
+      cbtSession.flags[cbtSession.qIdx] = !cbtSession.flags[cbtSession.qIdx];
       renderCbtQuestion();
     }
 
     function navigateCbtQuestion(delta) {
-      if (!cbtState) return;
-      const next = cbtState.idx + delta;
-      if (next >= 0 && next < cbtState.questions.length) {
-        cbtState.idx = next;
+      if (!cbtSession) return;
+      const next = cbtSession.qIdx + delta;
+      if (next >= 0 && next < cbtSession.questions.length) {
+        cbtSession.qIdx = next;
         renderCbtQuestion();
       }
     }
 
-    function jumpToCbtQuestion(i) {
-      if (!cbtState) return;
-      cbtState.idx = i;
+    function jumpToCbtQuestion(idx) {
+      if (!cbtSession) return;
+      cbtSession.qIdx = idx;
       renderCbtQuestion();
     }
 
     function backToCbtLobby() {
       clearInterval(cbtTimer);
-      cbtState = null;
+      cbtSession = null;
       document.getElementById("cbt-exam-screen")?.classList.add("hidden");
       document.getElementById("cbt-result-screen")?.classList.add("hidden");
       document.getElementById("cbt-lobby-panel")?.classList.remove("hidden");
@@ -1924,58 +2044,64 @@
     }
 
     function handleFinishCurrentCbtStage() {
-      if (!cbtState) return;
+      if (!cbtSession) return;
       clearInterval(cbtTimer);
-
-      const qs = cbtState.questions;
       let correct = 0;
+      let wrong = 0;
       const letters = ["A", "B", "C", "D", "E"];
-      const reviewHtml = qs.map((q, i) => {
-        const ans = cbtState.answers[i];
-        const ok = ans === q.answer;
+
+      const reviewHtml = cbtSession.questions.map((q, idx) => {
+        const u = cbtSession.answers[idx];
+        const ok = u === q.answer;
         if (ok) correct++;
         else {
+          wrong++;
           appState.mistakeBank.unshift({
-            id: `mb_cbt_${Date.now()}_${i}`,
+            id: `mb_cbt_${Date.now()}_${idx}`,
             date: getLocalDateIso(new Date()),
-            subtes: q.subtes,
+            subtes: cbtSession.subtes,
             difficulty: "SEDANG",
-            reason: ans === undefined ? "Belum terjawab saat CBT" : "Kurang tepat memilih opsi CBT",
-            note: q.explanation
+            reason: u === undefined ? "Belum terjawab di CBT" : "Salah memilih opsi CBT",
+            note: q.explanation,
+            resolved: false
           });
         }
         return `
-          <div class="rounded-2xl border ${ok ? "bg-yellow-50/70 border-yellow-300" : "bg-rose-50/60 border-rose-200"} p-3.5 space-y-1">
-            <div class="flex justify-between font-mono text-[11px] font-bold">
-              <span>Soal ${i + 1}</span>
-              <span>${ok ? "Benar" : "Salah"}</span>
-            </div>
-            <div class="text-xs font-bold text-ink">${q.prompt}</div>
-            <div class="text-[11px] text-muted">Jawabanmu: <strong>${ans !== undefined ? letters[ans] : "-"}</strong> • Kunci: <strong>${letters[q.answer]}</strong></div>
-            <div class="text-xs text-ink pt-1">${q.explanation}</div>
+          <div class="rounded-2xl border ${ok ? "bg-yellow-50/70 border-yellow-300" : "bg-rose-50/60 border-rose-200"} p-3.5 space-y-1 text-xs">
+            <div class="font-bold text-ink">No. ${idx + 1} • ${q.prompt}</div>
+            <div class="text-muted">Jawabanmu: <strong>${u !== undefined ? letters[u] : "-"}</strong> • Kunci: <strong class="text-ink">${letters[q.answer]}</strong></div>
+            <div class="text-ink">${q.explanation}</div>
           </div>
         `;
       }).join("");
 
-      const acc = Math.round((correct / qs.length) * 100);
-      const irt = Math.round(500 + (correct / qs.length) * 280);
+      const total = cbtSession.questions.length;
+      const acc = Math.round((correct / Math.max(1, total)) * 100);
+      const irt = Math.round(490 + (correct / Math.max(1, total)) * 310);
+
       appState.studyLogDates[getLocalDateIso(new Date())] = true;
+      if (cbtSession.targetItemId) {
+        if (!appState.progress[cbtSession.targetItemId]) appState.progress[cbtSession.targetItemId] = {};
+        appState.progress[cbtSession.targetItemId].latsol = true;
+      }
       saveState();
 
       document.getElementById("cbt-exam-screen")?.classList.add("hidden");
       document.getElementById("cbt-result-screen")?.classList.remove("hidden");
-      document.getElementById("cbt-res-title").textContent = `Hasil CBT ${cbtState.subtes}`;
+      document.getElementById("cbt-res-title").textContent = `Hasil ${cbtSession.title}`;
       document.getElementById("cbt-res-irt").textContent = String(irt);
       document.getElementById("cbt-res-acc").textContent = `${acc}%`;
-      document.getElementById("cbt-res-correct").textContent = `${correct} / ${qs.length}`;
-      document.getElementById("cbt-res-wrong").textContent = `${qs.length - correct} Soal`;
+      document.getElementById("cbt-res-correct").textContent = `${correct} / ${total}`;
+      document.getElementById("cbt-res-wrong").textContent = `${wrong} Soal`;
       document.getElementById("cbt-res-review-list").innerHTML = reviewHtml;
-      cbtState = null;
+
+      cbtSession = null;
       refreshAllViews();
+      showToast("Hasil CBT tersimpan!");
     }
 
     // =====================================================================
-    // 10. TRYOUT ANALYTICS & BACKUP
+    // 9. TRYOUT ANALYTICS & BACKUP
     // =====================================================================
     function calcAvg(t) {
       const keys = ["PU", "PBM", "PPU", "PK", "LBI", "LBE", "PM"];
@@ -1985,10 +2111,10 @@
     function saveTryoutEntry(e) {
       e.preventDefault();
       const editId = document.getElementById("to-edit-id")?.value;
-      const item = {
+      const entry = {
         id: editId || `to_${Date.now()}`,
         date: document.getElementById("to-date")?.value || getLocalDateIso(new Date()),
-        platform: document.getElementById("to-platform")?.value.trim() || "Tryout SNBT",
+        platform: document.getElementById("to-platform")?.value.trim() || "Tryout",
         PU: Number(document.getElementById("to-pu")?.value) || 0,
         PBM: Number(document.getElementById("to-pbm")?.value) || 0,
         PPU: Number(document.getElementById("to-ppu")?.value) || 0,
@@ -1997,22 +2123,20 @@
         LBE: Number(document.getElementById("to-lbe")?.value) || 0,
         PM: Number(document.getElementById("to-pm")?.value) || 0
       };
-
       if (editId) {
         const idx = appState.tryouts.findIndex(t => t.id === editId);
-        if (idx !== -1) appState.tryouts[idx] = item;
+        if (idx !== -1) appState.tryouts[idx] = entry;
       } else {
-        appState.tryouts.push(item);
+        appState.tryouts.push(entry);
       }
-
       saveState();
       resetTryoutForm();
       refreshAllViews();
-      showToast("Skor tryout tersimpan!");
+      showToast("Skor tryout berhasil disimpan!");
     }
 
     function editTryoutEntry(id) {
-      const t = (appState.tryouts || []).find(item => item.id === id);
+      const t = appState.tryouts.find(x => x.id === id);
       if (!t) return;
       document.getElementById("to-edit-id").value = t.id;
       document.getElementById("to-date").value = t.date;
@@ -2028,20 +2152,20 @@
       document.getElementById("to-submit-btn").textContent = "Perbarui Tryout";
     }
 
-    function resetTryoutForm() {
-      document.getElementById("tryout-form")?.reset();
-      const editEl = document.getElementById("to-edit-id");
-      if (editEl) editEl.value = "";
-      document.getElementById("to-cancel-edit-btn")?.classList.add("hidden");
-      const subBtn = document.getElementById("to-submit-btn");
-      if (subBtn) subBtn.textContent = "Simpan Tryout";
-    }
-
     function deleteTryoutEntry(id) {
-      appState.tryouts = (appState.tryouts || []).filter(t => t.id !== id);
+      appState.tryouts = appState.tryouts.filter(x => x.id !== id);
       saveState();
       refreshAllViews();
       showToast("Data tryout dihapus.");
+    }
+
+    function resetTryoutForm() {
+      document.getElementById("tryout-form")?.reset();
+      const idEl = document.getElementById("to-edit-id");
+      if (idEl) idEl.value = "";
+      document.getElementById("to-cancel-edit-btn")?.classList.add("hidden");
+      const btn = document.getElementById("to-submit-btn");
+      if (btn) btn.textContent = "Simpan Tryout";
     }
 
     function renderTryoutSvgChart() {
@@ -2049,35 +2173,37 @@
       if (!box) return;
       const list = appState.tryouts || [];
       if (list.length === 0) {
-        box.innerHTML = `<div class="py-10 text-center text-xs text-muted">Belum ada skor tryout untuk digambarkan.</div>`;
+        box.innerHTML = `<div class="py-10 text-center text-xs text-muted">Belum ada data tryout.</div>`;
         return;
       }
 
-      const filter = document.getElementById("chart-subtes-filter")?.value || "avg";
+      const key = document.getElementById("chart-subtes-filter")?.value || "avg";
       const target = Number(appState.profile.targetIrt) || 690;
-      const w = 560, h = 190, padX = 36, padY = 24;
-      const plotW = w - padX * 2;
-      const plotH = h - padY * 2;
+      const w = 600;
+      const h = 200;
+      const pad = 34;
+      const pw = w - pad * 2;
+      const ph = h - pad * 2;
 
-      const pts = list.map((t, i) => {
-        const val = filter === "avg" ? calcAvg(t) : (Number(t[filter]) || 0);
-        const x = list.length === 1 ? padX + plotW / 2 : padX + (i / (list.length - 1)) * plotW;
-        const y = padY + plotH - (Math.min(1000, Math.max(0, val)) / 1000) * plotH;
+      const pts = list.map((t, idx) => {
+        const val = key === "avg" ? calcAvg(t) : (Number(t[key]) || 0);
+        const x = list.length === 1 ? pad + pw / 2 : pad + (idx / (list.length - 1)) * pw;
+        const y = pad + ph - (Math.min(1000, Math.max(0, val)) / 1000) * ph;
         return { x, y, val, label: t.platform };
       });
 
-      const targetY = padY + plotH - (Math.min(1000, target) / 1000) * plotH;
+      const targetY = pad + ph - (Math.min(1000, target) / 1000) * ph;
       const poly = pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
 
       box.innerHTML = `
-        <svg viewBox="0 0 ${w} ${h}" class="w-full h-auto overflow-visible">
-          <line x1="${padX}" y1="${targetY.toFixed(1)}" x2="${w - padX}" y2="${targetY.toFixed(1)}" stroke="#65A30D" stroke-width="1.5" stroke-dasharray="4 4" />
-          <text x="${w - padX}" y="${targetY - 5}" text-anchor="end" font-size="10" font-weight="700" fill="#4D7C0F">Target ${target}</text>
-          <polyline fill="none" stroke="#CA8A04" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="${poly}" />
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-auto">
+          <line x1="${pad}" y1="${targetY.toFixed(1)}" x2="${w - pad}" y2="${targetY.toFixed(1)}" stroke="#65A30D" stroke-width="1.5" stroke-dasharray="4 4" />
+          <text x="${w - pad}" y="${targetY - 5}" text-anchor="end" font-size="10" font-weight="700" fill="#3F6212">Target ${target}</text>
+          <polyline fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${poly}" />
           ${pts.map(p => `
             <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="#FACC15" stroke="#3A3009" stroke-width="1.5" />
-            <text x="${p.x.toFixed(1)}" y="${p.y - 8}" text-anchor="middle" font-size="10" font-weight="700" fill="#3A3009">${p.val.toFixed(0)}</text>
-            <text x="${p.x.toFixed(1)}" y="${h - 4}" text-anchor="middle" font-size="9" fill="#8A7836">${p.label.slice(0, 12)}</text>
+            <text x="${p.x.toFixed(1)}" y="${p.y - 9}" text-anchor="middle" font-size="10" font-weight="700" fill="#3A3009">${p.val.toFixed(0)}</text>
+            <text x="${p.x.toFixed(1)}" y="${h - 8}" text-anchor="middle" font-size="9" fill="#8A7836">${p.label.slice(0, 12)}</text>
           `).join("")}
         </svg>
       `;
@@ -2087,11 +2213,8 @@
       const list = appState.tryouts || [];
       const avgEl = document.getElementById("to-stat-avg");
       const maxEl = document.getElementById("to-stat-max");
-      const tgtInp = document.getElementById("to-target-score");
-
-      if (tgtInp && document.activeElement !== tgtInp) {
-        tgtInp.value = appState.profile.targetIrt || 690;
-      }
+      const targetInp = document.getElementById("to-target-score");
+      if (targetInp && document.activeElement !== targetInp) targetInp.value = appState.profile.targetIrt || 690;
 
       if (list.length === 0) {
         if (avgEl) avgEl.textContent = "-";
@@ -2106,7 +2229,7 @@
       if (tbody) {
         tbody.innerHTML = [...list].reverse().map(t => `
           <tr>
-            <td class="py-2 px-2 font-mono text-[11px]">${t.date}</td>
+            <td class="py-2 px-2 font-mono">${t.date}</td>
             <td class="py-2 px-2 font-bold text-ink">${t.platform}</td>
             <td class="py-2 px-2 text-center font-mono">${t.PU}</td>
             <td class="py-2 px-2 text-center font-mono">${t.PBM}</td>
@@ -2117,8 +2240,8 @@
             <td class="py-2 px-2 text-center font-mono">${t.PM}</td>
             <td class="py-2 px-2 text-center font-mono font-bold text-brand">${calcAvg(t).toFixed(1)}</td>
             <td class="py-2 px-2 text-right space-x-2">
-              <button type="button" onclick="editTryoutEntry('${t.id}')" class="text-[11px] font-bold text-brand hover:underline">Edit</button>
-              <button type="button" onclick="deleteTryoutEntry('${t.id}')" class="text-[11px] font-bold text-rose-600 hover:underline">Hapus</button>
+              <button type="button" onclick="editTryoutEntry('${t.id}')" class="font-bold text-brand">Edit</button>
+              <button type="button" onclick="deleteTryoutEntry('${t.id}')" class="text-rose-600">Hapus</button>
             </td>
           </tr>
         `).join("");
@@ -2132,12 +2255,12 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `larissa-study-studio-${getLocalDateIso(new Date())}.json`;
+      a.download = `larissa-snbt-2027-${getLocalDateIso(new Date())}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("Backup JSON berhasil diunduh.");
+      showToast("File backup JSON berhasil diunduh!");
     }
 
     function importJsonBackup(event) {
@@ -2151,9 +2274,9 @@
           appState = { ...def, ...parsed, profile: { ...def.profile, ...(parsed.profile || {}) } };
           saveState();
           refreshAllViews();
-          showToast("Data JSON berhasil dipulihkan!");
+          showToast("Backup JSON berhasil dipulihkan!");
         } catch (err) {
-          showToast("File JSON tidak valid.");
+          showToast("Format file JSON tidak valid.");
         }
       };
       reader.readAsText(file);
@@ -2162,11 +2285,80 @@
 
     function refreshAllViews() {
       renderDashboard();
-      if (currentTab === "JADWAL") renderJadwalView();
+      if (currentTab === "JADWAL") renderCalendarView();
       if (currentTab === "HUB") renderHubView();
       if (currentTab === "MISTAKE") renderMistakeView();
       if (currentTab === "CBT") renderCbtLobby();
       if (currentTab === "TRYOUT") renderTryoutView();
+    }
+
+    // =====================================================================
+    // 10. STANDALONE PWA MANIFEST & BOOTSTRAP
+    // =====================================================================
+    function setupStandalonePwa() {
+      let baseHref = window.location.href;
+      if (baseHref.startsWith("blob:")) {
+        baseHref = baseHref.slice(5);
+      }
+
+      let iconHref = "https://placehold.co/512x512/FEF08A/3A3009?text=UGM";
+      let startUrl = "/";
+
+      try {
+        if (/^https?:\/\//i.test(baseHref)) {
+          iconHref = new URL("utbk.png", baseHref).href;
+          startUrl = new URL("./", baseHref).href;
+        }
+      } catch (e) {
+        // Fallback safely when running in sandboxed or blob preview contexts
+      }
+
+      const manifest = {
+        name: "Larissa SNBT 2027 — Study Studio",
+        short_name: "Larissa Studio",
+        start_url: startUrl,
+        scope: startUrl,
+        display: "standalone",
+        background_color: "#FFFDF7",
+        theme_color: "#FEF08A",
+        icons: [
+          { src: iconHref, sizes: "192x192", type: "image/png", purpose: "any maskable" },
+          { src: iconHref, sizes: "512x512", type: "image/png", purpose: "any maskable" }
+        ]
+      };
+      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+      const manifestLink = document.createElement("link");
+      manifestLink.rel = "manifest";
+      manifestLink.href = URL.createObjectURL(manifestBlob);
+      document.head.appendChild(manifestLink);
+
+      let deferredPrompt = null;
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+      });
+
+      const installBtn = document.getElementById("btn-install-app");
+      const installModal = document.getElementById("install-guide-modal");
+      const confirmInstallBtn = document.getElementById("confirm-install-modal");
+
+      if (installBtn) {
+        installBtn.addEventListener("click", async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            await deferredPrompt.userChoice;
+            deferredPrompt = null;
+          } else if (installModal) {
+            installModal.classList.remove("hidden");
+          }
+        });
+      }
+      if (confirmInstallBtn && installModal) {
+        confirmInstallBtn.addEventListener("click", () => installModal.classList.add("hidden"));
+      }
+      window.addEventListener("appinstalled", () => {
+        showToast("Aplikasi berhasil terpasang!");
+      });
     }
 
     Object.assign(window, {
@@ -2177,6 +2369,7 @@
       quickCompleteTodayTarget,
       launchTodayCbtSession,
       openSubtesHub,
+      openSyllabusItemInHub,
       changeCalendarMonth,
       jumpCalendarToToday,
       selectCalendarDate,
@@ -2184,7 +2377,7 @@
       toggleManualStudyDay,
       startSelectedCalendarCbtDrill,
       togglePekan1Item,
-      setHubSubtes,
+      setHubFilter,
       toggleStage,
       renderHubView,
       onPacePresetChange,
@@ -2192,9 +2385,11 @@
       nextPaceQuestion,
       resetPaceTimer,
       saveIrtMistakeEntry,
+      toggleMistakeResolved,
       deleteMistakeEntry,
       getDynamicPlanForDate,
-      startCbtDrill,
+      startCbtDailyScheduleDrill,
+      startCbtSingleSubtest,
       selectCbtOption,
       toggleCbtFlagCurrent,
       navigateCbtQuestion,
@@ -2203,105 +2398,20 @@
       handleFinishCurrentCbtStage,
       saveTryoutEntry,
       editTryoutEntry,
-      resetTryoutForm,
       deleteTryoutEntry,
+      resetTryoutForm,
       renderTryoutSvgChart,
       exportJsonBackup,
       importJsonBackup
     });
 
-    // =====================================================================
-    // 11. STANDALONE FULL-SCREEN PWA MANIFEST & INSTALL PROMPT
-    // =====================================================================
-    let deferredInstallPrompt = null;
-
-    function setupStandaloneManifest() {
-      try {
-        const manifest = {
-          name: "Larissa SNBT 2027 — Study Studio",
-          short_name: "Larissa Studio",
-          description: "Antropologi Budaya FIB UGM Study Studio",
-          start_url: "./",
-          scope: "./",
-          display: "standalone",
-          background_color: "#FFFDF7",
-          theme_color: "#FEF08A",
-          icons: [
-            {
-              src: "utbk.png",
-              sizes: "192x192",
-              type: "image/png",
-              purpose: "any"
-            },
-            {
-              src: "utbk.png",
-              sizes: "512x512",
-              type: "image/png",
-              purpose: "any"
-            }
-          ]
-        };
-        const blob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
-        const manifestUrl = URL.createObjectURL(blob);
-        const linkEl = document.createElement("link");
-        linkEl.rel = "manifest";
-        linkEl.href = manifestUrl;
-        document.head.appendChild(linkEl);
-      } catch (e) {
-        // Ignore if manifest injection is restricted
-      }
-    }
-
-    function updateStandaloneStateUi() {
-      const isStandalone =
-        window.matchMedia("(display-mode: standalone)").matches ||
-        window.navigator.standalone === true;
-
-      const installBtn = document.getElementById("btn-install-app");
-      if (installBtn) {
-        installBtn.textContent = isStandalone ? "Terpasang ✓" : "Install Aplikasi";
-      }
-    }
-
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      deferredInstallPrompt = e;
-    });
-
-    window.addEventListener("appinstalled", () => {
-      deferredInstallPrompt = null;
-      updateStandaloneStateUi();
-      showToast("Aplikasi berhasil dipasang ke layar utama!");
-    });
-
-    const installBtn = document.getElementById("btn-install-app");
-    const installModal = document.getElementById("install-guide-modal");
-    const confirmInstallBtn = document.getElementById("confirm-install-modal");
-
-    if (installBtn) {
-      installBtn.addEventListener("click", async () => {
-        if (deferredInstallPrompt) {
-          deferredInstallPrompt.prompt();
-          const choice = await deferredInstallPrompt.userChoice;
-          deferredInstallPrompt = null;
-          if (choice?.outcome === "accepted") {
-            showToast("Memasang aplikasi ke layar utama...");
-            return;
-          }
-        }
-        if (installModal) installModal.classList.remove("hidden");
-      });
-    }
-    if (confirmInstallBtn && installModal) {
-      confirmInstallBtn.addEventListener("click", () => installModal.classList.add("hidden"));
-    }
-
-    setupStandaloneManifest();
-    updateStandaloneStateUi();
-
     window.addEventListener("DOMContentLoaded", () => {
-      updateClockAndCountdown();
-      setInterval(updateClockAndCountdown, 1000);
+      const startDt = parseLocalIso(appState.profile.startDate);
+      calYear = startDt.getFullYear();
+      calMonth = startDt.getMonth();
+      setupStandalonePwa();
+      updateCountdownClock();
+      setInterval(updateCountdownClock, 1000);
       switchTab("DASBOR");
       initRealtimeSync();
     });
